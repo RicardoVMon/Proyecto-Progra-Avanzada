@@ -20,10 +20,26 @@
                 <div class="text-center fw-bold" style="font-size: 10vh; color: #1F283E;">EncuentraTCU</div>
                 <h2 class="mb-5 text-center" style="color: #1F283E;">Ingreso a Sistema</h2>
 
-                <div class="form-group form-floating mb-4">
-                    <input type="text" class="form-control" placeholder="Cédula" name="cedula" id="cedula" required />
-                    <label class="form-label">Cédula (Física o Jurídica)</label>
+
+                <div class="row">
+                    <div class="col-8">
+                        <div class="form-group form-floating mb-4">
+                            <input type="text" class="form-control" placeholder="Cédula" name="cedula" id="cedula" required />
+                            <label class="form-label">Cédula</label>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group form-floating mb-4">
+                            <select class="form-select" name="tipoCedula" id="tipoCedula" required>
+                                <option value="" selected disabled>Seleccione un tipo de cédula</option>
+                                <option value="Física">Física</option>
+                                <option value="Jurídica">Jurídica</option>
+                            </select>
+                            <label class="form-label">Tipo de Cédula</label>
+                        </div>
+                    </div>
                 </div>
+                
                 <div class="form-group form-floating mb-4">
                     <input type="password" class="form-control" placeholder="Contraseña" name="contrasennia" id="contrasennia" required />
                     <label class="form-label">Contraseña</label>
