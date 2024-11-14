@@ -1,4 +1,6 @@
-﻿@{
+﻿@model ProyectoG1.Models.InstitucionModel
+
+@{
     Layout = "~/Views/Shared/_LayoutExterno.cshtml";
 }
 
@@ -16,90 +18,96 @@
     </div>
     <div class="col d-flex align-items-center">
         <div class="container-fluid d-flex flex-column">
-            <form class="pb-4 border-bottom px-5" action="" method="POST">
-                <div class="text-center fw-bold" style="font-size: 10vh; color: #1F283E;">EncuentraTCU</div>
-                <h2 class="mb-5 text-center" style="color: #1F283E;">Registro de Institución</h2>
-                <div class="row mb-3">
-                    <div class="col">
-                        <div class="form-group form-floating">
-                            <input type="text" class="form-control" placeholder="Cedula" name="cedula" id="cedula" onkeyup="consultarNombreInstitucion();" required />
-                            <label class="form-label">Cedula Jurídica</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-12">
-                        <div class="form-group form-floating">
-                            <input type="text" class="form-control" placeholder="Nombre" name="nombre" id="nombre" readonly required />
-                            <label class="form-label">Nombre de Institución</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-12">
-                        <div class="form-group form-floating">
-                            <input type="text" class="form-control" placeholder="descripcion" name="descripcion" id="descripcion" readonly required />
-                            <label class="form-label">Descripción</label>
-                        </div>
-                    </div>
-                </div>
+            @using (Html.BeginForm("RegistroInstitucion", "Autenticacion"))
+            {
+                <div class="pb-4 border-bottom px-5">
 
-                <div class="row mb-3">
-                    <div class="col-7">
-                        <div class="form-group form-floating">
-                            <input type="text" class="form-control" placeholder="Correo" name="correo" id="correo" required />
-                            <label class="form-label">Correo Institucional</label>
-                        </div>
-                    </div>
-                    <div class="col-5">
-                        <div class="form-group form-floating">
-                            <select name="genero" id="genero" class="form-control" required>
-                                <option value="">Seleccione Un Tipo</option>
-                                <option value="masculino">Institución Pública</option>
-                                <option value="femenino">ONG (Asociación No Gubernamental)</option>
-                                <option value="otro">Otro</option>
-                            </select>
-                            <label for="genero" class="form-label">Tipo de Institución</label>
-                        </div>
-                    </div>
-                </div>
+                    <div class="text-center fw-bold" style="font-size: 10vh; color: #1F283E;">EncuentraTCU</div>
+                    <h2 class="mb-5 text-center" style="color: #1F283E;">Registro de Institución</h2>
 
-                <div class="row mb-3">
-                    <div class="col-4">
-                        <div class="form-group form-floating">
-                            <input type="text" class="form-control" placeholder="telefono" name="telefono" id="telefono" required />
-                            <label class="form-label">Teléfono</label>
+                    @if (ViewBag.Mensaje != null)
+                    {
+                        <div class="alert alert-danger text-center" role="alert">
+                            @ViewBag.Mensaje
                         </div>
-                    </div>
-                    <div class="col-8">
-                        <div class="form-group form-floating">
-                            <input type="text" class="form-control" placeholder="paginaWeb" name="paginaWeb" id="paginaWeb"/>
-                            <label class="form-label">Página Web (Opcional)</label>
-                        </div>
-                    </div>
-                </div>
+                    }
 
-                <div class="form-group form-floating mb-4">
-                    <input type="password" class="form-control" placeholder="Contraseña" name="contrasennia" id="contrasennia" required />
-                    <label class="form-label">Contraseña</label>
-                </div>
-                <div class="form-group text-center">
-                    <a href="@Url.Action("Index", "Home")" type="submit" id="btnRegistrar" name="btnRegistrar" class="btn btn-primary btn-lg" style="background-color:#1F283E; border-color: #1F283E;">
-                        Registrarse
-                    </a>
-                    <div class="row mt-4">
-                        <div class="col-4">
-                            <a href="@Url.Action("RecuperarContrasenna", "Autenticacion")" class="mt-5 text-center under">¿Olvidó su <br/> contraseña?</a>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <div class="form-group form-floating">
+                                @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control", @placeholder = "Cedula", @required = "true", @name = "cedula", @id = "cedula", @onkeyup = "consultarNombreInstitucion();" })
+                                <label class="form-label">Cedula Jurídica</label>
+                            </div>
                         </div>
-                        <div class="col-4">
-                            <a href="@Url.Action("Ingresar", "Autenticacion")" class="mt-4 text-center under">¿Ya tenés una cuenta? <br> ¡Inicia sesión! </a>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <div class="form-group form-floating">
+                                @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control", @placeholder = "Nombre", @required = "true", @readonly = "true", @name = "nombre", @id = "nombre" })
+                                <label class="form-label">Nombre de Institución</label>
+                            </div>
                         </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <div class="form-group form-floating">
+                                @Html.TextBoxFor(m => m.Descripcion, new { @class = "form-control", @placeholder = "Descripcion", @required = "true", @readonly = "true", @name = "descripcion", @id = "descripcion" })
+                                <label class="form-label">Descripción</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-7">
+                            <div class="form-group form-floating">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Correo", @required = "true", @type = "email" })
+                                <label class="form-label">Correo Institucional</label>
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="form-group form-floating">
+                                @Html.DropDownListFor(m => m.IdTipoInstitucion, ViewBag.TipoInstituciones as List<SelectListItem>, new { @class = "form-control" })
+                                <label for="tipoInstitucion" class="form-label">Tipo de Institución</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
                         <div class="col-4">
-                            <a href="@Url.Action("RegistroEstudiante", "Autenticacion")" class="mt-5 text-center under">¿Sos estudiante? <br> ¡Haz click acá! </a>
+                            <div class="form-group form-floating">
+                                @Html.TextBoxFor(m => m.Telefono, new { @class = "form-control", @placeholder = "Telefono", @required = "true" })
+                                <label class="form-label">Teléfono</label>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="form-group form-floating">
+                                @Html.TextBoxFor(m => m.PaginaWeb, new { @class = "form-control", @placeholder = "Pagina Web" })
+                                <label class="form-label">Página Web (Opcional)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-floating mb-4">
+                        @Html.TextBoxFor(m => m.Contrasenna, new { @class = "form-control", @placeholder = "contraseña", @required = "true", type = "password" })
+                        <label class="form-label">Contraseña</label>
+                    </div>
+                    <div class="form-group text-center">
+                        <button type="submit" id="btnRegistrar" name="btnRegistrar" class="btn btn-primary btn-lg" style="background-color:#1F283E; border-color: #1F283E;">
+                            Registrar
+                        </button>
+                        <div class="row mt-4">
+                            <div class="col-4">
+                                <a href="@Url.Action("RecuperarContrasenna", "Autenticacion")" class="mt-5 text-center under">¿Olvidó su <br /> contraseña?</a>
+                            </div>
+                            <div class="col-4">
+                                <a href="@Url.Action("Ingresar", "Autenticacion")" class="mt-4 text-center under">¿Ya tenés una cuenta? <br> ¡Inicia sesión! </a>
+                            </div>
+                            <div class="col-4">
+                                <a href="@Url.Action("RegistroEstudiante", "Autenticacion")" class="mt-5 text-center under">¿Sos estudiante? <br> ¡Haz click acá! </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </form>
+            }
         </div>
-    </div>
 </section>

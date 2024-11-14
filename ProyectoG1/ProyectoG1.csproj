@@ -136,6 +136,9 @@
     <Compile Include="Models\Auditoria.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sysdiagrams.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TipoInstitucionModel.cs" />
     <Compile Include="Models\GeneroModel.cs" />
     <Compile Include="Models\InstitucionModel.cs" />

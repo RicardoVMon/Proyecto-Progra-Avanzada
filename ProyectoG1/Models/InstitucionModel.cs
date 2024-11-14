@@ -8,9 +8,9 @@ namespace ProyectoG1.Models
     public class InstitucionModel
     {
 
-        public long Id { get; set; }
-        public int IdRol { get; set; }
-        public int IdTipoInstitucion { get; set; }
+        public long IdInstitucion { get; set; }
+        public long IdRol { get; set; }
+        public long IdTipoInstitucion { get; set; }
         public String Cedula { get; set; }
         public String Email { get; set; }
         public String Contrasenna { get; set; }

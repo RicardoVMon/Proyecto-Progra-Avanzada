@@ -35,6 +35,7 @@ namespace ProyectoG1.Models
         public string Carrera { get; set; }
         public bool Activo { get; set; }
         public string Apellidos { get; set; }
+        public string Imagen { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Auditoria> Auditoria { get; set; }

@@ -37,20 +37,17 @@ namespace ProyectoG1.Models
         public virtual DbSet<Rol> Rol { get; set; }
         public virtual DbSet<TipoInstitucion> TipoInstitucion { get; set; }
         public virtual DbSet<Universidad> Universidad { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
     
-        public virtual int RegistrarEstudiante(Nullable<int> idRol, Nullable<int> idGenero, Nullable<int> idUniversidad, string cedula, string email, string contrasenna, string nombre, string apellidos, string descripcion, string carrera)
+        public virtual int RegistrarEstudiante(Nullable<long> idGenero, Nullable<long> idUniversidad, string cedula, string email, string contrasenna, string nombre, string apellidos, string descripcion, string carrera)
         {
-            var idRolParameter = idRol.HasValue ?
-                new ObjectParameter("IdRol", idRol) :
-                new ObjectParameter("IdRol", typeof(int));
-    
             var idGeneroParameter = idGenero.HasValue ?
                 new ObjectParameter("IdGenero", idGenero) :
-                new ObjectParameter("IdGenero", typeof(int));
+                new ObjectParameter("IdGenero", typeof(long));
     
             var idUniversidadParameter = idUniversidad.HasValue ?
                 new ObjectParameter("IdUniversidad", idUniversidad) :
-                new ObjectParameter("IdUniversidad", typeof(int));
+                new ObjectParameter("IdUniversidad", typeof(long));
     
             var cedulaParameter = cedula != null ?
                 new ObjectParameter("Cedula", cedula) :
@@ -80,7 +77,44 @@ namespace ProyectoG1.Models
                 new ObjectParameter("Carrera", carrera) :
                 new ObjectParameter("Carrera", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistrarEstudiante", idRolParameter, idGeneroParameter, idUniversidadParameter, cedulaParameter, emailParameter, contrasennaParameter, nombreParameter, apellidosParameter, descripcionParameter, carreraParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistrarEstudiante", idGeneroParameter, idUniversidadParameter, cedulaParameter, emailParameter, contrasennaParameter, nombreParameter, apellidosParameter, descripcionParameter, carreraParameter);
+        }
+    
+        public virtual int RegistrarInstitucion(Nullable<long> idTipoInstitucion, string cedula, string email, string contrasenna, string nombre, string descripcion, string telefono, string paginaWeb)
+        {
+            var idTipoInstitucionParameter = idTipoInstitucion.HasValue ?
+                new ObjectParameter("IdTipoInstitucion", idTipoInstitucion) :
+                new ObjectParameter("IdTipoInstitucion", typeof(long));
+    
+            var cedulaParameter = cedula != null ?
+                new ObjectParameter("Cedula", cedula) :
+                new ObjectParameter("Cedula", typeof(string));
+    
+            var emailParameter = email != null ?
+                new ObjectParameter("Email", email) :
+                new ObjectParameter("Email", typeof(string));
+    
+            var contrasennaParameter = contrasenna != null ?
+                new ObjectParameter("Contrasenna", contrasenna) :
+                new ObjectParameter("Contrasenna", typeof(string));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var descripcionParameter = descripcion != null ?
+                new ObjectParameter("Descripcion", descripcion) :
+                new ObjectParameter("Descripcion", typeof(string));
+    
+            var telefonoParameter = telefono != null ?
+                new ObjectParameter("Telefono", telefono) :
+                new ObjectParameter("Telefono", typeof(string));
+    
+            var paginaWebParameter = paginaWeb != null ?
+                new ObjectParameter("PaginaWeb", paginaWeb) :
+                new ObjectParameter("PaginaWeb", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistrarInstitucion", idTipoInstitucionParameter, cedulaParameter, emailParameter, contrasennaParameter, nombreParameter, descripcionParameter, telefonoParameter, paginaWebParameter);
         }
     }
 }

@@ -8,8 +8,8 @@ namespace ProyectoG1.Models
     public class EstudianteModel
     {
         public long Id { get; set; }
-        public int IdGenero { get; set; }
-        public int IdUniversidad { get; set; }
+        public long IdGenero { get; set; }
+        public long IdUniversidad { get; set; }
         public String Cedula { get; set; }
         public String Email { get; set; }
         public String Contrasenna { get; set; }

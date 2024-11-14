@@ -32,19 +32,38 @@ namespace ProyectoG1.Controllers
         {
             using (var context = new EncuentraTCUEntities())
             {
-                var respuesta = context.RegistrarEstudiante(1, model.IdGenero, model.IdUniversidad, model.Cedula, model.Email, model.Contrasenna, model.Nombre, model.Apellidos, "Descripción", model.Carrera);
+                var respuesta = context.RegistrarEstudiante(model.IdGenero, model.IdUniversidad, model.Cedula, model.Email, model.Contrasenna, model.Nombre, model.Apellidos, "Hola! Estoy buscando lugares para hacer mi TCU!", model.Carrera);
 
                 if (respuesta > 0)
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Ingresar", "Autenticacion");
 
-                ViewBag.MensajePantalla = "Su información no se ha podido registrar correctamente";
+                ViewBag.Mensaje = "Su información no se ha podido registrar correctamente";
+                ConsultarGeneros();
+                ConsultarUniversidades();
                 return View();
             }
         }
-
+        [HttpGet]
         public ActionResult RegistroInstitucion()
         {
+            ConsultarTipoInstitucion();
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult RegistroInstitucion(InstitucionModel model)
+        {
+            using (var context = new EncuentraTCUEntities())
+            {
+                var respuesta = context.RegistrarInstitucion(model.IdTipoInstitucion, model.Cedula, model.Email, model.Contrasenna, model.Nombre, model.Descripcion, model.Telefono, model.PaginaWeb);
+
+                if (respuesta > 0)
+                    return RedirectToAction("Ingresar", "Autenticacion");
+
+                ViewBag.Mensaje = "Su información no se ha podido registrar correctamente";
+                ConsultarTipoInstitucion();
+                return View();
+            }
         }
 
         private void ConsultarGeneros()
@@ -100,6 +119,34 @@ namespace ProyectoG1.Controllers
                 }
 
                 ViewBag.Universidades = universidades;
+            }
+        }
+
+        private void ConsultarTipoInstitucion()
+        {
+            using (var context = new EncuentraTCUEntities())
+            {
+                var datos = context.TipoInstitucion.ToList();
+                var tipoInstituciones = new List<SelectListItem>();
+
+                tipoInstituciones.Add(new SelectListItem
+                {
+                    Text = "Seleccione su tipo de institución",
+                    Value = null,
+                    Disabled = true,
+                    Selected = true
+                });
+
+                foreach (var item in datos)
+                {
+                    tipoInstituciones.Add(new SelectListItem
+                    {
+                        Text = item.Nombre,
+                        Value = item.IdTipoInstitucion.ToString()
+                    });
+                }
+
+                ViewBag.TipoInstituciones = tipoInstituciones;
             }
         }
 

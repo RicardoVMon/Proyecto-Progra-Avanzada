@@ -32,9 +32,6 @@
             <PropertyRef Name="IdEstudiante" />
           </Key>
           <Property Name="IdEstudiante" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="IdRol" Type="int" Nullable="false" />
-          <Property Name="IdGenero" Type="int" Nullable="false" />
-          <Property Name="IdUniversidad" Type="int" Nullable="false" />
           <Property Name="Cedula" Type="varchar" MaxLength="9" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Contrasenna" Type="varchar" MaxLength="10" Nullable="false" />
@@ -42,13 +39,17 @@
           <Property Name="Apellidos" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Descripcion" Type="varchar" MaxLength="1000" Nullable="false" />
           <Property Name="Carrera" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Imagen" Type="varchar" MaxLength="50" />
           <Property Name="Activo" Type="bit" Nullable="false" />
+          <Property Name="IdRol" Type="bigint" Nullable="false" />
+          <Property Name="IdGenero" Type="bigint" Nullable="false" />
+          <Property Name="IdUniversidad" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="Genero">
           <Key>
             <PropertyRef Name="IdGenero" />
           </Key>
-          <Property Name="IdGenero" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdGenero" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Institucion">
@@ -56,8 +57,6 @@
             <PropertyRef Name="IdInstitucion" />
           </Key>
           <Property Name="IdInstitucion" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="IdRol" Type="int" Nullable="false" />
-          <Property Name="IdTipoInstitucion" Type="int" Nullable="false" />
           <Property Name="Cedula" Type="varchar" MaxLength="11" Nullable="false" />
           <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Contrasenna" Type="varchar" MaxLength="10" Nullable="false" />
@@ -66,6 +65,8 @@
           <Property Name="Telefono" Type="varchar" MaxLength="15" Nullable="false" />
           <Property Name="PaginaWeb" Type="varchar" MaxLength="100" />
           <Property Name="Activo" Type="bit" Nullable="false" />
+          <Property Name="IdRol" Type="bigint" Nullable="false" />
+          <Property Name="IdTipoInstitucion" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="Postulacion">
           <Key>
@@ -94,21 +95,31 @@
           <Key>
             <PropertyRef Name="IdRol" />
           </Key>
-          <Property Name="IdRol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdRol" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NombreRol" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="TipoInstitucion">
           <Key>
             <PropertyRef Name="IdTipoInstitucion" />
           </Key>
-          <Property Name="IdTipoInstitucion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdTipoInstitucion" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="Universidad">
           <Key>
             <PropertyRef Name="IdUniversidad" />
           </Key>
-          <Property Name="IdUniversidad" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdUniversidad" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <Association Name="FK_Auditoria_Estudiante">
@@ -256,9 +267,8 @@
           </ReferentialConstraint>
         </Association>
         <Function Name="RegistrarEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="IdRol" Type="int" Mode="In" />
-          <Parameter Name="IdGenero" Type="int" Mode="In" />
-          <Parameter Name="IdUniversidad" Type="int" Mode="In" />
+          <Parameter Name="IdGenero" Type="bigint" Mode="In" />
+          <Parameter Name="IdUniversidad" Type="bigint" Mode="In" />
           <Parameter Name="Cedula" Type="varchar" Mode="In" />
           <Parameter Name="Email" Type="varchar" Mode="In" />
           <Parameter Name="Contrasenna" Type="varchar" Mode="In" />
@@ -266,6 +276,16 @@
           <Parameter Name="Apellidos" Type="varchar" Mode="In" />
           <Parameter Name="Descripcion" Type="varchar" Mode="In" />
           <Parameter Name="Carrera" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="RegistrarInstitucion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdTipoInstitucion" Type="bigint" Mode="In" />
+          <Parameter Name="Cedula" Type="varchar" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="Contrasenna" Type="varchar" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+          <Parameter Name="Telefono" Type="varchar" Mode="In" />
+          <Parameter Name="PaginaWeb" Type="varchar" Mode="In" />
         </Function>
         <EntityContainer Name="EncuentraTCUModelStoreContainer">
           <EntitySet Name="Auditoria" EntityType="Self.Auditoria" Schema="dbo" store:Type="Tables" />
@@ -276,6 +296,7 @@
           <EntitySet Name="Postulacion" EntityType="Self.Postulacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proyecto" EntityType="Self.Proyecto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoInstitucion" EntityType="Self.TipoInstitucion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Universidad" EntityType="Self.Universidad" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Auditoria_Estudiante" Association="Self.FK_Auditoria_Estudiante">
@@ -380,6 +401,7 @@
           <NavigationProperty Name="Universidad" Relationship="Self.FK_Estudiante_Universidad" FromRole="Estudiante" ToRole="Universidad" />
           <NavigationProperty Name="Postulacion" Relationship="Self.FK_Postulacion_Estudiante" FromRole="Estudiante" ToRole="Postulacion" />
           <Property Name="Apellidos" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Imagen" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Genero">
           <Key>
@@ -665,9 +687,8 @@
             <End Role="Postulacion" EntitySet="Postulacion" />
           </AssociationSet>
           <FunctionImport Name="RegistrarEstudiante">
-            <Parameter Name="IdRol" Mode="In" Type="Int32" />
-            <Parameter Name="IdGenero" Mode="In" Type="Int32" />
-            <Parameter Name="IdUniversidad" Mode="In" Type="Int32" />
+            <Parameter Name="IdGenero" Mode="In" Type="Int64" />
+            <Parameter Name="IdUniversidad" Mode="In" Type="Int64" />
             <Parameter Name="Cedula" Mode="In" Type="String" />
             <Parameter Name="Email" Mode="In" Type="String" />
             <Parameter Name="Contrasenna" Mode="In" Type="String" />
@@ -676,7 +697,28 @@
             <Parameter Name="Descripcion" Mode="In" Type="String" />
             <Parameter Name="Carrera" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="sysdiagrams" EntityType="EncuentraTCUModel.sysdiagrams" />
+          <FunctionImport Name="RegistrarInstitucion">
+            <Parameter Name="IdTipoInstitucion" Mode="In" Type="Int64" />
+            <Parameter Name="Cedula" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Contrasenna" Mode="In" Type="String" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Descripcion" Mode="In" Type="String" />
+            <Parameter Name="Telefono" Mode="In" Type="String" />
+            <Parameter Name="PaginaWeb" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -710,6 +752,7 @@
           <EntitySetMapping Name="Estudiante">
             <EntityTypeMapping TypeName="EncuentraTCUModel.Estudiante">
               <MappingFragment StoreEntitySet="Estudiante">
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
                 <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
                 <ScalarProperty Name="IdEstudiante" ColumnName="IdEstudiante" />
                 <ScalarProperty Name="IdRol" ColumnName="IdRol" />
@@ -800,6 +843,18 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="RegistrarEstudiante" FunctionName="EncuentraTCUModel.Store.RegistrarEstudiante" />
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="EncuentraTCUModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="RegistrarInstitucion" FunctionName="EncuentraTCUModel.Store.RegistrarInstitucion" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
