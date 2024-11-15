@@ -44,6 +44,7 @@
           <Property Name="IdRol" Type="bigint" Nullable="false" />
           <Property Name="IdGenero" Type="bigint" Nullable="false" />
           <Property Name="IdUniversidad" Type="bigint" Nullable="false" />
+          <Property Name="TieneContrasennaTemp" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Genero">
           <Key>
@@ -67,6 +68,7 @@
           <Property Name="Activo" Type="bit" Nullable="false" />
           <Property Name="IdRol" Type="bigint" Nullable="false" />
           <Property Name="IdTipoInstitucion" Type="bigint" Nullable="false" />
+          <Property Name="TieneContrasennaTemp" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Postulacion">
           <Key>
@@ -97,16 +99,6 @@
           </Key>
           <Property Name="IdRol" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NombreRol" Type="varchar" MaxLength="50" Nullable="false" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="TipoInstitucion">
           <Key>
@@ -266,6 +258,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="IngresoSistema" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Cedula" Type="varchar" Mode="In" />
+          <Parameter Name="Contrasenna" Type="varchar" Mode="In" />
+          <Parameter Name="TipoCedula" Type="int" Mode="In" />
+        </Function>
         <Function Name="RegistrarEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdGenero" Type="bigint" Mode="In" />
           <Parameter Name="IdUniversidad" Type="bigint" Mode="In" />
@@ -296,7 +293,6 @@
           <EntitySet Name="Postulacion" EntityType="Self.Postulacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proyecto" EntityType="Self.Proyecto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoInstitucion" EntityType="Self.TipoInstitucion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Universidad" EntityType="Self.Universidad" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Auditoria_Estudiante" Association="Self.FK_Auditoria_Estudiante">
@@ -383,16 +379,18 @@
             <PropertyRef Name="IdEstudiante" />
           </Key>
           <Property Name="IdEstudiante" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdRol" Type="Int32" Nullable="false" />
-          <Property Name="IdGenero" Type="Int32" Nullable="false" />
-          <Property Name="IdUniversidad" Type="Int32" Nullable="false" />
           <Property Name="Cedula" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Contrasenna" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Apellidos" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Descripcion" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Carrera" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Imagen" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <Property Name="IdRol" Type="Int64" Nullable="false" />
+          <Property Name="IdGenero" Type="Int64" Nullable="false" />
+          <Property Name="IdUniversidad" Type="Int64" Nullable="false" />
           <NavigationProperty Name="Auditoria" Relationship="Self.FK_Auditoria_Estudiante" FromRole="Estudiante" ToRole="Auditoria" />
           <NavigationProperty Name="Conexion" Relationship="Self.FK_Conexion_EstudianteReceptor" FromRole="Estudiante" ToRole="Conexion" />
           <NavigationProperty Name="Conexion1" Relationship="Self.FK_Conexion_EstudianteSolicitante" FromRole="Estudiante" ToRole="Conexion" />
@@ -400,14 +398,13 @@
           <NavigationProperty Name="Rol" Relationship="Self.FK_Estudiante_Rol" FromRole="Estudiante" ToRole="Rol" />
           <NavigationProperty Name="Universidad" Relationship="Self.FK_Estudiante_Universidad" FromRole="Estudiante" ToRole="Universidad" />
           <NavigationProperty Name="Postulacion" Relationship="Self.FK_Postulacion_Estudiante" FromRole="Estudiante" ToRole="Postulacion" />
-          <Property Name="Apellidos" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Imagen" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TieneContrasennaTemp" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Genero">
           <Key>
             <PropertyRef Name="IdGenero" />
           </Key>
-          <Property Name="IdGenero" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdGenero" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Estudiante" Relationship="Self.FK_Estudiante_Genero" FromRole="Genero" ToRole="Estudiante" />
         </EntityType>
@@ -416,8 +413,6 @@
             <PropertyRef Name="IdInstitucion" />
           </Key>
           <Property Name="IdInstitucion" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdRol" Type="Int32" Nullable="false" />
-          <Property Name="IdTipoInstitucion" Type="Int32" Nullable="false" />
           <Property Name="Cedula" Type="String" MaxLength="11" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Contrasenna" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
@@ -426,10 +421,13 @@
           <Property Name="Telefono" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="PaginaWeb" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <Property Name="IdRol" Type="Int64" Nullable="false" />
+          <Property Name="IdTipoInstitucion" Type="Int64" Nullable="false" />
           <NavigationProperty Name="Auditoria" Relationship="Self.FK_Auditoria_Institucion" FromRole="Institucion" ToRole="Auditoria" />
           <NavigationProperty Name="Rol" Relationship="Self.FK_Institucion_Rol" FromRole="Institucion" ToRole="Rol" />
           <NavigationProperty Name="TipoInstitucion" Relationship="Self.FK_Institucion_TipoInstitucion" FromRole="Institucion" ToRole="TipoInstitucion" />
           <NavigationProperty Name="Proyecto" Relationship="Self.FK_Proyecto_Institucion" FromRole="Institucion" ToRole="Proyecto" />
+          <Property Name="TieneContrasennaTemp" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Postulacion">
           <Key>
@@ -462,7 +460,7 @@
           <Key>
             <PropertyRef Name="IdRol" />
           </Key>
-          <Property Name="IdRol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdRol" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NombreRol" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Estudiante" Relationship="Self.FK_Estudiante_Rol" FromRole="Rol" ToRole="Estudiante" />
           <NavigationProperty Name="Institucion" Relationship="Self.FK_Institucion_Rol" FromRole="Rol" ToRole="Institucion" />
@@ -471,7 +469,7 @@
           <Key>
             <PropertyRef Name="IdTipoInstitucion" />
           </Key>
-          <Property Name="IdTipoInstitucion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdTipoInstitucion" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Institucion" Relationship="Self.FK_Institucion_TipoInstitucion" FromRole="TipoInstitucion" ToRole="Institucion" />
         </EntityType>
@@ -479,7 +477,7 @@
           <Key>
             <PropertyRef Name="IdUniversidad" />
           </Key>
-          <Property Name="IdUniversidad" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdUniversidad" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Estudiante" Relationship="Self.FK_Estudiante_Universidad" FromRole="Universidad" ToRole="Estudiante" />
         </EntityType>
@@ -697,7 +695,6 @@
             <Parameter Name="Descripcion" Mode="In" Type="String" />
             <Parameter Name="Carrera" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="sysdiagrams" EntityType="EncuentraTCUModel.sysdiagrams" />
           <FunctionImport Name="RegistrarInstitucion">
             <Parameter Name="IdTipoInstitucion" Mode="In" Type="Int64" />
             <Parameter Name="Cedula" Mode="In" Type="String" />
@@ -708,17 +705,21 @@
             <Parameter Name="Telefono" Mode="In" Type="String" />
             <Parameter Name="PaginaWeb" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="IngresoSistema" ReturnType="Collection(EncuentraTCUModel.IngresoSistema_Result)">
+            <Parameter Name="Cedula" Mode="In" Type="String" />
+            <Parameter Name="Contrasenna" Mode="In" Type="String" />
+            <Parameter Name="TipoCedula" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
+        <ComplexType Name="IngresoSistema_Result">
+          <Property Type="Int64" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Contrasenna" Nullable="false" MaxLength="10" />
+          <Property Type="Boolean" Name="Activo" Nullable="false" />
+          <Property Type="Int64" Name="IdRol" Nullable="false" />
+          <Property Type="Boolean" Name="TieneContrasennaTemp" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -752,19 +753,20 @@
           <EntitySetMapping Name="Estudiante">
             <EntityTypeMapping TypeName="EncuentraTCUModel.Estudiante">
               <MappingFragment StoreEntitySet="Estudiante">
-                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
-                <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
+                <ScalarProperty Name="TieneContrasennaTemp" ColumnName="TieneContrasennaTemp" />
                 <ScalarProperty Name="IdEstudiante" ColumnName="IdEstudiante" />
-                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
-                <ScalarProperty Name="IdGenero" ColumnName="IdGenero" />
-                <ScalarProperty Name="IdUniversidad" ColumnName="IdUniversidad" />
                 <ScalarProperty Name="Cedula" ColumnName="Cedula" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Contrasenna" ColumnName="Contrasenna" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="Carrera" ColumnName="Carrera" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
                 <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="IdGenero" ColumnName="IdGenero" />
+                <ScalarProperty Name="IdUniversidad" ColumnName="IdUniversidad" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -779,9 +781,8 @@
           <EntitySetMapping Name="Institucion">
             <EntityTypeMapping TypeName="EncuentraTCUModel.Institucion">
               <MappingFragment StoreEntitySet="Institucion">
+                <ScalarProperty Name="TieneContrasennaTemp" ColumnName="TieneContrasennaTemp" />
                 <ScalarProperty Name="IdInstitucion" ColumnName="IdInstitucion" />
-                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
-                <ScalarProperty Name="IdTipoInstitucion" ColumnName="IdTipoInstitucion" />
                 <ScalarProperty Name="Cedula" ColumnName="Cedula" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Contrasenna" ColumnName="Contrasenna" />
@@ -790,6 +791,8 @@
                 <ScalarProperty Name="Telefono" ColumnName="Telefono" />
                 <ScalarProperty Name="PaginaWeb" ColumnName="PaginaWeb" />
                 <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="IdTipoInstitucion" ColumnName="IdTipoInstitucion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -843,18 +846,20 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="RegistrarEstudiante" FunctionName="EncuentraTCUModel.Store.RegistrarEstudiante" />
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="EncuentraTCUModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="definition" ColumnName="definition" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="RegistrarInstitucion" FunctionName="EncuentraTCUModel.Store.RegistrarInstitucion" />
+          <FunctionImportMapping FunctionImportName="IngresoSistema" FunctionName="EncuentraTCUModel.Store.IngresoSistema">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.IngresoSistema_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Contrasenna" ColumnName="Contrasenna" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="TieneContrasennaTemp" ColumnName="TieneContrasennaTemp" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

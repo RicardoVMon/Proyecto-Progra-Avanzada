@@ -37,7 +37,6 @@ namespace ProyectoG1.Models
         public virtual DbSet<Rol> Rol { get; set; }
         public virtual DbSet<TipoInstitucion> TipoInstitucion { get; set; }
         public virtual DbSet<Universidad> Universidad { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
     
         public virtual int RegistrarEstudiante(Nullable<long> idGenero, Nullable<long> idUniversidad, string cedula, string email, string contrasenna, string nombre, string apellidos, string descripcion, string carrera)
         {
@@ -115,6 +114,23 @@ namespace ProyectoG1.Models
                 new ObjectParameter("PaginaWeb", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistrarInstitucion", idTipoInstitucionParameter, cedulaParameter, emailParameter, contrasennaParameter, nombreParameter, descripcionParameter, telefonoParameter, paginaWebParameter);
+        }
+    
+        public virtual ObjectResult<IngresoSistema_Result> IngresoSistema(string cedula, string contrasenna, Nullable<int> tipoCedula)
+        {
+            var cedulaParameter = cedula != null ?
+                new ObjectParameter("Cedula", cedula) :
+                new ObjectParameter("Cedula", typeof(string));
+    
+            var contrasennaParameter = contrasenna != null ?
+                new ObjectParameter("Contrasenna", contrasenna) :
+                new ObjectParameter("Contrasenna", typeof(string));
+    
+            var tipoCedulaParameter = tipoCedula.HasValue ?
+                new ObjectParameter("TipoCedula", tipoCedula) :
+                new ObjectParameter("TipoCedula", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<IngresoSistema_Result>("IngresoSistema", cedulaParameter, contrasennaParameter, tipoCedulaParameter);
         }
     }
 }

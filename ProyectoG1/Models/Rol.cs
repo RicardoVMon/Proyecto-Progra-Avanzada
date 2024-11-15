@@ -21,7 +21,7 @@ namespace ProyectoG1.Models
             this.Institucion = new HashSet<Institucion>();
         }
     
-        public int IdRol { get; set; }
+        public long IdRol { get; set; }
         public string NombreRol { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

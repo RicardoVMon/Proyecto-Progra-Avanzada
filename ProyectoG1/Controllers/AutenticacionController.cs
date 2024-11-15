@@ -14,10 +14,53 @@ namespace ProyectoG1.Controllers
             return View();
         }
 
+        [HttpGet]
         public ActionResult Ingresar()
         {
             return View();
         }
+
+        [HttpPost]
+        public ActionResult Ingresar(LoginModel model)
+        {
+            using (var context = new EncuentraTCUEntities())
+            {
+                var respuesta = context.IngresoSistema(model.Cedula, model.Contrasenna, model.TipoCedula).FirstOrDefault();
+
+                if (respuesta != null)
+                {
+                    // Validar
+                    if (model.TipoCedula == 2)
+                    {
+                        Session["IdInstitucion"] = respuesta.Id;
+                        Session["Nombre"] = respuesta.Nombre;
+                        Session["Email"] = respuesta.Email;
+                        Session["Rol"] = respuesta.IdRol;
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else if (model.TipoCedula == 1)
+                    {
+                        Session["IdEstudiante"] = respuesta.Id;
+                        Session["Nombre"] = respuesta.Nombre;
+                        Session["Email"] = respuesta.Email;
+                        Session["Rol"] = respuesta.IdRol;
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+
+                // Mensaje de error si falla
+                ViewBag.MensajePantalla = "Su información no se ha podido validar correctamente";
+                return View();
+            }
+        }
+
+        [HttpGet]
+        public ActionResult CierreSesion()
+        {
+            Session.Clear();
+            return RedirectToAction("Ingresar", "Autenticacion");
+        }
+
 
         [HttpGet]
         public ActionResult RegistroEstudiante()

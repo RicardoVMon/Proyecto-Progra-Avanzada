@@ -20,7 +20,7 @@ namespace ProyectoG1.Models
             this.Estudiante = new HashSet<Estudiante>();
         }
     
-        public int IdGenero { get; set; }
+        public long IdGenero { get; set; }
         public string Nombre { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
