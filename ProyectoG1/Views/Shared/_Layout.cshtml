@@ -1,4 +1,17 @@
-﻿<!DOCTYPE html>
+﻿
+
+@{
+    var imagenUsuario = "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png";
+    var nombreUsuario = "Invitado";
+
+    if (Session["Rol"] != null)
+    {
+        nombreUsuario = Session["Nombre"].ToString();
+    }
+}
+
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -13,8 +26,9 @@
     <link rel="canonical" href="https://demo-basic.adminkit.io/" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap">
-    <link rel="stylesheet" href="~/Styles/css/app.css"> 
+    <link rel="stylesheet" href="~/Styles/css/app.css">
     <link rel="shortcut icon" href="~/Styles/img/icons/icon-48x48.png" />
+
 </head>
 
 <body>
@@ -33,62 +47,70 @@
                             <i class="align-middle fa-solid fa-house"></i> <span class="align-middle">Inicio</span>
                         </a>
                     </li>
-                    <li class="sidebar-header">
-                        Opciones de Estudiante
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="">
-                            <i class="align-middle fa-solid fa-search"></i> <span class="align-middle">Buscar Proyectos</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="">
-                            <i class="align-middle fa-solid fa-file-signature"></i> <span class="align-middle">Postulaciones</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="">
-                            <i class="align-middle fa-solid fa-project-diagram"></i> <span class="align-middle">Proyectos</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="">
-                            <i class="align-middle fa-solid fa-envelope"></i> <span class="align-middle">Mensajería</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="">
-                            <i class="align-middle fa-solid fa-bell"></i> <span class="align-middle">Notificaciones</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-header">
-                        Opciones de Institución
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="">
-                            <i class="align-middle fa-solid fa-user"></i> <span class="align-middle">Perfil</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="">
-                            <i class="align-middle fa-solid fa-tasks"></i> <span class="align-middle">Gestionar Proyectos</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="">
-                            <i class="align-middle fa-solid fa-clipboard-list"></i> <span class="align-middle">Gestionar Postulaciones</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="">
-                            <i class="align-middle fa-solid fa-envelope"></i> <span class="align-middle">Mensajería</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="">
-                            <i class="align-middle fa-solid fa-bell"></i> <span class="align-middle">Notificaciones</span>
-                        </a>
-                    </li>
+
+                    @if (Session["Rol"] != null && Session["Rol"].ToString() == "1")
+                    {
+                        <li class="sidebar-header">
+                            Opciones de Estudiante
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="">
+                                <i class="align-middle fa-solid fa-search"></i> <span class="align-middle">Buscar Proyectos</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="">
+                                <i class="align-middle fa-solid fa-file-signature"></i> <span class="align-middle">Postulaciones</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="">
+                                <i class="align-middle fa-solid fa-project-diagram"></i> <span class="align-middle">Proyectos</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="">
+                                <i class="align-middle fa-solid fa-envelope"></i> <span class="align-middle">Mensajería</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="">
+                                <i class="align-middle fa-solid fa-bell"></i> <span class="align-middle">Notificaciones</span>
+                            </a>
+                        </li>
+                    }
+
+                    @if (Session["Rol"] != null && Session["Rol"].ToString() == "2")
+                    {
+                        <li class="sidebar-header">
+                            Opciones de Institución
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="">
+                                <i class="align-middle fa-solid fa-user"></i> <span class="align-middle">Perfil</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="">
+                                <i class="align-middle fa-solid fa-tasks"></i> <span class="align-middle">Gestionar Proyectos</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="">
+                                <i class="align-middle fa-solid fa-clipboard-list"></i> <span class="align-middle">Gestionar Postulaciones</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="">
+                                <i class="align-middle fa-solid fa-envelope"></i> <span class="align-middle">Mensajería</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="">
+                                <i class="align-middle fa-solid fa-bell"></i> <span class="align-middle">Notificaciones</span>
+                            </a>
+                        </li>
+                    }
                 </ul>
             </div>
         </nav>
@@ -100,79 +122,98 @@
                 </a>
                 <div class="navbar-collapse collapse">
                     <ul class="navbar-nav navbar-align">
-                        <li class="nav-item dropdown">
-                            <a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-bs-toggle="dropdown">
-                                <div class="position-relative">
-                                    <i class="align-middle" data-feather="bell"></i>
-                                    <span class="indicator">1</span>
-                                </div>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="alertsDropdown">
-                                <div class="dropdown-menu-header">
-                                    1 Notificación Nueva
-                                </div>
-                                <div class="list-group">
-                                    <a href="#" class="list-group-item">
-                                        <div class="row g-0 align-items-center">
-                                            <div class="col-2">
-                                                <i class="text-success" data-feather="user-plus"></i>
-                                            </div>
-                                            <div class="col-10">
-                                                <div class="text-dark">Etapa de Postulación</div>
-                                                <div class="text-muted small mt-1">Se ha abierto una nueva postulación</div>
-                                                <div class="text-muted small mt-1">Hace 14h</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="dropdown-menu-footer">
-                                    <a href="#" class="text-muted">Ver todas las notificaciones</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-icon dropdown-toggle" href="#" id="messagesDropdown" data-bs-toggle="dropdown">
-                                <div class="position-relative">
-                                    <i class="align-middle" data-feather="message-square"></i>
-                                    <span class="indicator">1</span>
-                                </div>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="messagesDropdown">
-                                <div class="dropdown-menu-header">
+
+                        @*Notificaciones y Mensajes (Usuario Activo)*@
+                        @if (Session["Rol"] != null && Session["Rol"].ToString() == "1")
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-bs-toggle="dropdown">
                                     <div class="position-relative">
-                                        1 Mensaje Nuevo
+                                        <i class="align-middle" data-feather="bell"></i>
+                                        <span class="indicator">1</span>
+                                    </div>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="alertsDropdown">
+                                    <div class="dropdown-menu-header">
+                                        1 Notificación Nueva
+                                    </div>
+                                    <div class="list-group">
+                                        <a href="#" class="list-group-item">
+                                            <div class="row g-0 align-items-center">
+                                                <div class="col-2">
+                                                    <i class="text-success" data-feather="user-plus"></i>
+                                                </div>
+                                                <div class="col-10">
+                                                    <div class="text-dark">Etapa de Postulación</div>
+                                                    <div class="text-muted small mt-1">Se ha abierto una nueva postulación</div>
+                                                    <div class="text-muted small mt-1">Hace 14h</div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="dropdown-menu-footer">
+                                        <a href="#" class="text-muted">Ver todas las notificaciones</a>
                                     </div>
                                 </div>
-                                <div class="list-group">
-                                    <a href="#" class="list-group-item">
-                                        <div class="row g-0 align-items-center">
-                                            <div class="col-2">
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" class="avatar img-fluid rounded-circle">
-                                            </div>
-                                            <div class="col-10 ps-2">
-                                                <div class="text-dark">Ricardo Vargas</div>
-                                                <div class="text-muted small mt-1">Hola, aceptenme el TCU porfa</div>
-                                                <div class="text-muted small mt-1">Hace 15m</div>
-                                            </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-icon dropdown-toggle" href="#" id="messagesDropdown" data-bs-toggle="dropdown">
+                                    <div class="position-relative">
+                                        <i class="align-middle" data-feather="message-square"></i>
+                                        <span class="indicator">1</span>
+                                    </div>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="messagesDropdown">
+                                    <div class="dropdown-menu-header">
+                                        <div class="position-relative">
+                                            1 Mensaje Nuevo
                                         </div>
-                                    </a>
+                                    </div>
+                                    <div class="list-group">
+                                        <a href="#" class="list-group-item">
+                                            <div class="row g-0 align-items-center">
+                                                <div class="col-2">
+                                                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" class="avatar img-fluid rounded-circle">
+                                                </div>
+                                                <div class="col-10 ps-2">
+                                                    <div class="text-dark">Ricardo Vargas</div>
+                                                    <div class="text-muted small mt-1">Hola, aceptenme el TCU porfa</div>
+                                                    <div class="text-muted small mt-1">Hace 15m</div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="dropdown-menu-footer">
+                                        <a href="#" class="text-muted">Ver todos los mensajes</a>
+                                    </div>
                                 </div>
-                                <div class="dropdown-menu-footer">
-                                    <a href="#" class="text-muted">Ver todos los mensajes</a>
-                                </div>
-                            </div>
-                        </li>
+                            </li>
+                        }
+
                         <li class="nav-item dropdown">
                             <a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" data-bs-toggle="dropdown">
                                 <i class="align-middle" data-feather="settings"></i>
                             </a>
                             <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" class="avatar img-fluid rounded me-1" alt="icon" /> <span class="text-dark">Nombre de Usuario</span>
+                                <img src=@imagenUsuario class="avatar img-fluid rounded me-1" alt="icon" /> <span class="text-dark">@nombreUsuario</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end">
-                                <a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1" data-feather="user"></i> Perfil</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="@Url.Action("CierreSesion", "Autenticacion")"><i class="align-middle me-1" data-feather="log-out"></i>Cerrar Sesión</a>
+
+                                @*Perfil (Usuario Activo)*@
+                                @if (Session["Rol"] != null && Session["Rol"].ToString() == "1")
+                                {
+                                    <a class="dropdown-item" href="@Url.Action("PerfilEstudiante","Estudiante")"><i class="align-middle me-1" data-feather="user"></i> Perfil</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="@Url.Action("CierreSesion", "Autenticacion")"><i class="align-middle me-1" data-feather="log-out"></i>Cerrar Sesión</a>
+                                }
+
+                                @*Iniciar Sesión (Usuario No Registrado*@
+                                @if (Session["Rol"] == null)
+                                {
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="@Url.Action("Ingresar", "Autenticacion")"><i class="align-middle me-1" data-feather="log-out"></i>Iniciar Sesión</a>
+                                }
+
                             </div>
                         </li>
                     </ul>

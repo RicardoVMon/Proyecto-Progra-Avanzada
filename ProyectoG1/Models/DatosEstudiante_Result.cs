@@ -11,15 +11,16 @@ namespace ProyectoG1.Models
 {
     using System;
     
-    public partial class IngresoSistema_Result
+    public partial class DatosEstudiante_Result
     {
-        public long Id { get; set; }
         public string Nombre { get; set; }
-        public string Cedula { get; set; }
+        public string Apellidos { get; set; }
         public string Email { get; set; }
-        public string Contrasenna { get; set; }
-        public bool Activo { get; set; }
-        public long IdRol { get; set; }
-        public bool TieneContrasennaTemp { get; set; }
+        public string Descripcion { get; set; }
+        public string Carrera { get; set; }
+        public string Imagen { get; set; }
+        public string NombreRol { get; set; }
+        public string NombreGenero { get; set; }
+        public string NombreUniversidad { get; set; }
     }
 }

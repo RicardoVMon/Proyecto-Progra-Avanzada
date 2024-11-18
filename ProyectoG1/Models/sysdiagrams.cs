@@ -10,16 +10,14 @@
 namespace ProyectoG1.Models
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class IngresoSistema_Result
+    public partial class sysdiagrams
     {
-        public long Id { get; set; }
-        public string Nombre { get; set; }
-        public string Cedula { get; set; }
-        public string Email { get; set; }
-        public string Contrasenna { get; set; }
-        public bool Activo { get; set; }
-        public long IdRol { get; set; }
-        public bool TieneContrasennaTemp { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }
