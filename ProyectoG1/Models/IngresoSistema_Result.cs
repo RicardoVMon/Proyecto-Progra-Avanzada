@@ -21,5 +21,6 @@ namespace ProyectoG1.Models
         public bool Activo { get; set; }
         public long IdRol { get; set; }
         public bool TieneContrasennaTemp { get; set; }
+        public System.DateTime FechaVencimientoTemp { get; set; }
     }
 }

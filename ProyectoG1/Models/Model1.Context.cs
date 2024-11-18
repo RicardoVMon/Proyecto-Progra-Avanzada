@@ -37,7 +37,56 @@ namespace ProyectoG1.Models
         public virtual DbSet<Rol> Rol { get; set; }
         public virtual DbSet<TipoInstitucion> TipoInstitucion { get; set; }
         public virtual DbSet<Universidad> Universidad { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
+    
+        public virtual int ActualizarContrasenna(string cedula, Nullable<int> tipoCedula, string contrasennaTemp, Nullable<bool> tieneContrasennaTemp, Nullable<System.DateTime> fechaVencimientoTemp)
+        {
+            var cedulaParameter = cedula != null ?
+                new ObjectParameter("Cedula", cedula) :
+                new ObjectParameter("Cedula", typeof(string));
+    
+            var tipoCedulaParameter = tipoCedula.HasValue ?
+                new ObjectParameter("TipoCedula", tipoCedula) :
+                new ObjectParameter("TipoCedula", typeof(int));
+    
+            var contrasennaTempParameter = contrasennaTemp != null ?
+                new ObjectParameter("ContrasennaTemp", contrasennaTemp) :
+                new ObjectParameter("ContrasennaTemp", typeof(string));
+    
+            var tieneContrasennaTempParameter = tieneContrasennaTemp.HasValue ?
+                new ObjectParameter("TieneContrasennaTemp", tieneContrasennaTemp) :
+                new ObjectParameter("TieneContrasennaTemp", typeof(bool));
+    
+            var fechaVencimientoTempParameter = fechaVencimientoTemp.HasValue ?
+                new ObjectParameter("FechaVencimientoTemp", fechaVencimientoTemp) :
+                new ObjectParameter("FechaVencimientoTemp", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarContrasenna", cedulaParameter, tipoCedulaParameter, contrasennaTempParameter, tieneContrasennaTempParameter, fechaVencimientoTempParameter);
+        }
+    
+        public virtual int ActualizarPerfilEstudiante(Nullable<long> idEstudiante, Nullable<long> idUniversidad, string carrera, string email, string descripcion)
+        {
+            var idEstudianteParameter = idEstudiante.HasValue ?
+                new ObjectParameter("IdEstudiante", idEstudiante) :
+                new ObjectParameter("IdEstudiante", typeof(long));
+    
+            var idUniversidadParameter = idUniversidad.HasValue ?
+                new ObjectParameter("IdUniversidad", idUniversidad) :
+                new ObjectParameter("IdUniversidad", typeof(long));
+    
+            var carreraParameter = carrera != null ?
+                new ObjectParameter("Carrera", carrera) :
+                new ObjectParameter("Carrera", typeof(string));
+    
+            var emailParameter = email != null ?
+                new ObjectParameter("Email", email) :
+                new ObjectParameter("Email", typeof(string));
+    
+            var descripcionParameter = descripcion != null ?
+                new ObjectParameter("Descripcion", descripcion) :
+                new ObjectParameter("Descripcion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarPerfilEstudiante", idEstudianteParameter, idUniversidadParameter, carreraParameter, emailParameter, descripcionParameter);
+        }
     
         public virtual ObjectResult<DatosEstudiante_Result> DatosEstudiante(Nullable<long> idEstudiante)
         {
@@ -141,31 +190,6 @@ namespace ProyectoG1.Models
                 new ObjectParameter("PaginaWeb", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistrarInstitucion", idTipoInstitucionParameter, cedulaParameter, emailParameter, contrasennaParameter, nombreParameter, descripcionParameter, telefonoParameter, paginaWebParameter);
-        }
-    
-        public virtual int ActualizarPerfilEstudiante(Nullable<long> idEstudiante, Nullable<long> idUniversidad, string carrera, string email, string descripcion)
-        {
-            var idEstudianteParameter = idEstudiante.HasValue ?
-                new ObjectParameter("IdEstudiante", idEstudiante) :
-                new ObjectParameter("IdEstudiante", typeof(long));
-    
-            var idUniversidadParameter = idUniversidad.HasValue ?
-                new ObjectParameter("IdUniversidad", idUniversidad) :
-                new ObjectParameter("IdUniversidad", typeof(long));
-    
-            var carreraParameter = carrera != null ?
-                new ObjectParameter("Carrera", carrera) :
-                new ObjectParameter("Carrera", typeof(string));
-    
-            var emailParameter = email != null ?
-                new ObjectParameter("Email", email) :
-                new ObjectParameter("Email", typeof(string));
-    
-            var descripcionParameter = descripcion != null ?
-                new ObjectParameter("Descripcion", descripcion) :
-                new ObjectParameter("Descripcion", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarPerfilEstudiante", idEstudianteParameter, idUniversidadParameter, carreraParameter, emailParameter, descripcionParameter);
         }
     }
 }
