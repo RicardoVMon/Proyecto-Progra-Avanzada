@@ -40,7 +40,7 @@ namespace ProyectoG1.Controllers
                         string contenido = System.IO.File.ReadAllText(ruta);
 
                         contenido = contenido.Replace("@@Nombre", estudiante.Nombre);
-                        contenido = contenido.Replace("@@Contrasenna", estudiante.Contrasenna);
+                        contenido = contenido.Replace("@@Contrasenna", Contrasenna);
                         contenido = contenido.Replace("@@Vencimiento", estudiante.FechaVencimientoTemp.ToString("dd/MM/yyyy hh:mm tt"));
 
                         // Enviar correo
@@ -65,7 +65,7 @@ namespace ProyectoG1.Controllers
                         string contenido = System.IO.File.ReadAllText(ruta);
 
                         contenido = contenido.Replace("@@Nombre", institucion.Nombre);
-                        contenido = contenido.Replace("@@Contrasenna", institucion.Contrasenna);
+                        contenido = contenido.Replace("@@Contrasenna", Contrasenna);
                         contenido = contenido.Replace("@@Vencimiento", institucion.FechaVencimientoTemp.ToString("dd/MM/yyyy hh:mm tt"));
 
                         // Enviar correo
