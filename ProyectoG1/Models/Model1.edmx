@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="EncuentraTCUModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="EncuentraTCUModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Auditoria">
           <Key>
             <PropertyRef Name="IdAuditoria" />
@@ -39,12 +39,13 @@
           <Property Name="Apellidos" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Descripcion" Type="varchar" MaxLength="1000" Nullable="false" />
           <Property Name="Carrera" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="Imagen" Type="varchar" MaxLength="50" />
+          <Property Name="Imagen" Type="varchar" MaxLength="255" />
           <Property Name="Activo" Type="bit" Nullable="false" />
           <Property Name="IdRol" Type="bigint" Nullable="false" />
           <Property Name="IdGenero" Type="bigint" Nullable="false" />
           <Property Name="IdUniversidad" Type="bigint" Nullable="false" />
           <Property Name="TieneContrasennaTemp" Type="bit" Nullable="false" />
+          <Property Name="FechaVencimientoTemp" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Genero">
           <Key>
@@ -69,6 +70,7 @@
           <Property Name="IdRol" Type="bigint" Nullable="false" />
           <Property Name="IdTipoInstitucion" Type="bigint" Nullable="false" />
           <Property Name="TieneContrasennaTemp" Type="bit" Nullable="false" />
+          <Property Name="FechaVencimientoTemp" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Postulacion">
           <Key>
@@ -258,6 +260,23 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="ActualizarContrasenna" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Cedula" Type="varchar" Mode="In" />
+          <Parameter Name="TipoCedula" Type="int" Mode="In" />
+          <Parameter Name="ContrasennaTemp" Type="varchar" Mode="In" />
+          <Parameter Name="TieneContrasennaTemp" Type="bit" Mode="In" />
+          <Parameter Name="FechaVencimientoTemp" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="ActualizarPerfilEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
+          <Parameter Name="IdUniversidad" Type="bigint" Mode="In" />
+          <Parameter Name="Carrera" Type="varchar" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="DatosEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="IngresoSistema" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Cedula" Type="varchar" Mode="In" />
           <Parameter Name="Contrasenna" Type="varchar" Mode="In" />
@@ -344,7 +363,8 @@
             <End Role="Proyecto" EntitySet="Proyecto" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="EncuentraTCUModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -386,11 +406,13 @@
           <Property Name="Apellidos" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Descripcion" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Carrera" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Imagen" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Imagen" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Activo" Type="Boolean" Nullable="false" />
           <Property Name="IdRol" Type="Int64" Nullable="false" />
           <Property Name="IdGenero" Type="Int64" Nullable="false" />
           <Property Name="IdUniversidad" Type="Int64" Nullable="false" />
+          <Property Name="TieneContrasennaTemp" Type="Boolean" Nullable="false" />
+          <Property Name="FechaVencimientoTemp" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Auditoria" Relationship="Self.FK_Auditoria_Estudiante" FromRole="Estudiante" ToRole="Auditoria" />
           <NavigationProperty Name="Conexion" Relationship="Self.FK_Conexion_EstudianteReceptor" FromRole="Estudiante" ToRole="Conexion" />
           <NavigationProperty Name="Conexion1" Relationship="Self.FK_Conexion_EstudianteSolicitante" FromRole="Estudiante" ToRole="Conexion" />
@@ -398,7 +420,6 @@
           <NavigationProperty Name="Rol" Relationship="Self.FK_Estudiante_Rol" FromRole="Estudiante" ToRole="Rol" />
           <NavigationProperty Name="Universidad" Relationship="Self.FK_Estudiante_Universidad" FromRole="Estudiante" ToRole="Universidad" />
           <NavigationProperty Name="Postulacion" Relationship="Self.FK_Postulacion_Estudiante" FromRole="Estudiante" ToRole="Postulacion" />
-          <Property Name="TieneContrasennaTemp" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Genero">
           <Key>
@@ -423,11 +444,12 @@
           <Property Name="Activo" Type="Boolean" Nullable="false" />
           <Property Name="IdRol" Type="Int64" Nullable="false" />
           <Property Name="IdTipoInstitucion" Type="Int64" Nullable="false" />
+          <Property Name="TieneContrasennaTemp" Type="Boolean" Nullable="false" />
+          <Property Name="FechaVencimientoTemp" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Auditoria" Relationship="Self.FK_Auditoria_Institucion" FromRole="Institucion" ToRole="Auditoria" />
           <NavigationProperty Name="Rol" Relationship="Self.FK_Institucion_Rol" FromRole="Institucion" ToRole="Rol" />
           <NavigationProperty Name="TipoInstitucion" Relationship="Self.FK_Institucion_TipoInstitucion" FromRole="Institucion" ToRole="TipoInstitucion" />
           <NavigationProperty Name="Proyecto" Relationship="Self.FK_Proyecto_Institucion" FromRole="Institucion" ToRole="Proyecto" />
-          <Property Name="TieneContrasennaTemp" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Postulacion">
           <Key>
@@ -684,6 +706,28 @@
             <End Role="Proyecto" EntitySet="Proyecto" />
             <End Role="Postulacion" EntitySet="Postulacion" />
           </AssociationSet>
+          <FunctionImport Name="ActualizarContrasenna">
+            <Parameter Name="Cedula" Mode="In" Type="String" />
+            <Parameter Name="TipoCedula" Mode="In" Type="Int32" />
+            <Parameter Name="ContrasennaTemp" Mode="In" Type="String" />
+            <Parameter Name="TieneContrasennaTemp" Mode="In" Type="Boolean" />
+            <Parameter Name="FechaVencimientoTemp" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="ActualizarPerfilEstudiante">
+            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+            <Parameter Name="IdUniversidad" Mode="In" Type="Int64" />
+            <Parameter Name="Carrera" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Descripcion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DatosEstudiante" ReturnType="Collection(EncuentraTCUModel.DatosEstudiante_Result)">
+            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="IngresoSistema" ReturnType="Collection(EncuentraTCUModel.IngresoSistema_Result)">
+            <Parameter Name="Cedula" Mode="In" Type="String" />
+            <Parameter Name="Contrasenna" Mode="In" Type="String" />
+            <Parameter Name="TipoCedula" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="RegistrarEstudiante">
             <Parameter Name="IdGenero" Mode="In" Type="Int64" />
             <Parameter Name="IdUniversidad" Mode="In" Type="Int64" />
@@ -705,20 +749,28 @@
             <Parameter Name="Telefono" Mode="In" Type="String" />
             <Parameter Name="PaginaWeb" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="IngresoSistema" ReturnType="Collection(EncuentraTCUModel.IngresoSistema_Result)">
-            <Parameter Name="Cedula" Mode="In" Type="String" />
-            <Parameter Name="Contrasenna" Mode="In" Type="String" />
-            <Parameter Name="TipoCedula" Mode="In" Type="Int32" />
-          </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="DatosEstudiante_Result">
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Apellidos" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="1000" />
+          <Property Type="String" Name="Carrera" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Imagen" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="NombreRol" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="NombreGenero" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="NombreUniversidad" Nullable="false" MaxLength="255" />
+        </ComplexType>
         <ComplexType Name="IngresoSistema_Result">
           <Property Type="Int64" Name="Id" Nullable="false" />
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Cedula" Nullable="false" MaxLength="11" />
           <Property Type="String" Name="Email" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="Contrasenna" Nullable="false" MaxLength="10" />
           <Property Type="Boolean" Name="Activo" Nullable="false" />
           <Property Type="Int64" Name="IdRol" Nullable="false" />
           <Property Type="Boolean" Name="TieneContrasennaTemp" Nullable="false" />
+          <Property Type="DateTime" Name="FechaVencimientoTemp" Nullable="false" Precision="23" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -753,7 +805,6 @@
           <EntitySetMapping Name="Estudiante">
             <EntityTypeMapping TypeName="EncuentraTCUModel.Estudiante">
               <MappingFragment StoreEntitySet="Estudiante">
-                <ScalarProperty Name="TieneContrasennaTemp" ColumnName="TieneContrasennaTemp" />
                 <ScalarProperty Name="IdEstudiante" ColumnName="IdEstudiante" />
                 <ScalarProperty Name="Cedula" ColumnName="Cedula" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
@@ -767,6 +818,8 @@
                 <ScalarProperty Name="IdRol" ColumnName="IdRol" />
                 <ScalarProperty Name="IdGenero" ColumnName="IdGenero" />
                 <ScalarProperty Name="IdUniversidad" ColumnName="IdUniversidad" />
+                <ScalarProperty Name="TieneContrasennaTemp" ColumnName="TieneContrasennaTemp" />
+                <ScalarProperty Name="FechaVencimientoTemp" ColumnName="FechaVencimientoTemp" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -781,7 +834,6 @@
           <EntitySetMapping Name="Institucion">
             <EntityTypeMapping TypeName="EncuentraTCUModel.Institucion">
               <MappingFragment StoreEntitySet="Institucion">
-                <ScalarProperty Name="TieneContrasennaTemp" ColumnName="TieneContrasennaTemp" />
                 <ScalarProperty Name="IdInstitucion" ColumnName="IdInstitucion" />
                 <ScalarProperty Name="Cedula" ColumnName="Cedula" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
@@ -793,6 +845,8 @@
                 <ScalarProperty Name="Activo" ColumnName="Activo" />
                 <ScalarProperty Name="IdRol" ColumnName="IdRol" />
                 <ScalarProperty Name="IdTipoInstitucion" ColumnName="IdTipoInstitucion" />
+                <ScalarProperty Name="TieneContrasennaTemp" ColumnName="TieneContrasennaTemp" />
+                <ScalarProperty Name="FechaVencimientoTemp" ColumnName="FechaVencimientoTemp" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -845,21 +899,40 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="RegistrarEstudiante" FunctionName="EncuentraTCUModel.Store.RegistrarEstudiante" />
-          <FunctionImportMapping FunctionImportName="RegistrarInstitucion" FunctionName="EncuentraTCUModel.Store.RegistrarInstitucion" />
+          <FunctionImportMapping FunctionImportName="ActualizarContrasenna" FunctionName="EncuentraTCUModel.Store.ActualizarContrasenna" />
+          <FunctionImportMapping FunctionImportName="ActualizarPerfilEstudiante" FunctionName="EncuentraTCUModel.Store.ActualizarPerfilEstudiante" />
+          <FunctionImportMapping FunctionImportName="DatosEstudiante" FunctionName="EncuentraTCUModel.Store.DatosEstudiante">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.DatosEstudiante_Result">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Carrera" ColumnName="Carrera" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
+                <ScalarProperty Name="NombreGenero" ColumnName="NombreGenero" />
+                <ScalarProperty Name="NombreUniversidad" ColumnName="NombreUniversidad" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="IngresoSistema" FunctionName="EncuentraTCUModel.Store.IngresoSistema">
             <ResultMapping>
               <ComplexTypeMapping TypeName="EncuentraTCUModel.IngresoSistema_Result">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Contrasenna" ColumnName="Contrasenna" />
                 <ScalarProperty Name="Activo" ColumnName="Activo" />
                 <ScalarProperty Name="IdRol" ColumnName="IdRol" />
                 <ScalarProperty Name="TieneContrasennaTemp" ColumnName="TieneContrasennaTemp" />
+                <ScalarProperty Name="FechaVencimientoTemp" ColumnName="FechaVencimientoTemp" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="RegistrarEstudiante" FunctionName="EncuentraTCUModel.Store.RegistrarEstudiante" />
+          <FunctionImportMapping FunctionImportName="RegistrarInstitucion" FunctionName="EncuentraTCUModel.Store.RegistrarInstitucion" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

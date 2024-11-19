@@ -33,6 +33,7 @@ namespace ProyectoG1.Models
         public long IdRol { get; set; }
         public long IdTipoInstitucion { get; set; }
         public bool TieneContrasennaTemp { get; set; }
+        public System.DateTime FechaVencimientoTemp { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Auditoria> Auditoria { get; set; }
