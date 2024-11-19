@@ -13,6 +13,9 @@ namespace ProyectoG1.Models
         public long IdTipoInstitucion { get; set; }
         public String Cedula { get; set; }
         public String Email { get; set; }
+        public String Imagen { get; set; }
+        public String NombreRol { get; set; }
+        public String TipoInstitucion { get; set; }
         public String Contrasenna { get; set; }
         public String Nombre { get; set; }
         public String Descripcion { get; set; }

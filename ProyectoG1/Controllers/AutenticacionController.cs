@@ -26,52 +26,14 @@ namespace ProyectoG1.Controllers
                 if (model.TipoCedula == 1) // Estudiante
                 {
                     var estudiante = context.Estudiante.Where(x => x.Cedula == model.Cedula).FirstOrDefault();
-
                     if (estudiante != null)
-                    {
-                        var Contrasenna = CrearContrasenna();
-                        var TieneContrasennaTemp = true;
-                        var FechaVencimientoTemp = DateTime.Now.AddMinutes(double.Parse(ConfigurationManager.AppSettings["MinutosVigenciaTemporal"]));
-
-                        // Llamar al procedimiento almacenado (manteniéndose fiel al ejemplo)
-                        var result = context.ActualizarContrasenna(estudiante.Cedula, model.TipoCedula, Contrasenna, TieneContrasennaTemp, FechaVencimientoTemp);
-
-                        string ruta = AppDomain.CurrentDomain.BaseDirectory + "\\Styles\\TemplateRecuperarContra.html";
-                        string contenido = System.IO.File.ReadAllText(ruta);
-
-                        contenido = contenido.Replace("@@Nombre", estudiante.Nombre);
-                        contenido = contenido.Replace("@@Contrasenna", Contrasenna);
-                        contenido = contenido.Replace("@@Vencimiento", estudiante.FechaVencimientoTemp.ToString("dd/MM/yyyy hh:mm tt"));
-
-                        // Enviar correo
-                        EnviarCorreo(estudiante.Email, "Contraseña Temporal", contenido);
-                        return RedirectToAction("Ingresar", "Autenticacion");
-                    }
+                        return ProcesarRecuperacion(context, model.TipoCedula, estudiante.Cedula, estudiante.Nombre, estudiante.Email);
                 }
                 else if (model.TipoCedula == 2) // Institución
                 {
                     var institucion = context.Institucion.Where(x => x.Cedula == model.Cedula).FirstOrDefault();
-
                     if (institucion != null)
-                    {
-                        var Contrasenna = CrearContrasenna();
-                        var TieneContrasennaTemp = true;
-                        var FechaVencimientoTemp = DateTime.Now.AddMinutes(double.Parse(ConfigurationManager.AppSettings["MinutosVigenciaTemporal"]));
-
-                        // Llamar al procedimiento almacenado (manteniéndose fiel al ejemplo)
-                        var result = context.ActualizarContrasenna(institucion.Cedula, model.TipoCedula, Contrasenna, TieneContrasennaTemp, FechaVencimientoTemp);
-
-                        string ruta = AppDomain.CurrentDomain.BaseDirectory + "\\Styles\\TemplateRecuperarContra.html";
-                        string contenido = System.IO.File.ReadAllText(ruta);
-
-                        contenido = contenido.Replace("@@Nombre", institucion.Nombre);
-                        contenido = contenido.Replace("@@Contrasenna", Contrasenna);
-                        contenido = contenido.Replace("@@Vencimiento", institucion.FechaVencimientoTemp.ToString("dd/MM/yyyy hh:mm tt"));
-
-                        // Enviar correo
-                        EnviarCorreo(institucion.Email, "Contraseña Temporal", contenido);
-                        return RedirectToAction("Ingresar", "Autenticacion");
-                    }
+                        return ProcesarRecuperacion(context, model.TipoCedula, institucion.Cedula, institucion.Nombre, institucion.Email);
                 }
 
                 ViewBag.MensajePantalla = "La información no se ha podido validar correctamente.";
@@ -111,6 +73,33 @@ namespace ProyectoG1.Controllers
             client.Send(message);
         }
 
+        private string GenerarContenidoCorreo(string nombre, string contrasenna, DateTime fechaVencimiento)
+        {
+            string ruta = AppDomain.CurrentDomain.BaseDirectory + "\\Styles\\TemplateRecuperarContra.html";
+            string contenido = System.IO.File.ReadAllText(ruta);
+
+            contenido = contenido.Replace("@@Nombre", nombre);
+            contenido = contenido.Replace("@@Contrasenna", contrasenna);
+            contenido = contenido.Replace("@@Vencimiento", fechaVencimiento.ToString("dd/MM/yyyy hh:mm tt"));
+
+            return contenido;
+        }
+
+        private ActionResult ProcesarRecuperacion(EncuentraTCUEntities context, int tipoCedula, string cedula, string nombre, string email)
+        {
+            var contrasenna = CrearContrasenna();
+            var tieneContrasennaTemp = true;
+            var fechaVencimientoTemp = DateTime.Now.AddMinutes(double.Parse(ConfigurationManager.AppSettings["MinutosVigenciaTemporal"]));
+
+            context.ActualizarContrasenna(cedula, tipoCedula, contrasenna, tieneContrasennaTemp, fechaVencimientoTemp);
+
+            var contenido = GenerarContenidoCorreo(nombre, contrasenna, fechaVencimientoTemp);
+
+            EnviarCorreo(email, "Contraseña Temporal", contenido);
+
+            return RedirectToAction("Ingresar", "Autenticacion");
+        }
+
         [HttpGet]
         public ActionResult Ingresar()
         {
@@ -140,6 +129,7 @@ namespace ProyectoG1.Controllers
                         Session["Nombre"] = respuesta.Nombre;
                         Session["Email"] = respuesta.Email;
                         Session["Rol"] = respuesta.IdRol;
+                        Session["Imagen"] = respuesta.Imagen;
                         return RedirectToAction("Index", "Home");
                     }
                     else if (model.TipoCedula == 1)
@@ -148,6 +138,7 @@ namespace ProyectoG1.Controllers
                         Session["Nombre"] = respuesta.Nombre;
                         Session["Email"] = respuesta.Email;
                         Session["Rol"] = respuesta.IdRol;
+                        Session["Imagen"] = respuesta.Imagen;
                         return RedirectToAction("Index", "Home");
                     }
                 }
