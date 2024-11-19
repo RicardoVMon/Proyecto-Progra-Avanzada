@@ -30,6 +30,7 @@ namespace ProyectoG1.Models
         public string Telefono { get; set; }
         public string PaginaWeb { get; set; }
         public bool Activo { get; set; }
+        public string Imagen { get; set; }
         public long IdRol { get; set; }
         public long IdTipoInstitucion { get; set; }
         public bool TieneContrasennaTemp { get; set; }

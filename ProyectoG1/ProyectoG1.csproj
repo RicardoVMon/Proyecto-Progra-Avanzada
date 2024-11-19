@@ -131,6 +131,7 @@
     <Compile Include="Controllers\AutenticacionController.cs" />
     <Compile Include="Controllers\EstudianteController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InstitucionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -143,9 +144,13 @@
     <Compile Include="Models\DatosEstudiante_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DatosInstitucion_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Estudiante.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Filtros.cs" />
     <Compile Include="Models\Genero.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -274,6 +279,7 @@
     <Content Include="Views\Autenticacion\RegistroInstitucion.cshtml" />
     <Content Include="Views\Estudiante\PerfilEstudiante.cshtml" />
     <Content Include="Views\Estudiante\EditarPerfilEstudiante.cshtml" />
+    <Content Include="Views\Institucion\PerfilInstitucion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

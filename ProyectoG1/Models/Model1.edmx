@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="EncuentraTCUModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="EncuentraTCUModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Auditoria">
           <Key>
             <PropertyRef Name="IdAuditoria" />
@@ -67,6 +67,7 @@
           <Property Name="Telefono" Type="varchar" MaxLength="15" Nullable="false" />
           <Property Name="PaginaWeb" Type="varchar" MaxLength="100" />
           <Property Name="Activo" Type="bit" Nullable="false" />
+          <Property Name="Imagen" Type="varchar" MaxLength="255" />
           <Property Name="IdRol" Type="bigint" Nullable="false" />
           <Property Name="IdTipoInstitucion" Type="bigint" Nullable="false" />
           <Property Name="TieneContrasennaTemp" Type="bit" Nullable="false" />
@@ -277,6 +278,9 @@
         <Function Name="DatosEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
         </Function>
+        <Function Name="DatosInstitucion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="IngresoSistema" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Cedula" Type="varchar" Mode="In" />
           <Parameter Name="Contrasenna" Type="varchar" Mode="In" />
@@ -363,8 +367,7 @@
             <End Role="Proyecto" EntitySet="Proyecto" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="EncuentraTCUModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -442,6 +445,7 @@
           <Property Name="Telefono" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="PaginaWeb" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <Property Name="Imagen" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="IdRol" Type="Int64" Nullable="false" />
           <Property Name="IdTipoInstitucion" Type="Int64" Nullable="false" />
           <Property Name="TieneContrasennaTemp" Type="Boolean" Nullable="false" />
@@ -721,7 +725,7 @@
             <Parameter Name="Descripcion" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DatosEstudiante" ReturnType="Collection(EncuentraTCUModel.DatosEstudiante_Result)">
-            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+          <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="IngresoSistema" ReturnType="Collection(EncuentraTCUModel.IngresoSistema_Result)">
             <Parameter Name="Cedula" Mode="In" Type="String" />
@@ -749,6 +753,9 @@
             <Parameter Name="Telefono" Mode="In" Type="String" />
             <Parameter Name="PaginaWeb" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="DatosInstitucion" ReturnType="Collection(EncuentraTCUModel.DatosInstitucion_Result)">
+          <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="DatosEstudiante_Result">
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
@@ -766,11 +773,22 @@
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="Cedula" Nullable="false" MaxLength="11" />
           <Property Type="String" Name="Email" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Imagen" Nullable="true" MaxLength="255" />
           <Property Type="String" Name="Contrasenna" Nullable="false" MaxLength="10" />
           <Property Type="Boolean" Name="Activo" Nullable="false" />
           <Property Type="Int64" Name="IdRol" Nullable="false" />
           <Property Type="Boolean" Name="TieneContrasennaTemp" Nullable="false" />
           <Property Type="DateTime" Name="FechaVencimientoTemp" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="DatosInstitucion_Result">
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="1000" />
+          <Property Type="String" Name="PaginaWeb" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Imagen" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="NombreRol" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="TipoInstitucion" Nullable="false" MaxLength="100" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -843,6 +861,7 @@
                 <ScalarProperty Name="Telefono" ColumnName="Telefono" />
                 <ScalarProperty Name="PaginaWeb" ColumnName="PaginaWeb" />
                 <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
                 <ScalarProperty Name="IdRol" ColumnName="IdRol" />
                 <ScalarProperty Name="IdTipoInstitucion" ColumnName="IdTipoInstitucion" />
                 <ScalarProperty Name="TieneContrasennaTemp" ColumnName="TieneContrasennaTemp" />
@@ -923,6 +942,7 @@
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Cedula" ColumnName="Cedula" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
                 <ScalarProperty Name="Contrasenna" ColumnName="Contrasenna" />
                 <ScalarProperty Name="Activo" ColumnName="Activo" />
                 <ScalarProperty Name="IdRol" ColumnName="IdRol" />
@@ -933,6 +953,20 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="RegistrarEstudiante" FunctionName="EncuentraTCUModel.Store.RegistrarEstudiante" />
           <FunctionImportMapping FunctionImportName="RegistrarInstitucion" FunctionName="EncuentraTCUModel.Store.RegistrarInstitucion" />
+          <FunctionImportMapping FunctionImportName="DatosInstitucion" FunctionName="EncuentraTCUModel.Store.DatosInstitucion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.DatosInstitucion_Result">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="PaginaWeb" ColumnName="PaginaWeb" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
+                <ScalarProperty Name="TipoInstitucion" ColumnName="TipoInstitucion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

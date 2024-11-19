@@ -1,0 +1,89 @@
+﻿@model ProyectoG1.Models.InstitucionModel
+
+@{
+    var descripcionTitleCase = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Model.Descripcion.ToLower());
+}
+
+<div class="container-fluid p-0">
+
+    <div class="mb-3">
+        <h1 class="h3 d-inline align-middle">Perfil de Institución</h1>
+    </div>
+
+
+    @if (ViewBag.MensajeError != null)
+    {
+        <div class="alert alert-danger text-center" role="alert">
+            @ViewBag.MensajeError
+        </div>
+    }
+    @if (ViewBag.MensajeExito != null)
+    {
+        <div class="alert alert-success text-center" role="alert">
+            @ViewBag.MensajeExito
+        </div>
+    }
+
+    <div class="row">
+
+        <!-- Detalles -->
+        <div class="col-md-4 col-xl-3">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Detalles</h5>
+                </div>
+                <div class="card-body text-center">
+                    <img src="@Model.Imagen" alt="profile-pic" class="img-fluid rounded-circle mb-2" style="width: 128px; height: 128px; object-fit: cover;" />
+                    <h5 class="card-title mb-0">@Model.Nombre</h5>
+                    <div style="padding: 10px 20px;">
+
+                        @*Mostrar solo en el propio perfil del usuario actual*@
+                        <a class="btn btn-primary btn-sm" href="#">Editar</a>
+
+                    </div>
+                    <hr class="my-0" />
+                    <div class="card-body">
+                        <h5 class="h6 card-title">Acerca De</h5>
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-1"><span data-feather="home" class="feather-sm me-1"></span>Institución @Model.TipoInstitucion</li>
+                            <li class="mb-1"><span data-feather="briefcase" class="feather-sm me-1"></span>Actividades: @descripcionTitleCase.</li>
+
+                        </ul>
+                    </div>
+                    <hr class="my-0" />
+                    <div class="card-body">
+                        <h5 class="h6 card-title">Contacto</h5>
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-1">Email: @Model.Email</li>
+                            <li class="mb-1">Teléfono: @Model.Telefono</li>
+                        </ul>
+                    </div>
+                    <hr class="my-0" />
+                    <div class="card-body">
+                        <h5 class="h6 card-title">Sitio Web</h5>
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-1">
+                                <a href="@Model.PaginaWeb" target="_blank">@Model.PaginaWeb</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Biografía Del Perfil -->
+        <div class="col-md-8 col-xl-9">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Proyectos Activos</h5>
+                </div>
+                <div class="card-body h-100">
+                    Lista de Proyectos Activos de la Institución
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

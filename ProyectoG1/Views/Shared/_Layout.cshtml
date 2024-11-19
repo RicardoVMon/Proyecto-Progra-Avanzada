@@ -200,11 +200,18 @@
                             <div class="dropdown-menu dropdown-menu-end">
 
                                 @*Perfil (Usuario Activo)*@
-                                @if (Session["Rol"] != null && Session["Rol"].ToString() == "1")
+                                @if (Session["Rol"] != null)
                                 {
-                                    <a class="dropdown-item" href="@Url.Action("PerfilEstudiante","Estudiante")"><i class="align-middle me-1" data-feather="user"></i> Perfil</a>
+                                    var perfilAction = Session["Rol"].ToString() == "1" ? "PerfilEstudiante" : "PerfilInstitucion";
+                                    var perfilTexto = Session["Rol"].ToString() == "1" ? "Estudiante" : "Institucion";
+
+                                    <a class="dropdown-item" href="@Url.Action(perfilAction, perfilTexto)">
+                                        <i class="align-middle me-1" data-feather="user"></i> Perfil
+                                    </a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="@Url.Action("CierreSesion", "Autenticacion")"><i class="align-middle me-1" data-feather="log-out"></i>Cerrar Sesión</a>
+                                    <a class="dropdown-item" href="@Url.Action("CierreSesion", "Autenticacion")">
+                                        <i class="align-middle me-1" data-feather="log-out"></i> Cerrar Sesión
+                                    </a>
                                 }
 
                                 @*Iniciar Sesión (Usuario No Registrado*@

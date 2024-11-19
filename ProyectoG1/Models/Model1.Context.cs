@@ -191,5 +191,14 @@ namespace ProyectoG1.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistrarInstitucion", idTipoInstitucionParameter, cedulaParameter, emailParameter, contrasennaParameter, nombreParameter, descripcionParameter, telefonoParameter, paginaWebParameter);
         }
+    
+        public virtual ObjectResult<DatosInstitucion_Result> DatosInstitucion(Nullable<long> idInstitucion)
+        {
+            var idInstitucionParameter = idInstitucion.HasValue ?
+                new ObjectParameter("IdInstitucion", idInstitucion) :
+                new ObjectParameter("IdInstitucion", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DatosInstitucion_Result>("DatosInstitucion", idInstitucionParameter);
+        }
     }
 }
