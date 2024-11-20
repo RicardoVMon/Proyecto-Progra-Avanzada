@@ -1,17 +1,4 @@
-﻿
-
-@{
-    var imagenUsuario = "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png";
-    var nombreUsuario = "Invitado";
-
-    if (Session["Rol"] != null)
-    {
-        nombreUsuario = Session["Nombre"].ToString();
-    }
-}
-
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -123,6 +110,7 @@
                 <div class="navbar-collapse collapse">
                     <ul class="navbar-nav navbar-align">
 
+                        @*Ojo acá, notificaciones y mensajes va en los dos*@
                         @*Notificaciones y Mensajes (Usuario Activo)*@
                         @if (Session["Rol"] != null && Session["Rol"].ToString() == "1")
                         {
@@ -195,7 +183,7 @@
                                 <i class="align-middle" data-feather="settings"></i>
                             </a>
                             <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
-                                <img src=@imagenUsuario class="avatar img-fluid rounded me-1" alt="icon" /> <span class="text-dark">@nombreUsuario</span>
+                                <img src=@Session["Imagen"] class="avatar img-fluid rounded me-1" alt="icon" /> <span class="text-dark">@Session["Nombre"]</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end">
 
@@ -205,20 +193,13 @@
                                     var perfilAction = Session["Rol"].ToString() == "1" ? "PerfilEstudiante" : "PerfilInstitucion";
                                     var perfilTexto = Session["Rol"].ToString() == "1" ? "Estudiante" : "Institucion";
 
-                                    <a class="dropdown-item" href="@Url.Action(perfilAction, perfilTexto)">
+                                    <a class="dropdown-item" href="@Url.Action(perfilAction, perfilTexto, new { q = Session["Id"] })">
                                         <i class="align-middle me-1" data-feather="user"></i> Perfil
                                     </a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="@Url.Action("CierreSesion", "Autenticacion")">
                                         <i class="align-middle me-1" data-feather="log-out"></i> Cerrar Sesión
                                     </a>
-                                }
-
-                                @*Iniciar Sesión (Usuario No Registrado*@
-                                @if (Session["Rol"] == null)
-                                {
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="@Url.Action("Ingresar", "Autenticacion")"><i class="align-middle me-1" data-feather="log-out"></i>Iniciar Sesión</a>
                                 }
 
                             </div>

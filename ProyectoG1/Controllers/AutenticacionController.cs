@@ -122,25 +122,32 @@ namespace ProyectoG1.Controllers
                         return RedirectToAction("RecuperarContrasenna", "Autenticacion");
                     }
 
-                    // Validar
-                    if (model.TipoCedula == 2)
-                    {
-                        Session["IdInstitucion"] = respuesta.Id;
-                        Session["Nombre"] = respuesta.Nombre;
-                        Session["Email"] = respuesta.Email;
-                        Session["Rol"] = respuesta.IdRol;
-                        Session["Imagen"] = respuesta.Imagen;
-                        return RedirectToAction("Index", "Home");
-                    }
-                    else if (model.TipoCedula == 1)
-                    {
-                        Session["IdEstudiante"] = respuesta.Id;
-                        Session["Nombre"] = respuesta.Nombre;
-                        Session["Email"] = respuesta.Email;
-                        Session["Rol"] = respuesta.IdRol;
-                        Session["Imagen"] = respuesta.Imagen;
-                        return RedirectToAction("Index", "Home");
-                    }
+                    Session["Id"] = respuesta.Id;
+                    Session["Nombre"] = respuesta.Nombre;
+                    Session["Email"] = respuesta.Email;
+                    Session["Rol"] = respuesta.IdRol;
+                    Session["Imagen"] = respuesta.Imagen;
+                    return RedirectToAction("Index", "Home");
+
+                    // Validar (Se puede simplificar si no se ocupan saber más datos según el rol)
+                    //if (model.TipoCedula == 2)
+                    //{
+                    //    Session["Id"] = respuesta.Id;
+                    //    Session["Nombre"] = respuesta.Nombre;
+                    //    Session["Email"] = respuesta.Email;
+                    //    Session["Rol"] = respuesta.IdRol;
+                    //    Session["Imagen"] = respuesta.Imagen;
+                    //    return RedirectToAction("Index", "Home");
+                    //}
+                    //else if (model.TipoCedula == 1)
+                    //{
+                    //    Session["IdEstudiante"] = respuesta.Id;
+                    //    Session["Nombre"] = respuesta.Nombre;
+                    //    Session["Email"] = respuesta.Email;
+                    //    Session["Rol"] = respuesta.IdRol;
+                    //    Session["Imagen"] = respuesta.Imagen;
+                    //    return RedirectToAction("Index", "Home");
+                    //}
                 }
 
                 // Mensaje de error si falla
@@ -168,6 +175,11 @@ namespace ProyectoG1.Controllers
         [HttpPost]
         public ActionResult RegistroEstudiante(EstudianteModel model)
         {
+
+            // TitleCase para nombre y apellido
+            model.Nombre = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(model.Nombre.ToLower());
+            model.Apellidos = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(model.Apellidos.ToLower());
+
             using (var context = new EncuentraTCUEntities())
             {
                 var respuesta = context.RegistrarEstudiante(model.IdGenero, model.IdUniversidad, model.Cedula, model.Email, model.Contrasenna, model.Nombre, model.Apellidos, "Hola! Estoy buscando lugares para hacer mi TCU!", model.Carrera);

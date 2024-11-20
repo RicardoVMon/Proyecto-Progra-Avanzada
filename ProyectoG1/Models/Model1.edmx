@@ -16,6 +16,13 @@
           <Property Name="IdEstudiante" Type="bigint" />
           <Property Name="IdInstitucion" Type="bigint" />
         </EntityType>
+        <EntityType Name="Categoria">
+          <Key>
+            <PropertyRef Name="IdCategoria" />
+          </Key>
+          <Property Name="IdCategoria" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
         <EntityType Name="Conexion">
           <Key>
             <PropertyRef Name="IdConexion" />
@@ -96,6 +103,14 @@
           <Property Name="Estado" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="CreadoPor" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
+        <EntityType Name="ProyectoCategoria">
+          <Key>
+            <PropertyRef Name="IdProyecto" />
+            <PropertyRef Name="IdCategoria" />
+          </Key>
+          <Property Name="IdProyecto" Type="bigint" Nullable="false" />
+          <Property Name="IdCategoria" Type="bigint" Nullable="false" />
+        </EntityType>
         <EntityType Name="Rol">
           <Key>
             <PropertyRef Name="IdRol" />
@@ -117,6 +132,34 @@
           <Property Name="IdUniversidad" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
+        <Association Name="FK__ProyectoC__IdCat__6B24EA82">
+          <End Role="Categoria" Type="Self.Categoria" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ProyectoCategoria" Type="Self.ProyectoCategoria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categoria">
+              <PropertyRef Name="IdCategoria" />
+            </Principal>
+            <Dependent Role="ProyectoCategoria">
+              <PropertyRef Name="IdCategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProyectoC__IdPro__6A30C649">
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ProyectoCategoria" Type="Self.ProyectoCategoria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyecto">
+              <PropertyRef Name="IdProyecto" />
+            </Principal>
+            <Dependent Role="ProyectoCategoria">
+              <PropertyRef Name="IdProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Auditoria_Estudiante">
           <End Role="Estudiante" Type="Self.Estudiante" Multiplicity="0..1" />
           <End Role="Auditoria" Type="Self.Auditoria" Multiplicity="*" />
@@ -268,12 +311,26 @@
           <Parameter Name="TieneContrasennaTemp" Type="bit" Mode="In" />
           <Parameter Name="FechaVencimientoTemp" Type="datetime" Mode="In" />
         </Function>
+        <Function Name="ActualizarImagenInstitucion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
+          <Parameter Name="Imagen" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="ActualizarPerfilEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
           <Parameter Name="IdUniversidad" Type="bigint" Mode="In" />
           <Parameter Name="Carrera" Type="varchar" Mode="In" />
           <Parameter Name="Email" Type="varchar" Mode="In" />
           <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ActualizarPerfilInstitucion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Telefono" Type="varchar" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+          <Parameter Name="PaginaWeb" Type="varchar" Mode="In" />
+          <Parameter Name="Imagen" Type="varchar" Mode="In" />
+          <Parameter Name="IdTipoInstitucion" Type="bigint" Mode="In" />
         </Function>
         <Function Name="DatosEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
@@ -309,15 +366,25 @@
         </Function>
         <EntityContainer Name="EncuentraTCUModelStoreContainer">
           <EntitySet Name="Auditoria" EntityType="Self.Auditoria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Categoria" EntityType="Self.Categoria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Conexion" EntityType="Self.Conexion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Estudiante" EntityType="Self.Estudiante" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Genero" EntityType="Self.Genero" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Institucion" EntityType="Self.Institucion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Postulacion" EntityType="Self.Postulacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proyecto" EntityType="Self.Proyecto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProyectoCategoria" EntityType="Self.ProyectoCategoria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoInstitucion" EntityType="Self.TipoInstitucion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Universidad" EntityType="Self.Universidad" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__ProyectoC__IdCat__6B24EA82" Association="Self.FK__ProyectoC__IdCat__6B24EA82">
+            <End Role="Categoria" EntitySet="Categoria" />
+            <End Role="ProyectoCategoria" EntitySet="ProyectoCategoria" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProyectoC__IdPro__6A30C649" Association="Self.FK__ProyectoC__IdPro__6A30C649">
+            <End Role="Proyecto" EntitySet="Proyecto" />
+            <End Role="ProyectoCategoria" EntitySet="ProyectoCategoria" />
+          </AssociationSet>
           <AssociationSet Name="FK_Auditoria_Estudiante" Association="Self.FK_Auditoria_Estudiante">
             <End Role="Estudiante" EntitySet="Estudiante" />
             <End Role="Auditoria" EntitySet="Auditoria" />
@@ -481,6 +548,7 @@
           <Property Name="CreadoPor" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Institucion" Relationship="Self.FK_Proyecto_Institucion" FromRole="Proyecto" ToRole="Institucion" />
           <NavigationProperty Name="Postulacion" Relationship="Self.FK_Postulacion_Proyecto" FromRole="Proyecto" ToRole="Postulacion" />
+          <NavigationProperty Name="Categoria" Relationship="EncuentraTCUModel.ProyectoCategoria" FromRole="Proyecto" ToRole="Categoria" />
         </EntityType>
         <EntityType Name="Rol">
           <Key>
@@ -756,6 +824,25 @@
           <FunctionImport Name="DatosInstitucion" ReturnType="Collection(EncuentraTCUModel.DatosInstitucion_Result)">
           <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
           </FunctionImport>
+          <EntitySet Name="Categoria" EntityType="EncuentraTCUModel.Categoria" />
+          <AssociationSet Name="ProyectoCategoria" Association="EncuentraTCUModel.ProyectoCategoria">
+            <End Role="Categoria" EntitySet="Categoria" />
+            <End Role="Proyecto" EntitySet="Proyecto" />
+          </AssociationSet>
+          <FunctionImport Name="ActualizarPerfilInstitucion">
+            <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Telefono" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Descripcion" Mode="In" Type="String" />
+            <Parameter Name="PaginaWeb" Mode="In" Type="String" />
+            <Parameter Name="Imagen" Mode="In" Type="String" />
+            <Parameter Name="IdTipoInstitucion" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ActualizarImagenInstitucion">
+            <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
+            <Parameter Name="Imagen" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="DatosEstudiante_Result">
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
@@ -790,6 +877,18 @@
           <Property Type="String" Name="NombreRol" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="TipoInstitucion" Nullable="false" MaxLength="100" />
         </ComplexType>
+        <EntityType Name="Categoria">
+          <Key>
+            <PropertyRef Name="IdCategoria" />
+          </Key>
+          <Property Name="IdCategoria" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Proyecto" Relationship="EncuentraTCUModel.ProyectoCategoria" FromRole="Categoria" ToRole="Proyecto" />
+        </EntityType>
+        <Association Name="ProyectoCategoria">
+          <End Type="EncuentraTCUModel.Categoria" Role="Categoria" Multiplicity="*" />
+          <End Type="EncuentraTCUModel.Proyecto" Role="Proyecto" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -967,6 +1066,24 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="Categoria">
+            <EntityTypeMapping TypeName="EncuentraTCUModel.Categoria">
+              <MappingFragment StoreEntitySet="Categoria">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="ProyectoCategoria" TypeName="EncuentraTCUModel.ProyectoCategoria" StoreEntitySet="ProyectoCategoria">
+            <EndProperty Name="Proyecto">
+              <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+            </EndProperty>
+            <EndProperty Name="Categoria">
+              <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="ActualizarPerfilInstitucion" FunctionName="EncuentraTCUModel.Store.ActualizarPerfilInstitucion" />
+          <FunctionImportMapping FunctionImportName="ActualizarImagenInstitucion" FunctionName="EncuentraTCUModel.Store.ActualizarImagenInstitucion" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

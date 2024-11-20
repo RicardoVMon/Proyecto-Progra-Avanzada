@@ -27,6 +27,8 @@
         <AssociationConnector Association="EncuentraTCUModel.FK_Institucion_TipoInstitucion" ManuallyRouted="false" />
         <AssociationConnector Association="EncuentraTCUModel.FK_Proyecto_Institucion" ManuallyRouted="false" />
         <AssociationConnector Association="EncuentraTCUModel.FK_Postulacion_Proyecto" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="EncuentraTCUModel.Categoria" Width="1.5" PointX="7.375" PointY="0.75" />
+        <AssociationConnector Association="EncuentraTCUModel.ProyectoCategoria" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

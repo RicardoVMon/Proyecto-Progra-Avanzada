@@ -138,6 +138,9 @@
     <Compile Include="Models\Auditoria.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Categoria.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Conexion.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -217,6 +220,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Imagenes\Instituciones\5.jpg" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -280,6 +284,7 @@
     <Content Include="Views\Estudiante\PerfilEstudiante.cshtml" />
     <Content Include="Views\Estudiante\EditarPerfilEstudiante.cshtml" />
     <Content Include="Views\Institucion\PerfilInstitucion.cshtml" />
+    <Content Include="Views\Institucion\EditarPerfilInstitucion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
