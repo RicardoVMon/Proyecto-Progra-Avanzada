@@ -132,6 +132,7 @@
     <Compile Include="Controllers\EstudianteController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InstitucionController.cs" />
+    <Compile Include="Controllers\ProyectosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -179,12 +180,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\ObtenerCategoriasProyecto_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Postulacion.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Proyecto.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CategoriaModel.cs" />
+    <Compile Include="Models\ProyectoModel.cs" />
     <Compile Include="Models\Rol.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -285,6 +291,8 @@
     <Content Include="Views\Estudiante\EditarPerfilEstudiante.cshtml" />
     <Content Include="Views\Institucion\PerfilInstitucion.cshtml" />
     <Content Include="Views\Institucion\EditarPerfilInstitucion.cshtml" />
+    <Content Include="Views\Proyectos\GestionProyectos.cshtml" />
+    <Content Include="Views\Proyectos\CrearProyecto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

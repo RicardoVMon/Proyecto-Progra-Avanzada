@@ -2,9 +2,9 @@
 
 @{
     var descripcionTitleCase = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Model.Descripcion.ToLower());
+    string idQueryString = Request.QueryString["q"];
 }
 
-<div class="container-fluid p-0">
 
     @if (ViewBag.MensajeError != null)
     {
@@ -31,8 +31,10 @@
                         <h5 class="card-title mb-0">@Model.Nombre</h5>
                         <div style="padding: 10px 20px;">
 
-                            @*Mostrar solo en el propio perfil del usuario actual*@
-                            <a class="btn btn-primary btn-sm" href="@Url.Action("EditarPerfilInstitucion", "Institucion")">Editar</a>
+                            @if (idQueryString == Session["Id"].ToString())
+                            {
+                                <a class="btn btn-primary btn-sm" href="@Url.Action("EditarPerfilInstitucion", "Institucion")">Editar</a>
+                            }
 
                         </div>
                         <hr class="my-0" />
@@ -82,7 +84,14 @@
         <!-- Biografía Del Perfil -->
         <div class="col-md-8 col-xl-9">
             <div class="row">
-                <div class="display-5 mb-2">Proyectos Disponibles</div>
+                <div class="display-5 mb-2 col-10">Proyectos Disponibles</div>
+                @if (idQueryString == Session["Id"].ToString())
+                {
+                    <div class="col-2 text-end mb-2 align-content-center">
+                        <a href="@Url.Action("GestionProyectos", "Proyectos")" class="btn btn-primary btn-sm"><i class="fa-solid fa-gear"></i> Gestionar Proyectos</a>
+                    </div>
+                }
+                
             </div>
             <div class="row">
                 <div class="col-4">

@@ -14,9 +14,10 @@ namespace ProyectoG1.Controllers
         [HttpGet]
         public ActionResult PerfilInstitucion(long q)
         {
+            var idInstitucion = q;
             using (var context = new EncuentraTCUEntities())
             {
-                var respuesta = context.DatosInstitucion(q).FirstOrDefault();
+                var respuesta = context.DatosInstitucion(idInstitucion).FirstOrDefault();
 
                 if (respuesta != null)
                 {
@@ -40,9 +41,9 @@ namespace ProyectoG1.Controllers
         }
 
         [HttpGet]
-        public ActionResult EditarPerfilInstitucion(long q)
+        public ActionResult EditarPerfilInstitucion()
         {
-            long idInstitucion = q;
+            long idInstitucion = long.Parse(Session["Id"].ToString());
 
             using (var context = new EncuentraTCUEntities())
             {
@@ -73,10 +74,10 @@ namespace ProyectoG1.Controllers
         [HttpPost]
         public ActionResult EditarPerfilInstitucion(InstitucionModel model, HttpPostedFileBase ImagenInstitucion)
         {
-
+            
             using (var context = new EncuentraTCUEntities())
             {
-                long idInstitucion = long.Parse(Session["IdInstitucion"].ToString());
+                var idInstitucion = long.Parse(Session["Id"].ToString());
                 model.Imagen = Session["Imagen"].ToString();
 
                 if (ImagenInstitucion != null)
@@ -92,7 +93,7 @@ namespace ProyectoG1.Controllers
 
                 if (respuesta > 0)
                 {
-                    return RedirectToAction("PerfilInstitucion", "Institucion");
+                    return RedirectToAction("PerfilInstitucion", "Institucion", new { q = idInstitucion});
                 }
 
                 ViewBag.MensajeError = "Error al actualizar la información";

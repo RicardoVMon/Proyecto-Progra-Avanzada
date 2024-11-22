@@ -1,0 +1,67 @@
+﻿@model List<ProyectoG1.Models.ProyectoModel>
+
+@if (ViewBag.MensajeError != null)
+{
+    <div class="alert alert-danger text-center" role="alert">
+        @ViewBag.MensajeError
+    </div>
+}
+@if (ViewBag.MensajeExito != null)
+{
+    <div class="alert alert-success text-center" role="alert">
+        @ViewBag.MensajeExito
+    </div>
+}
+
+<div>
+    <div class="row">
+
+        <!-- Proyectos -->
+        <div class="col-md-8 col-xl-12">
+            <div class="row">
+                <div class="display-5 col-12">Proyectos Disponibles</div>
+                <div class="text-muted mb-4 col-10">Selecciona un proyecto de la lista para gestionarlo, o crea uno desde cero!</div>
+                <div class="col-2 text-end mb-4 align-content-center">
+                    <a href="@Url.Action("CrearProyecto", "Proyectos")" class="btn btn-primary "><i class="fa-solid fa-plus"></i> Añadir Proyecto</a>
+                </div>
+            </div>
+            <div class="row">
+
+                @foreach (var proyecto in Model)
+                {
+                    <div class="col-3">
+                        <div class="card py-0" style="box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3);">
+                            <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" class="card-img-top">
+                            <div class="card-body">
+                                <h3 class="mb-0">@proyecto.Nombre</h3>
+                                <div>
+
+                                    @foreach (var categoria in proyecto.Categorias)
+                                    {
+                                        <span class="badge bg-info ">@categoria.Nombre</span>
+                                    }
+
+                                    @*<span class="badge bg-success ">Tecnología</span>
+                                        <span class="badge bg-primary ">Salud</span>
+                                        <span class="badge bg-warning ">Educación</span>
+                                        <span class="badge bg-info">Medio Ambiente</span>*@
+                                </div>
+                                <h6 class="card-subtitle mt-2 mb-1 text-muted">Para @proyecto.Cupo Integrantes</h6>
+                                <p class="card-text mb-2">@proyecto.Descripcion</p>
+                                <div class="d-flex">
+                                    <div class="col-4 me-1">
+                                        <a href="#" class="btn btn-primary btn-sm w-100"><i class="fas fa-eye"></i> Editar</a>
+                                    </div>
+                                    <div class="col-8">
+                                        <a href="#" class="btn btn-danger btn-sm w-100"><i class="fas fa-trash"></i> Eliminar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

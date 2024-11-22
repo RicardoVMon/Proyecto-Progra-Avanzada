@@ -251,5 +251,14 @@ namespace ProyectoG1.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarImagenInstitucion", idInstitucionParameter, imagenParameter);
         }
+    
+        public virtual ObjectResult<ObtenerCategoriasProyecto_Result> ObtenerCategoriasProyecto(Nullable<long> idProyecto)
+        {
+            var idProyectoParameter = idProyecto.HasValue ?
+                new ObjectParameter("IdProyecto", idProyecto) :
+                new ObjectParameter("IdProyecto", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerCategoriasProyecto_Result>("ObtenerCategoriasProyecto", idProyectoParameter);
+        }
     }
 }

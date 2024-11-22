@@ -343,6 +343,9 @@
           <Parameter Name="Contrasenna" Type="varchar" Mode="In" />
           <Parameter Name="TipoCedula" Type="int" Mode="In" />
         </Function>
+        <Function Name="ObtenerCategoriasProyecto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="RegistrarEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdGenero" Type="bigint" Mode="In" />
           <Parameter Name="IdUniversidad" Type="bigint" Mode="In" />
@@ -843,6 +846,9 @@
             <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
             <Parameter Name="Imagen" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="ObtenerCategoriasProyecto" ReturnType="Collection(EncuentraTCUModel.ObtenerCategoriasProyecto_Result)">
+            <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="DatosEstudiante_Result">
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
@@ -889,6 +895,11 @@
           <End Type="EncuentraTCUModel.Categoria" Role="Categoria" Multiplicity="*" />
           <End Type="EncuentraTCUModel.Proyecto" Role="Proyecto" Multiplicity="*" />
         </Association>
+        <ComplexType Name="ObtenerCategoriasProyecto_Result">
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="Int64" Name="IdCategoria" Nullable="false" />
+          <Property Type="Int64" Name="IdProyecto" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1084,6 +1095,15 @@
           </AssociationSetMapping>
           <FunctionImportMapping FunctionImportName="ActualizarPerfilInstitucion" FunctionName="EncuentraTCUModel.Store.ActualizarPerfilInstitucion" />
           <FunctionImportMapping FunctionImportName="ActualizarImagenInstitucion" FunctionName="EncuentraTCUModel.Store.ActualizarImagenInstitucion" />
+          <FunctionImportMapping FunctionImportName="ObtenerCategoriasProyecto" FunctionName="EncuentraTCUModel.Store.ObtenerCategoriasProyecto">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ObtenerCategoriasProyecto_Result">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+                <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
