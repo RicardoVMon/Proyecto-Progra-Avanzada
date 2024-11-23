@@ -48,13 +48,19 @@
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label for="descripcion" class="form-label h6 text-muted">¿Qué se hará en este proyecto?</label>
-                                                    @Html.TextAreaFor(m => m.Descripcion, new { @class = "form-control", @placeholder = "Descripción", @required = "true", @id = "descripcion", @style = "height: 100px;" })
+                                                    @Html.TextAreaFor(m => m.Descripcion, new { @class = "form-control", @placeholder = "Descripción de proyecto", @required = "true", @id = "descripcion", @style = "height: 100px;" })
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     <label for="cupo" class="form-label h6 text-muted">¿Cuántas personas podrán participar en el proyecto?</label>
-                                                    @Html.TextBoxFor(m => m.Cupo, new { @class = "form-control", @placeholder = "Cupo", @required = "true", @id = "cupo" })
+                                                    @Html.TextBoxFor(m => m.Cupo, new { @class = "form-control", @placeholder = "Cupo", @required = "true", @type = "number", @min = 1 })
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label for="formFile" class="form-label h6 text-muted">¿Qué imagen tendrá el proyecto?</label>
+                                                    <input class="form-control" id="ImagenProyecto" name="ImagenProyecto" type="file">
                                                 </div>
                                             </div>
                                             <div class="col-12">

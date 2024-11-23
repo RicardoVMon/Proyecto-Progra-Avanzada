@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.IO;
 
 namespace ProyectoG1.Controllers
 {
@@ -13,10 +14,10 @@ namespace ProyectoG1.Controllers
         [HttpGet]
         public ActionResult GestionProyectos()
         {
-
+            long IdInstitucion = long.Parse(Session["Id"].ToString());
             using (var context = new EncuentraTCUEntities())
             {
-                var listaProyectosBD = context.Proyecto.ToList();
+                var listaProyectosBD = context.ObtenerProyectosInstitucion(IdInstitucion).ToList();
                 var proyectos = new List<ProyectoModel>();
                 foreach (var proyecto in listaProyectosBD)
                 {
@@ -40,6 +41,7 @@ namespace ProyectoG1.Controllers
                         Cupo = proyecto.Cupo,
                         Estado = proyecto.Estado,
                         CreadoPor = proyecto.CreadoPor,
+                        Imagen = proyecto.Imagen,
                         Categorias = categorias
 
                     });
@@ -58,7 +60,7 @@ namespace ProyectoG1.Controllers
         }
 
         [HttpPost]
-        public ActionResult CrearProyecto(ProyectoModel model)
+        public ActionResult CrearProyecto(ProyectoModel model, HttpPostedFileBase ImagenProyecto)
         {
             using (var context = new EncuentraTCUEntities())
             {
@@ -69,21 +71,28 @@ namespace ProyectoG1.Controllers
                 if (respuestaRegistroProyecto > 0)
                 {
 
-                    var nuevoProyecto = context.ObtenerProyectoReciente(IdInstitucion, model.Nombre, model.Descripcion, model.Cupo).FirstOrDefault();
+                    var IdNuevoProyecto = context.ObtenerProyectoReciente(IdInstitucion, model.Nombre, model.Descripcion, model.Cupo).FirstOrDefault();
+
+                    if (ImagenProyecto != null)
+                    {
+                        //System.IO.File.Delete(AppDomain.CurrentDomain.BaseDirectory + model.Imagen);
+                        string extension = Path.GetExtension(ImagenProyecto.FileName);
+                        string rutaLocal = AppDomain.CurrentDomain.BaseDirectory + "Imagenes\\Proyectos\\" + IdNuevoProyecto + extension;
+                        ImagenProyecto.SaveAs(rutaLocal);
+                        model.Imagen = "/Imagenes/Proyectos/" + IdNuevoProyecto + extension;
+                        context.ActualizarImagenProyecto(IdNuevoProyecto, model.Imagen);
+                    }
 
                     foreach (var item in model.CategoriasSeleccionadas)
                     {
-                        context.RegistrarCategoriaProyecto(nuevoProyecto, item);
+                        context.RegistrarCategoriaProyecto(IdNuevoProyecto, item);
                     } 
                     ObtenerCategorias();
                     return RedirectToAction("GestionProyectos", "Proyectos");
                 }
-                else
-                {
-                    ObtenerCategorias();
-                    ViewBag.MensajeError = "Su información no se ha podido validar correctamente";
-                    return View(model);
-                }
+                ObtenerCategorias();
+                ViewBag.MensajeError = "Su información no se ha podido validar correctamente";
+                return View(model);
             }
         }
 

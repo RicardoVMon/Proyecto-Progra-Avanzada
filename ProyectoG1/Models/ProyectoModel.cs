@@ -14,6 +14,7 @@ namespace ProyectoG1.Models
         public int Cupo { get; set; }
         public string Estado { get; set; }
         public string CreadoPor { get; set; }
+        public string Imagen { get; set; }
         public List<CategoriaModel> Categorias { get; set; }
         public List<int> CategoriasSeleccionadas { get; set; }
 

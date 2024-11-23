@@ -14,23 +14,36 @@ namespace ProyectoG1.Controllers
         [HttpGet]
         public ActionResult PerfilInstitucion(long q)
         {
-            var idInstitucion = q;
+            var IdInstitucion = q;
             using (var context = new EncuentraTCUEntities())
             {
-                var respuesta = context.DatosInstitucion(idInstitucion).FirstOrDefault();
+                var datosInstitucion = context.DatosInstitucion(IdInstitucion).FirstOrDefault();
 
-                if (respuesta != null)
+                var categoriasUsadas = context.ObtenerCategoriasUsadasEnInstitucion(IdInstitucion).ToList();
+                var listaCategoriasUsadas = new List<CategoriaModel>();
+                foreach (var categoria in categoriasUsadas)
                 {
+                    listaCategoriasUsadas.Add(new CategoriaModel
+                    {
+                        Nombre = categoria
+                    });
+                }
+
+                if (datosInstitucion != null)
+                {
+                    var proyectos = ObtenerProyectos(IdInstitucion, context);
                     InstitucionModel model = new InstitucionModel
                     {
-                        Nombre = respuesta.Nombre,
-                        Telefono = respuesta.Telefono,
-                        Email = respuesta.Email,
-                        Descripcion = respuesta.Descripcion,
-                        PaginaWeb = respuesta.PaginaWeb,
-                        Imagen = respuesta.Imagen,
-                        NombreRol = respuesta.NombreRol,
-                        TipoInstitucion = respuesta.TipoInstitucion
+                        Nombre = datosInstitucion.Nombre,
+                        Telefono = datosInstitucion.Telefono,
+                        Email = datosInstitucion.Email,
+                        Descripcion = datosInstitucion.Descripcion,
+                        PaginaWeb = datosInstitucion.PaginaWeb,
+                        Imagen = datosInstitucion.Imagen,
+                        NombreRol = datosInstitucion.NombreRol,
+                        Proyectos = proyectos,
+                        TipoInstitucion = datosInstitucion.TipoInstitucion,
+                        CategoriasUsadas = listaCategoriasUsadas
                     };
 
                     return View(model);
@@ -47,20 +60,20 @@ namespace ProyectoG1.Controllers
 
             using (var context = new EncuentraTCUEntities())
             {
-                var respuesta = context.DatosInstitucion(idInstitucion).FirstOrDefault();
+                var datosInstitucion = context.DatosInstitucion(idInstitucion).FirstOrDefault();
 
-                if (respuesta != null)
+                if (datosInstitucion != null)
                 {
                     InstitucionModel model = new InstitucionModel
                     {
-                        Nombre = respuesta.Nombre,
-                        Telefono = respuesta.Telefono,
-                        Email = respuesta.Email,
-                        Descripcion = respuesta.Descripcion,
-                        PaginaWeb = respuesta.PaginaWeb,
-                        Imagen = respuesta.Imagen,
-                        NombreRol = respuesta.NombreRol,
-                        TipoInstitucion = respuesta.TipoInstitucion
+                        Nombre = datosInstitucion.Nombre,
+                        Telefono = datosInstitucion.Telefono,
+                        Email = datosInstitucion.Email,
+                        Descripcion = datosInstitucion.Descripcion,
+                        PaginaWeb = datosInstitucion.PaginaWeb,
+                        Imagen = datosInstitucion.Imagen,
+                        NombreRol = datosInstitucion.NombreRol,
+                        TipoInstitucion = datosInstitucion.TipoInstitucion
                     };
 
                     ConsultarTipoInstitucion();
@@ -74,7 +87,7 @@ namespace ProyectoG1.Controllers
         [HttpPost]
         public ActionResult EditarPerfilInstitucion(InstitucionModel model, HttpPostedFileBase ImagenInstitucion)
         {
-            
+
             using (var context = new EncuentraTCUEntities())
             {
                 var idInstitucion = long.Parse(Session["Id"].ToString());
@@ -93,7 +106,7 @@ namespace ProyectoG1.Controllers
 
                 if (respuesta > 0)
                 {
-                    return RedirectToAction("PerfilInstitucion", "Institucion", new { q = idInstitucion});
+                    return RedirectToAction("PerfilInstitucion", "Institucion", new { q = idInstitucion });
                 }
 
                 ViewBag.MensajeError = "Error al actualizar la información";
@@ -129,6 +142,41 @@ namespace ProyectoG1.Controllers
 
                 ViewBag.TipoInstituciones = tipoInstituciones;
             }
+        }
+
+        private List<ProyectoModel> ObtenerProyectos(long IdInstitucion, EncuentraTCUEntities context)
+        {
+            var listaProyectosBD = context.ObtenerProyectosInstitucion(IdInstitucion).ToList();
+            var proyectos = new List<ProyectoModel>();
+            foreach (var proyecto in listaProyectosBD)
+            {
+
+                var listaCategoriasBD = context.ObtenerCategoriasProyecto(proyecto.IdProyecto);
+                var categorias = new List<CategoriaModel>();
+                foreach (var categoria in listaCategoriasBD)
+                {
+                    categorias.Add(new CategoriaModel
+                    {
+                        IdCategoria = categoria.IdCategoria,
+                        Nombre = categoria.Nombre
+                    });
+                }
+
+                proyectos.Add(new ProyectoModel
+                {
+                    IdProyecto = proyecto.IdProyecto,
+                    Nombre = proyecto.Nombre,
+                    Descripcion = proyecto.Descripcion,
+                    Cupo = proyecto.Cupo,
+                    Estado = proyecto.Estado,
+                    CreadoPor = proyecto.CreadoPor,
+                    Imagen = proyecto.Imagen,
+                    Categorias = categorias
+
+                });
+            }
+
+            return proyectos;
         }
     }
 }
