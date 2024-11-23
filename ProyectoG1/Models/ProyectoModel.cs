@@ -15,5 +15,7 @@ namespace ProyectoG1.Models
         public string Estado { get; set; }
         public string CreadoPor { get; set; }
         public List<CategoriaModel> Categorias { get; set; }
+        public List<int> CategoriasSeleccionadas { get; set; }
+
     }
 }

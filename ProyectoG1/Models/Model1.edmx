@@ -132,7 +132,7 @@
           <Property Name="IdUniversidad" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
-        <Association Name="FK__ProyectoC__IdCat__6B24EA82">
+        <Association Name="FK__ProyectoC__IdCat__5FB337D6">
           <End Role="Categoria" Type="Self.Categoria" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -146,7 +146,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ProyectoC__IdPro__6A30C649">
+        <Association Name="FK__ProyectoC__IdPro__60A75C0F">
           <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -346,6 +346,16 @@
         <Function Name="ObtenerCategoriasProyecto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
         </Function>
+        <Function Name="ObtenerProyectoReciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+          <Parameter Name="Cupo" Type="int" Mode="In" />
+        </Function>
+        <Function Name="RegistrarCategoriaProyecto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
+          <Parameter Name="IdCategoria" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="RegistrarEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdGenero" Type="bigint" Mode="In" />
           <Parameter Name="IdUniversidad" Type="bigint" Mode="In" />
@@ -367,6 +377,13 @@
           <Parameter Name="Telefono" Type="varchar" Mode="In" />
           <Parameter Name="PaginaWeb" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="RegistrarProyecto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+          <Parameter Name="Cupo" Type="int" Mode="In" />
+          <Parameter Name="CreadoPorInstitucion" Type="bit" Mode="In" />
+        </Function>
         <EntityContainer Name="EncuentraTCUModelStoreContainer">
           <EntitySet Name="Auditoria" EntityType="Self.Auditoria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Categoria" EntityType="Self.Categoria" Schema="dbo" store:Type="Tables" />
@@ -380,11 +397,11 @@
           <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoInstitucion" EntityType="Self.TipoInstitucion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Universidad" EntityType="Self.Universidad" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__ProyectoC__IdCat__6B24EA82" Association="Self.FK__ProyectoC__IdCat__6B24EA82">
+          <AssociationSet Name="FK__ProyectoC__IdCat__5FB337D6" Association="Self.FK__ProyectoC__IdCat__5FB337D6">
             <End Role="Categoria" EntitySet="Categoria" />
             <End Role="ProyectoCategoria" EntitySet="ProyectoCategoria" />
           </AssociationSet>
-          <AssociationSet Name="FK__ProyectoC__IdPro__6A30C649" Association="Self.FK__ProyectoC__IdPro__6A30C649">
+          <AssociationSet Name="FK__ProyectoC__IdPro__60A75C0F" Association="Self.FK__ProyectoC__IdPro__60A75C0F">
             <End Role="Proyecto" EntitySet="Proyecto" />
             <End Role="ProyectoCategoria" EntitySet="ProyectoCategoria" />
           </AssociationSet>
@@ -847,7 +864,24 @@
             <Parameter Name="Imagen" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ObtenerCategoriasProyecto" ReturnType="Collection(EncuentraTCUModel.ObtenerCategoriasProyecto_Result)">
+          <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="RegistrarProyecto">
+            <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Descripcion" Mode="In" Type="String" />
+            <Parameter Name="Cupo" Mode="In" Type="Int32" />
+            <Parameter Name="CreadoPorInstitucion" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="RegistrarCategoriaProyecto">
             <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+            <Parameter Name="IdCategoria" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerProyectoReciente" ReturnType="Collection(Int64)">
+            <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Descripcion" Mode="In" Type="String" />
+            <Parameter Name="Cupo" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="DatosEstudiante_Result">
@@ -1104,6 +1138,9 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="RegistrarProyecto" FunctionName="EncuentraTCUModel.Store.RegistrarProyecto" />
+          <FunctionImportMapping FunctionImportName="RegistrarCategoriaProyecto" FunctionName="EncuentraTCUModel.Store.RegistrarCategoriaProyecto" />
+          <FunctionImportMapping FunctionImportName="ObtenerProyectoReciente" FunctionName="EncuentraTCUModel.Store.ObtenerProyectoReciente" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
