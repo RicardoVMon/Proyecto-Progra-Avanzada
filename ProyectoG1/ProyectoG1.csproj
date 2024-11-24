@@ -165,6 +165,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\CategoriaModel.cs" />
     <Compile Include="Models\Model1.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -183,6 +184,9 @@
     <Compile Include="Models\ObtenerCategoriasProyecto_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ObtenerProyectosEspecifico_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ObtenerProyectosInstitucion_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -192,7 +196,6 @@
     <Compile Include="Models\Proyecto.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CategoriaModel.cs" />
     <Compile Include="Models\ProyectoModel.cs" />
     <Compile Include="Models\Rol.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -269,6 +272,7 @@
     <Content Include="Styles\img\avatars\avatar.jpg" />
     <Content Include="Styles\img\icons\icon-48x48.png" />
     <Content Include="Styles\js\app.js" />
+    <Content Include="Styles\js\detallesProyecto.js" />
     <Content Include="Styles\js\institucion.js" />
     <Content Include="Styles\js\usuarios.js" />
     <Content Include="Styles\TemplateRecuperarContra.html" />
@@ -297,6 +301,8 @@
     <Content Include="Views\Institucion\EditarPerfilInstitucion.cshtml" />
     <Content Include="Views\Proyectos\GestionProyectos.cshtml" />
     <Content Include="Views\Proyectos\CrearProyecto.cshtml" />
+    <Content Include="Views\Proyectos\EditarProyecto.cshtml" />
+    <Content Include="Views\Proyectos\DetallesProyecto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

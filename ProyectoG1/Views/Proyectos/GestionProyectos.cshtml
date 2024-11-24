@@ -15,47 +15,49 @@
 
 <div>
     <div class="row">
-
         <!-- Proyectos -->
-        <div class="col-md-8 col-xl-12">
-            <div class="row">
-                <div class="display-5 col-12">Proyectos Disponibles</div>
-                <div class="text-muted mb-4 col-10">Selecciona un proyecto de la lista para gestionarlo, o crea uno desde cero!</div>
-                <div class="col-2 text-end mb-4 align-content-center">
-                    <a href="@Url.Action("CrearProyecto", "Proyectos")" class="btn btn-primary "><i class="fa-solid fa-plus"></i> Añadir Proyecto</a>
+        <div class="col-12">
+            <div class="row align-items-center mb-3">
+                <div class="col-12 col-md-8">
+                    <h1 class="display-5">Gestión de Proyectos</h1>
+                    <p class="text-muted">Selecciona un proyecto de la lista para gestionarlo, o crea uno desde cero!</p>
+                </div>
+                <div class="col-12 col-md-4 text-md-end text-center">
+                    <a href="@Url.Action("CrearProyecto", "Proyectos")" class="btn btn-primary">
+                        <i class="fa-solid fa-plus"></i> Añadir Proyecto
+                    </a>
                 </div>
             </div>
-            <div class="row">
-
+            <div class="row g-3">
                 @foreach (var proyecto in Model)
                 {
-                    <div class="col-3">
-                        <div class="card py-0" style="box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3);">
-                            <img src="@proyecto.Imagen" class="card-img-top">
-                            <div class="card-body">
-                                <h3 class="mb-0">@proyecto.Nombre</h3>
-                                <div>
+                    var descripcion = (proyecto.Descripcion.Length > 150 ? proyecto.Descripcion.Substring(0, 150) + "..." : proyecto.Descripcion);
 
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card h-100" style="box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3);">
+                            <img src="@proyecto.Imagen" class="card-img-top" alt="@proyecto.Nombre">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title mb-2">@proyecto.Nombre</h5>
+                                <div class="mb-2">
                                     @foreach (var categoria in proyecto.Categorias)
                                     {
-                                        <span class="badge bg-info ">@categoria.Nombre</span>
+                                        <span class="badge bg-info me-1">@categoria.Nombre</span>
                                     }
                                 </div>
-                                <h6 class="card-subtitle mt-2 mb-1 text-muted">Para @proyecto.Cupo Integrantes</h6>
-                                <p class="card-text mb-2">@proyecto.Descripcion</p>
-                                <div class="d-flex">
-                                    <div class="col-4 me-1">
-                                        <a href="#" class="btn btn-primary btn-sm w-100"><i class="fas fa-pen-to-square"></i> Editar</a>
-                                    </div>
-                                    <div class="col-8">
-                                        <a href="#" class="btn btn-danger btn-sm w-100"><i class="fas fa-trash"></i> Eliminar</a>
-                                    </div>
+                                <h6 class="card-subtitle mb-2 text-muted">Para @proyecto.Cupo Integrantes</h6>
+                                <p class="card-text m-0 flex-grow-1">@descripcion</p>
+                                <div class="d-flex justify-content-around">
+                                    <a href="@Url.Action("EditarProyecto", "Proyectos", new { p = proyecto.IdProyecto })" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-pen-to-square"></i> Editar
+                                    </a>
+                                    <a href="@Url.Action("EliminarProyecto", "Proyectos", new { p = proyecto.IdProyecto })" class="btn btn-danger btn-lg">
+                                        <i class="fas fa-trash"></i> Eliminar
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 }
-
             </div>
         </div>
     </div>

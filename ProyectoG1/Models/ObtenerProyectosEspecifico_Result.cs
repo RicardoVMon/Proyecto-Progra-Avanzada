@@ -10,17 +10,9 @@
 namespace ProyectoG1.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Proyecto
+    public partial class ObtenerProyectosEspecifico_Result
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Proyecto()
-        {
-            this.Postulacion = new HashSet<Postulacion>();
-            this.Categoria = new HashSet<Categoria>();
-        }
-    
         public long IdProyecto { get; set; }
         public long IdInstitucion { get; set; }
         public string Nombre { get; set; }
@@ -32,11 +24,5 @@ namespace ProyectoG1.Models
         public string Contacto { get; set; }
         public string Direccion { get; set; }
         public string CorreoAsociado { get; set; }
-    
-        public virtual Institucion Institucion { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Postulacion> Postulacion { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Categoria> Categoria { get; set; }
     }
 }

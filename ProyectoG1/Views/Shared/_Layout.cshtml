@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap">
     <link rel="stylesheet" href="~/Styles/css/app.css">
     <link rel="shortcut icon" href="~/Styles/img/icons/icon-48x48.png" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 
@@ -73,7 +74,7 @@
                             Opciones de Institución
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="">
+                            <a class="sidebar-link" href="@Url.Action("PerfilInstitucion", "Institucion", new { q = Session["Id"] })">
                                 <i class="align-middle fa-solid fa-user"></i> <span class="align-middle">Perfil</span>
                             </a>
                         </li>

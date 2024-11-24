@@ -17,7 +17,7 @@
     <div class="row">
         <div class="col-12">
             <div class="row">
-                <div class="display-5 col-12">Creación de Proyecto</div>
+                <div class="display-5 col-12">Edición de Proyecto</div>
                 <div class="text-muted mb-4 col-10">Ingresa los datos correspondientes a tu proyecto!</div>
             </div>
             <div class="row">
@@ -32,40 +32,43 @@
                                 </div>
                             }
 
-                            @using (Html.BeginForm("CrearProyecto", "Proyectos", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                            @using (Html.BeginForm("EditarProyecto", "Proyectos", FormMethod.Post, new { @enctype = "multipart/form-data" }))
                             {
                                 <div class="row">
                                     <div class="col-8">
+
+                                        @Html.TextBoxFor(m => m.IdProyecto, new { @class = "form-control", @placeholder = "Nombre", @required = "true", @id = "nombre", @hidden = "true" })
+                                        @Html.TextBoxFor(m => m.Imagen, new { @class = "form-control", @placeholder = "Nombre", @required = "true", @id = "nombre", @hidden = "true" })
 
                                         <!-- Nombre de Proyecto -->
                                         <div class="row mb-3">
                                             <div class="col-8">
                                                 <div class="form-group">
-                                                    <label for="nombre" class="form-label h6 text-muted">Crea un nombre para tu proyecto!</label>
+                                                    <label for="nombre" class="form-label h6 text-muted">El nombre de tu proyecto</label>
                                                     @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control", @placeholder = "Nombre", @required = "true", @id = "nombre" })
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label for="descripcion" class="form-label h6 text-muted">¿Qué se hará en este proyecto?</label>
+                                                    <label for="descripcion" class="form-label h6 text-muted">Lo que se hace en el proyecto</label>
                                                     @Html.TextAreaFor(m => m.Descripcion, new { @class = "form-control", @placeholder = "Descripción de proyecto", @required = "true", @id = "descripcion", @style = "height: 100px;" })
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <label for="cupo" class="form-label h6 text-muted">¿Cuántas personas podrán participar en el proyecto?</label>
+                                                    <label for="cupo" class="form-label h6 text-muted">La cantidad de personas que participan</label>
                                                     @Html.TextBoxFor(m => m.Cupo, new { @class = "form-control", @placeholder = "Cupo", @required = "true", @type = "number", @min = 1 })
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <label for="formFile" class="form-label h6 text-muted">¿Qué imagen tendrá el proyecto?</label>
-                                                    <input class="form-control" id="ImagenProyecto" name="ImagenProyecto" type="file" required>
+                                                    <label for="formFile" class="form-label h6 text-muted">Puedes asignar una imagen nueva si lo deseas</label>
+                                                    <input class="form-control" id="ImagenProyecto" name="ImagenProyecto" type="file">
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label for="categorias" class="form-label h6 text-muted">Selecciona las categorías con las que deseas asociar tu proyecto:</label>
+                                                    <label for="categorias" class="form-label h6 text-muted">Las categorías asociadas a tu proyecto</label>
                                                     @Html.ListBoxFor(
                                                         m => m.CategoriasSeleccionadas,
                                                         ViewBag.Categorias as List<SelectListItem>,
@@ -88,7 +91,7 @@
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label for="descripcion" class="form-label h6 text-muted">¿Dónde tendrá lugar el proyecto?</label>
-                                                    @Html.TextBoxFor(m => m.Direccion, new { @class = "form-control", @placeholder = "Dirección del lugar", @required = "true", @id = "descripcion"})
+                                                    @Html.TextBoxFor(m => m.Direccion, new { @class = "form-control", @placeholder = "Dirección del lugar", @required = "true", @id = "descripcion" })
                                                 </div>
                                             </div>
                                         </div>
@@ -97,6 +100,18 @@
                                             Guardar Cambios
                                         </button>
 
+                                    </div>
+                                    <div class="col-4 d-flex flex-column justify-content-center">
+                                        <div class="d-flex  mt-5">
+                                            <div class="row">
+                                                <div class="col-12 text-center mb-3">
+                                                    <img src="@Model.Imagen" class="img-fluid" alt="Imagen del Proyecto">
+                                                </div>
+                                                <div class="col-12 text-center">
+                                                    <h3 class="card-title">Imagen Actual de Proyecto</h3>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             }
