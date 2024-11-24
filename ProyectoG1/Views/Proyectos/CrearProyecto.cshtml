@@ -88,7 +88,7 @@
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label for="descripcion" class="form-label h6 text-muted">¿Dónde tendrá lugar el proyecto?</label>
-                                                    @Html.TextBoxFor(m => m.Direccion, new { @class = "form-control", @placeholder = "Dirección del lugar", @required = "true", @id = "descripcion"})
+                                                    @Html.TextBoxFor(m => m.Direccion, new { @class = "form-control", @placeholder = "Dirección del lugar", @required = "true", @id = "descripcion" })
                                                 </div>
                                             </div>
                                         </div>
@@ -98,6 +98,41 @@
                                         </button>
 
                                     </div>
+                                    <div class="col-4">
+                                        <div class="card">
+                                            <div class="card-header bg-light text-dark font-weight-bold">
+                                                <i class="fa-solid fa-file ms-3"></i> Consejos para un Mejor Proyecto
+                                            </div>
+                                            <div class="card-body">
+                                                <ul class="list-group list-group-flush">
+                                                    <li class="list-group-item">
+                                                        <strong>1. Sé claro y específico:</strong> Asegúrate de que el nombre y la descripción reflejen de manera precisa el propósito del proyecto.
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <strong>2. Define metas alcanzables:</strong> Plantea objetivos realistas y medibles que puedas cumplir dentro del proyecto.
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <strong>3. Selecciona categorías relevantes:</strong> Elige cuidadosamente las categorías que describen tu proyecto para atraer a las personas adecuadas.
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <strong>4. Agrega una imagen atractiva:</strong> Una imagen que represente tu proyecto ayudará a captar la atención de posibles interesados.
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <strong>5. Proporciona información de contacto:</strong> Incluye un teléfono y un correo activo para facilitar la comunicación.
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <strong>6. Ubicación detallada:</strong> Especifica claramente dónde tendrá lugar el proyecto para evitar confusiones.
+                                                    </li>
+                                                </ul>
+                                                <div class="mt-3">
+                                                    <p class="text-muted">
+                                                        <em>Recuerda: Un proyecto bien descrito tiene más probabilidades de captar el interés de las personas adecuadas.</em>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             }
                         </div>

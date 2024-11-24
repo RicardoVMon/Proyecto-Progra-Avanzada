@@ -99,6 +99,8 @@ namespace ProyectoG1.Controllers
             using (var context = new EncuentraTCUEntities())
             {
                 long IdProyecto = long.Parse(Request.QueryString["p"]);
+                string RutaImagen = Request.QueryString["i"].ToString();
+                System.IO.File.Delete(AppDomain.CurrentDomain.BaseDirectory + RutaImagen);
                 var respuestaProyecto = context.EliminarProyecto(IdProyecto);
                 var respuestaCategorias = context.EliminarCategoriasProyecto(IdProyecto);
                 if (respuestaProyecto > 0 && respuestaCategorias > 0)

@@ -1,5 +1,5 @@
 function copyToClipboard(elemento) {
-    var objeto = document.getElementById("elemento").innerText;
+    var objeto = document.getElementById(elemento).innerText;
     navigator.clipboard.writeText(objeto).then(function () {
         Swal.fire({
             icon: 'success',

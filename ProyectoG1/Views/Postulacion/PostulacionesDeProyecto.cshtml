@@ -1,0 +1,154 @@
+﻿@model List<ProyectoG1.Models.ProyectoModel>
+
+
+
+<div>
+    <div class="row">
+        <!-- Proyectos -->
+        <div class="col-12">
+            <div class="row align-items-center mb-3">
+                <div class="col-12 col-md-8">
+                    <h1 class="display-5">Nombre de Proyecto</h1>
+                    <h2 class="text-muted mb-3">Postulaciones recibidas</h2>
+                </div>
+            </div>
+
+            <div class="row g-3">
+                <div class="row">
+                    <div class="col-12">
+                        <table id="example" class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Apellidos</th>
+                                    <th>Carrera</th>
+                                    <th>Habilidades relacionadas</th>
+                                    <th>Fecha de postulación</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Juan</td>
+                                    <td>Vargas Díaz</td>
+                                    <td>Ingenieria en sistemas</td>
+                                    <td>XYZ</td>
+                                    <td>12/11/2024</td>
+                                    <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Ver postulación</button></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Imagen Proyecto</th>
+                                    <th>Título</th>
+                                    <th>Cupo</th>
+                                    <th>Postulaciones</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detalles de Postulación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-3 d-flex justify-content-center flex-column">
+                            <div class="row">
+                                <div class="col-12 text-center mb-3">
+                                    <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" class="rounded-circle" alt="Imagen de perfil" width="150" height="150">
+                                </div>
+                                <div class="col-12 text-center">
+                                    <h3 class="card-title mb-2">Foto de Perfil</h3>
+                                    <a href="#" class="btn btn-primary">Ver Perfil</a>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="col-9">
+                        <div class="row">
+                            <div class="col-12 d-flex flex-column">
+                                <label for="descripcion" class="form-label h6 text-muted mb-0">Nombre</label>
+                                <span class="h2">Ricardo Vargas</span>
+                            </div>
+                            <div class="col-6 d-flex flex-column">
+                                <label for="descripcion" class="form-label h6 text-muted  mb-0">Universidad de Procedencia</label>
+                                <span class="h2">Universidad Fidélitas</span>
+                            </div>
+                            <div class="col-6 d-flex flex-column">
+                                <label for="descripcion" class="form-label h6 text-muted  mb-0">Carrera</label>
+                                <span class="h2">Ingeniería en Sistemas</span>
+                            </div>
+
+                            <div class="col-6 d-flex flex-column">
+                                <label for="descripcion" class="form-label h6 text-muted  mb-0">Correo Electrónico</label>
+                                <span class="h2">prueba@gmail.com</span>
+                            </div>
+                            <div class="col-6 d-flex flex-column">
+                                <label for="descripcion" class="form-label h6 text-muted  mb-0">Fecha de Postulación</label>
+                                <span class="h2">12/11/2024</span>
+                            </div>
+                            <div class="col-12 d-flex flex-column mb-2">
+                                <label for="descripcion" class="form-label h6 text-muted">Habilidades</label>
+                                <div class="d-flex">
+                                    <span class="mb-1 me-1 badge bg-primary">Habilidad 1</span>
+                                    <span class=" mb-1 me-1 badge bg-secondary">Habilidad 2</span>
+                                    <span class=" mb-1 me-1 badge bg-success">Habilidad 3</span>
+                                    <span class=" mb-1 me-1 badge bg-danger">Habilidad 4</span>
+                                    <span class=" mb-1 me-1 badge bg-warning text-dark">Habilidad 5</span>
+                                    <span class=" mb-1 me-1 badge bg-info text-dark">Habilidad 6</span>
+                                </div>
+                            </div>
+                            <div class="col-12 d-flex flex-column">
+                                <label for="descripcion" class="form-label h6 text-muted  mb-2">Mensaje Adicional de Postulación</label>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <button type="submit" id="btnRegistrar" name="btnRegistrar" class="btn btn-success btn-lg mt-3 w-100" >
+                                    Aceptar
+                                </button>
+                            </div>
+                            <div class="col-6">
+                                <button type="submit" id="btnRegistrar" name="btnRegistrar" class="btn btn-danger btn-lg mt-3 w-100">
+                                    Rechazar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#example").DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.1.8/i18n/es-ES.json',
+            },
+            columnDefs: [
+                {
+                    targets: 5, // Apply settings to "Foto de Perfil" (1) and "Opciones" (6)
+                    className: 'text-center' // Center align for both columns
+                }
+            ]
+        });
+    });
+</script>

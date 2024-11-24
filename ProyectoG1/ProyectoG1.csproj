@@ -132,6 +132,7 @@
     <Compile Include="Controllers\EstudianteController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InstitucionController.cs" />
+    <Compile Include="Controllers\PostulacionController.cs" />
     <Compile Include="Controllers\ProyectosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -303,6 +304,8 @@
     <Content Include="Views\Proyectos\CrearProyecto.cshtml" />
     <Content Include="Views\Proyectos\EditarProyecto.cshtml" />
     <Content Include="Views\Proyectos\DetallesProyecto.cshtml" />
+    <Content Include="Views\Postulacion\ListadoProyectosConPostulaciones.cshtml" />
+    <Content Include="Views\Postulacion\PostulacionesDeProyecto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
