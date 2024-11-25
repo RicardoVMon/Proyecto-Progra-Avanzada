@@ -10,20 +10,16 @@
 namespace ProyectoG1.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Universidad
+    public partial class ObtenerProyectosInstitucion_Result
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Universidad()
-        {
-            this.Estudiante = new HashSet<Estudiante>();
-        }
-    
-        public long IdUniversidad { get; set; }
+        public long IdProyecto { get; set; }
+        public long IdInstitucion { get; set; }
         public string Nombre { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Estudiante> Estudiante { get; set; }
+        public string Descripcion { get; set; }
+        public int Cupo { get; set; }
+        public string Estado { get; set; }
+        public string CreadoPor { get; set; }
+        public string Imagen { get; set; }
     }
 }

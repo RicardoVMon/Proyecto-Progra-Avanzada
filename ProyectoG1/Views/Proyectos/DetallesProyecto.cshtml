@@ -1,0 +1,62 @@
+﻿@model ProyectoG1.Models.ProyectoModel
+
+
+<section class="container-fluid d-flex flex-grow-1 h-100 px-0">
+    <div class="col">
+        <img src="@Model.Imagen" class="img-fluid" style="object-fit: cover; height: 100%">
+    </div>
+    <div class="col d-flex bg-white">
+        <div class="container-fluid d-flex flex-column">
+            <div class="p-5">
+
+                <label for="descripcion" class="form-label h6 text-muted">Nombre de Proyecto</label>
+                <h1 class="fw-bold display-6">
+                    <span class="fw-bold" style="font-size: 5vh" ;>@Model.Nombre</span>
+                </h1>
+                <p class="fs-1">
+                    @foreach (var categoria in Model.Categorias)
+                    {
+                        <span class="badge bg-info ">@categoria.Nombre</span>
+                    }
+                </p>
+                <label for="descripcion" class="form-label h6 text-muted">Descripción</label>
+                <p class="" style="color: #1F283E;">@Model.Descripcion</p>
+
+                <label for="descripcion" class="form-label h6 text-muted">Tamaño de Equipo Requerido</label>
+                <h4 class="fw-bold" style="color: #1F283E;">@Model.Cupo Personas (# Inscritos)</h4>
+
+                <div class="row my-3">
+                    <div class="col-3  d-flex flex-column">
+                        <label for="descripcion" class="form-label h6 text-muted">Contacto</label>
+                        <a class="fw-bold h4" style="color: #1F283E;" id="Teléfono" onclick="copyToClipboard('Teléfono')">@Model.Contacto</a>
+                    </div>
+                    <div class="col-9 d-flex flex-column">
+                        <label for="descripcion" class="form-label h6 text-muted">Correo Asociado</label>
+                        <a class="fw-bold h4" style="color: #1F283E;" id="Correo" onclick="copyToClipboard('Correo')">@Model.CorreoAsociado</a>
+                    </div>
+                    <div class="col-12">
+                        <label for="descripcion" class="form-label h6 text-muted">Dirección</label>
+                        <p class="fw-bold" style="color: #1F283E;">@Model.Direccion</p>
+                    </div>
+                </div>
+                @if (Session["Rol"].Equals("2"))
+                {
+                    <div class="d-flex justify-content-center">
+                        <a href="#" class="btn btn-primary btn-lg w-75" style="background-color:#1F283E; border-color: #1F283E;">Quiero Postularme a este proyecto!</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="d-flex justify-content-center">
+                        <em class="text-center text-muted mb-3" style="font-size: 1.1rem;">
+                            Esta es la vista previa para los proyectos de las instituciones, acá los estudiantes podrán enviar sus postulaciones.
+                        </em>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="~/Styles/js/detallesProyecto.js"></script>

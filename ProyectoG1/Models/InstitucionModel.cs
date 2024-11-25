@@ -22,5 +22,7 @@ namespace ProyectoG1.Models
         public String Telefono { get; set; }
         public String PaginaWeb { get; set; }
         public String Activo { get; set; }
+        public List<ProyectoModel> Proyectos { get; set; }
+        public List<CategoriaModel> CategoriasUsadas { get; set; }
     }
 }
