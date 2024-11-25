@@ -121,5 +121,11 @@ namespace ProyectoG1.Controllers
             }
         }
 
+        public ActionResult BuscarProyecto()
+        {
+            return View();
+        }
+
+
     }
 }

@@ -1,0 +1,89 @@
+﻿
+
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="card-title">Buscar Proyecto</h5>
+            <input id="searchInput" type="text" class="form-control w-50" placeholder="Buscar por palabra clave..." onkeyup="filterTable()" />
+        </div>
+
+        <div class="table-responsive">
+            <table id="projectTable" class="table text-nowrap align-middle mb-0">
+                <thead>
+                    <tr class="border-2 border-bottom border-primary border-0">
+                        <th>Proyecto</th>
+                        <th>Descripción</th>
+                        <th>Estado</th>
+                        <th>Cupo</th>
+                        <th>Institución</th>
+                        <th>Carreras a fin</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <!-- Datos simulados para prueba -->
+                    @* En esta sección se llena la tabla de manera manual mientras no tengas datos reales desde la BD *@
+                    @* Código comentado para datos desde BD
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.IdProyecto</td>
+                                <td>@item.Nombre</td>
+                                <td title="@item.Descripcion">@item.Descripcion</td>
+                                <td>@item.Estado</td>
+                                <td>@item.Cupo</td>
+                                <td>
+                                    <a class="btn" href="@Url.Action("ActualizarProyecto", "Proyecto", new { id = item.IdProyecto })"><i class="fa fa-pencil-square-o" style="font-size: 1.4em;"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    *@
+
+                    <!-- Datos estáticos para pruebas -->
+                    <tr>
+                        <td>1</td>
+                        <td>Proyecto Alpha</td>
+                        <td>Descripción breve del Proyecto Alpha</td>
+                        <td>Activo</td>
+                        <td>20</td>
+                        <td>
+                            <a class="btn" href="#"><i class="fa fa-pencil-square-o" style="font-size: 1.4em;"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Proyecto Beta</td>
+                        <td>Descripción breve del Proyecto Beta</td>
+                        <td>En Proceso</td>
+                        <td>15</td>
+                        <td>
+                            <a class="btn" href="#"><i class="fa fa-pencil-square-o" style="font-size: 1.4em;"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    function filterTable() {
+        var input, filter, table, rows, cells, found, i, j;
+        input = document.getElementById("searchInput");
+        filter = input.value.toLowerCase();
+        table = document.getElementById("projectTable");
+        rows = table.getElementsByTagName("tr");
+
+        for (i = 1; i < rows.length; i++) { // Empezamos en 1 para saltar el header
+            cells = rows[i].getElementsByTagName("td");
+            found = false;
+
+            for (j = 0; j < cells.length; j++) {
+                if (cells[j] && cells[j].textContent.toLowerCase().indexOf(filter) > -1) {
+                    found = true;
+                    break;
+                }
+            }
+            rows[i].style.display = found ? "" : "none";
+        }
+    }
+</script>

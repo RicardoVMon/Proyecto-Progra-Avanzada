@@ -280,6 +280,7 @@
     <Content Include="Views\Estudiante\PerfilEstudiante.cshtml" />
     <Content Include="Views\Estudiante\EditarPerfilEstudiante.cshtml" />
     <Content Include="Views\Institucion\PerfilInstitucion.cshtml" />
+    <Content Include="Views\Estudiante\BuscarProyecto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

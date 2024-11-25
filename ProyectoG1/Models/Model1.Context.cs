@@ -97,6 +97,15 @@ namespace ProyectoG1.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DatosEstudiante_Result>("DatosEstudiante", idEstudianteParameter);
         }
     
+        public virtual ObjectResult<DatosInstitucion_Result> DatosInstitucion(Nullable<long> idInstitucion)
+        {
+            var idInstitucionParameter = idInstitucion.HasValue ?
+                new ObjectParameter("IdInstitucion", idInstitucion) :
+                new ObjectParameter("IdInstitucion", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DatosInstitucion_Result>("DatosInstitucion", idInstitucionParameter);
+        }
+    
         public virtual ObjectResult<IngresoSistema_Result> IngresoSistema(string cedula, string contrasenna, Nullable<int> tipoCedula)
         {
             var cedulaParameter = cedula != null ?
@@ -190,15 +199,6 @@ namespace ProyectoG1.Models
                 new ObjectParameter("PaginaWeb", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistrarInstitucion", idTipoInstitucionParameter, cedulaParameter, emailParameter, contrasennaParameter, nombreParameter, descripcionParameter, telefonoParameter, paginaWebParameter);
-        }
-    
-        public virtual ObjectResult<DatosInstitucion_Result> DatosInstitucion(Nullable<long> idInstitucion)
-        {
-            var idInstitucionParameter = idInstitucion.HasValue ?
-                new ObjectParameter("IdInstitucion", idInstitucion) :
-                new ObjectParameter("IdInstitucion", typeof(long));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DatosInstitucion_Result>("DatosInstitucion", idInstitucionParameter);
         }
     }
 }

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="EncuentraTCUModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="EncuentraTCUModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Auditoria">
           <Key>
             <PropertyRef Name="IdAuditoria" />
@@ -367,7 +367,8 @@
             <End Role="Proyecto" EntitySet="Proyecto" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="EncuentraTCUModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -725,7 +726,10 @@
             <Parameter Name="Descripcion" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DatosEstudiante" ReturnType="Collection(EncuentraTCUModel.DatosEstudiante_Result)">
-          <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="DatosInstitucion" ReturnType="Collection(EncuentraTCUModel.DatosInstitucion_Result)">
+            <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="IngresoSistema" ReturnType="Collection(EncuentraTCUModel.IngresoSistema_Result)">
             <Parameter Name="Cedula" Mode="In" Type="String" />
@@ -753,9 +757,6 @@
             <Parameter Name="Telefono" Mode="In" Type="String" />
             <Parameter Name="PaginaWeb" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="DatosInstitucion" ReturnType="Collection(EncuentraTCUModel.DatosInstitucion_Result)">
-          <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
-          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="DatosEstudiante_Result">
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
@@ -768,6 +769,16 @@
           <Property Type="String" Name="NombreGenero" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="NombreUniversidad" Nullable="false" MaxLength="255" />
         </ComplexType>
+        <ComplexType Name="DatosInstitucion_Result">
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="1000" />
+          <Property Type="String" Name="PaginaWeb" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Imagen" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="NombreRol" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="TipoInstitucion" Nullable="false" MaxLength="100" />
+        </ComplexType>
         <ComplexType Name="IngresoSistema_Result">
           <Property Type="Int64" Name="Id" Nullable="false" />
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
@@ -779,16 +790,6 @@
           <Property Type="Int64" Name="IdRol" Nullable="false" />
           <Property Type="Boolean" Name="TieneContrasennaTemp" Nullable="false" />
           <Property Type="DateTime" Name="FechaVencimientoTemp" Nullable="false" Precision="23" />
-        </ComplexType>
-        <ComplexType Name="DatosInstitucion_Result">
-          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="15" />
-          <Property Type="String" Name="Email" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="1000" />
-          <Property Type="String" Name="PaginaWeb" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="Imagen" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="NombreRol" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="TipoInstitucion" Nullable="false" MaxLength="100" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -935,6 +936,20 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="DatosInstitucion" FunctionName="EncuentraTCUModel.Store.DatosInstitucion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.DatosInstitucion_Result">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="PaginaWeb" ColumnName="PaginaWeb" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
+                <ScalarProperty Name="TipoInstitucion" ColumnName="TipoInstitucion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="IngresoSistema" FunctionName="EncuentraTCUModel.Store.IngresoSistema">
             <ResultMapping>
               <ComplexTypeMapping TypeName="EncuentraTCUModel.IngresoSistema_Result">
@@ -953,20 +968,6 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="RegistrarEstudiante" FunctionName="EncuentraTCUModel.Store.RegistrarEstudiante" />
           <FunctionImportMapping FunctionImportName="RegistrarInstitucion" FunctionName="EncuentraTCUModel.Store.RegistrarInstitucion" />
-          <FunctionImportMapping FunctionImportName="DatosInstitucion" FunctionName="EncuentraTCUModel.Store.DatosInstitucion">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="EncuentraTCUModel.DatosInstitucion_Result">
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-                <ScalarProperty Name="PaginaWeb" ColumnName="PaginaWeb" />
-                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
-                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
-                <ScalarProperty Name="TipoInstitucion" ColumnName="TipoInstitucion" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
