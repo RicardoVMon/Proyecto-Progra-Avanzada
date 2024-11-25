@@ -132,10 +132,15 @@
     <Compile Include="Controllers\EstudianteController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InstitucionController.cs" />
+    <Compile Include="Controllers\PostulacionController.cs" />
+    <Compile Include="Controllers\ProyectosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Auditoria.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Categoria.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Conexion.cs">
@@ -161,6 +166,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\CategoriaModel.cs" />
     <Compile Include="Models\Model1.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -176,12 +182,22 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\ObtenerCategoriasProyecto_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ObtenerProyectosEspecifico_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ObtenerProyectosInstitucion_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Postulacion.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Proyecto.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProyectoModel.cs" />
     <Compile Include="Models\Rol.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -217,6 +233,8 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Imagenes\Instituciones\5.jpg" />
+    <Content Include="Imagenes\Proyectos\15.jpg" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -255,6 +273,7 @@
     <Content Include="Styles\img\avatars\avatar.jpg" />
     <Content Include="Styles\img\icons\icon-48x48.png" />
     <Content Include="Styles\js\app.js" />
+    <Content Include="Styles\js\detallesProyecto.js" />
     <Content Include="Styles\js\institucion.js" />
     <Content Include="Styles\js\usuarios.js" />
     <Content Include="Styles\TemplateRecuperarContra.html" />
@@ -280,6 +299,13 @@
     <Content Include="Views\Estudiante\PerfilEstudiante.cshtml" />
     <Content Include="Views\Estudiante\EditarPerfilEstudiante.cshtml" />
     <Content Include="Views\Institucion\PerfilInstitucion.cshtml" />
+    <Content Include="Views\Institucion\EditarPerfilInstitucion.cshtml" />
+    <Content Include="Views\Proyectos\GestionProyectos.cshtml" />
+    <Content Include="Views\Proyectos\CrearProyecto.cshtml" />
+    <Content Include="Views\Proyectos\EditarProyecto.cshtml" />
+    <Content Include="Views\Proyectos\DetallesProyecto.cshtml" />
+    <Content Include="Views\Postulacion\ListadoProyectosConPostulaciones.cshtml" />
+    <Content Include="Views\Postulacion\PostulacionesDeProyecto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

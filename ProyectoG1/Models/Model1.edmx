@@ -16,6 +16,13 @@
           <Property Name="IdEstudiante" Type="bigint" />
           <Property Name="IdInstitucion" Type="bigint" />
         </EntityType>
+        <EntityType Name="Categoria">
+          <Key>
+            <PropertyRef Name="IdCategoria" />
+          </Key>
+          <Property Name="IdCategoria" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
         <EntityType Name="Conexion">
           <Key>
             <PropertyRef Name="IdConexion" />
@@ -95,6 +102,18 @@
           <Property Name="Cupo" Type="int" Nullable="false" />
           <Property Name="Estado" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="CreadoPor" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Imagen" Type="varchar" MaxLength="255" />
+          <Property Name="Contacto" Type="varchar" MaxLength="10" />
+          <Property Name="Direccion" Type="varchar" MaxLength="1000" />
+          <Property Name="CorreoAsociado" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ProyectoCategoria">
+          <Key>
+            <PropertyRef Name="IdProyecto" />
+            <PropertyRef Name="IdCategoria" />
+          </Key>
+          <Property Name="IdProyecto" Type="bigint" Nullable="false" />
+          <Property Name="IdCategoria" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="Rol">
           <Key>
@@ -117,6 +136,34 @@
           <Property Name="IdUniversidad" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
+        <Association Name="FK__ProyectoC__IdCat__5FB337D6">
+          <End Role="Categoria" Type="Self.Categoria" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ProyectoCategoria" Type="Self.ProyectoCategoria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categoria">
+              <PropertyRef Name="IdCategoria" />
+            </Principal>
+            <Dependent Role="ProyectoCategoria">
+              <PropertyRef Name="IdCategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProyectoC__IdPro__60A75C0F">
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ProyectoCategoria" Type="Self.ProyectoCategoria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyecto">
+              <PropertyRef Name="IdProyecto" />
+            </Principal>
+            <Dependent Role="ProyectoCategoria">
+              <PropertyRef Name="IdProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Auditoria_Estudiante">
           <End Role="Estudiante" Type="Self.Estudiante" Multiplicity="0..1" />
           <End Role="Auditoria" Type="Self.Auditoria" Multiplicity="*" />
@@ -268,6 +315,14 @@
           <Parameter Name="TieneContrasennaTemp" Type="bit" Mode="In" />
           <Parameter Name="FechaVencimientoTemp" Type="datetime" Mode="In" />
         </Function>
+        <Function Name="ActualizarImagenInstitucion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
+          <Parameter Name="Imagen" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ActualizarImagenProyecto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
+          <Parameter Name="Imagen" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="ActualizarPerfilEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
           <Parameter Name="IdUniversidad" Type="bigint" Mode="In" />
@@ -275,16 +330,64 @@
           <Parameter Name="Email" Type="varchar" Mode="In" />
           <Parameter Name="Descripcion" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="ActualizarPerfilInstitucion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Telefono" Type="varchar" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+          <Parameter Name="PaginaWeb" Type="varchar" Mode="In" />
+          <Parameter Name="Imagen" Type="varchar" Mode="In" />
+          <Parameter Name="IdTipoInstitucion" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ActualizarProyecto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+          <Parameter Name="Cupo" Type="int" Mode="In" />
+          <Parameter Name="Imagen" Type="varchar" Mode="In" />
+          <Parameter Name="Contacto" Type="varchar" Mode="In" />
+          <Parameter Name="Direccion" Type="varchar" Mode="In" />
+          <Parameter Name="CorreoAsociado" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="DatosEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
         </Function>
         <Function Name="DatosInstitucion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
         </Function>
+        <Function Name="EliminarCategoriasProyecto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="EliminarProyecto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="IngresoSistema" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Cedula" Type="varchar" Mode="In" />
           <Parameter Name="Contrasenna" Type="varchar" Mode="In" />
           <Parameter Name="TipoCedula" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ObtenerCategoriasProyecto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerCategoriasUsadasEnInstitucion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerProyectoReciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+          <Parameter Name="Cupo" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ObtenerProyectosEspecifico" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerProyectosInstitucion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="RegistrarCategoriaProyecto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
+          <Parameter Name="IdCategoria" Type="bigint" Mode="In" />
         </Function>
         <Function Name="RegistrarEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdGenero" Type="bigint" Mode="In" />
@@ -307,17 +410,37 @@
           <Parameter Name="Telefono" Type="varchar" Mode="In" />
           <Parameter Name="PaginaWeb" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="RegistrarProyecto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+          <Parameter Name="Cupo" Type="int" Mode="In" />
+          <Parameter Name="CreadoPorInstitucion" Type="bit" Mode="In" />
+          <Parameter Name="Contacto" Type="varchar" Mode="In" />
+          <Parameter Name="Direccion" Type="varchar" Mode="In" />
+          <Parameter Name="CorreoAsociado" Type="varchar" Mode="In" />
+        </Function>
         <EntityContainer Name="EncuentraTCUModelStoreContainer">
           <EntitySet Name="Auditoria" EntityType="Self.Auditoria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Categoria" EntityType="Self.Categoria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Conexion" EntityType="Self.Conexion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Estudiante" EntityType="Self.Estudiante" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Genero" EntityType="Self.Genero" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Institucion" EntityType="Self.Institucion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Postulacion" EntityType="Self.Postulacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proyecto" EntityType="Self.Proyecto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProyectoCategoria" EntityType="Self.ProyectoCategoria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoInstitucion" EntityType="Self.TipoInstitucion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Universidad" EntityType="Self.Universidad" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__ProyectoC__IdCat__5FB337D6" Association="Self.FK__ProyectoC__IdCat__5FB337D6">
+            <End Role="Categoria" EntitySet="Categoria" />
+            <End Role="ProyectoCategoria" EntitySet="ProyectoCategoria" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProyectoC__IdPro__60A75C0F" Association="Self.FK__ProyectoC__IdPro__60A75C0F">
+            <End Role="Proyecto" EntitySet="Proyecto" />
+            <End Role="ProyectoCategoria" EntitySet="ProyectoCategoria" />
+          </AssociationSet>
           <AssociationSet Name="FK_Auditoria_Estudiante" Association="Self.FK_Auditoria_Estudiante">
             <End Role="Estudiante" EntitySet="Estudiante" />
             <End Role="Auditoria" EntitySet="Auditoria" />
@@ -383,6 +506,14 @@
           <Property Name="IdInstitucion" Type="Int64" />
           <NavigationProperty Name="Estudiante" Relationship="Self.FK_Auditoria_Estudiante" FromRole="Auditoria" ToRole="Estudiante" />
           <NavigationProperty Name="Institucion" Relationship="Self.FK_Auditoria_Institucion" FromRole="Auditoria" ToRole="Institucion" />
+        </EntityType>
+        <EntityType Name="Categoria">
+          <Key>
+            <PropertyRef Name="IdCategoria" />
+          </Key>
+          <Property Name="IdCategoria" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Proyecto" Relationship="Self.ProyectoCategoria" FromRole="Categoria" ToRole="Proyecto" />
         </EntityType>
         <EntityType Name="Conexion">
           <Key>
@@ -479,8 +610,13 @@
           <Property Name="Cupo" Type="Int32" Nullable="false" />
           <Property Name="Estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CreadoPor" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Imagen" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Contacto" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="CorreoAsociado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Institucion" Relationship="Self.FK_Proyecto_Institucion" FromRole="Proyecto" ToRole="Institucion" />
           <NavigationProperty Name="Postulacion" Relationship="Self.FK_Postulacion_Proyecto" FromRole="Proyecto" ToRole="Postulacion" />
+          <NavigationProperty Name="Categoria" Relationship="Self.ProyectoCategoria" FromRole="Proyecto" ToRole="Categoria" />
         </EntityType>
         <EntityType Name="Rol">
           <Key>
@@ -651,8 +787,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="ProyectoCategoria">
+          <End Role="Categoria" Type="Self.Categoria" Multiplicity="*" />
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="*" />
+        </Association>
         <EntityContainer Name="EncuentraTCUEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Auditoria" EntityType="Self.Auditoria" />
+          <EntitySet Name="Categoria" EntityType="Self.Categoria" />
           <EntitySet Name="Conexion" EntityType="Self.Conexion" />
           <EntitySet Name="Estudiante" EntityType="Self.Estudiante" />
           <EntitySet Name="Genero" EntityType="Self.Genero" />
@@ -710,12 +851,24 @@
             <End Role="Proyecto" EntitySet="Proyecto" />
             <End Role="Postulacion" EntitySet="Postulacion" />
           </AssociationSet>
+          <AssociationSet Name="ProyectoCategoria" Association="Self.ProyectoCategoria">
+            <End Role="Categoria" EntitySet="Categoria" />
+            <End Role="Proyecto" EntitySet="Proyecto" />
+          </AssociationSet>
           <FunctionImport Name="ActualizarContrasenna">
             <Parameter Name="Cedula" Mode="In" Type="String" />
             <Parameter Name="TipoCedula" Mode="In" Type="Int32" />
             <Parameter Name="ContrasennaTemp" Mode="In" Type="String" />
             <Parameter Name="TieneContrasennaTemp" Mode="In" Type="Boolean" />
             <Parameter Name="FechaVencimientoTemp" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="ActualizarImagenInstitucion">
+            <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
+            <Parameter Name="Imagen" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ActualizarImagenProyecto">
+            <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+            <Parameter Name="Imagen" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ActualizarPerfilEstudiante">
             <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
@@ -724,13 +877,64 @@
             <Parameter Name="Email" Mode="In" Type="String" />
             <Parameter Name="Descripcion" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="ActualizarPerfilInstitucion">
+            <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Telefono" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Descripcion" Mode="In" Type="String" />
+            <Parameter Name="PaginaWeb" Mode="In" Type="String" />
+            <Parameter Name="Imagen" Mode="In" Type="String" />
+            <Parameter Name="IdTipoInstitucion" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ActualizarProyecto">
+            <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Descripcion" Mode="In" Type="String" />
+            <Parameter Name="Cupo" Mode="In" Type="Int32" />
+            <Parameter Name="Imagen" Mode="In" Type="String" />
+            <Parameter Name="Contacto" Mode="In" Type="String" />
+            <Parameter Name="Direccion" Mode="In" Type="String" />
+            <Parameter Name="CorreoAsociado" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="DatosEstudiante" ReturnType="Collection(EncuentraTCUModel.DatosEstudiante_Result)">
           <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="DatosInstitucion" ReturnType="Collection(EncuentraTCUModel.DatosInstitucion_Result)">
+          <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="EliminarCategoriasProyecto">
+          <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="EliminarProyecto">
+          <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="IngresoSistema" ReturnType="Collection(EncuentraTCUModel.IngresoSistema_Result)">
             <Parameter Name="Cedula" Mode="In" Type="String" />
             <Parameter Name="Contrasenna" Mode="In" Type="String" />
             <Parameter Name="TipoCedula" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerCategoriasProyecto" ReturnType="Collection(EncuentraTCUModel.ObtenerCategoriasProyecto_Result)">
+          <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerCategoriasUsadasEnInstitucion" ReturnType="Collection(String)">
+          <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerProyectoReciente" ReturnType="Collection(Int64)">
+            <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Descripcion" Mode="In" Type="String" />
+            <Parameter Name="Cupo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerProyectosEspecifico" ReturnType="Collection(EncuentraTCUModel.ObtenerProyectosEspecifico_Result)">
+          <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerProyectosInstitucion" ReturnType="Collection(EncuentraTCUModel.ObtenerProyectosInstitucion_Result)">
+          <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="RegistrarCategoriaProyecto">
+            <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+            <Parameter Name="IdCategoria" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="RegistrarEstudiante">
             <Parameter Name="IdGenero" Mode="In" Type="Int64" />
@@ -753,8 +957,15 @@
             <Parameter Name="Telefono" Mode="In" Type="String" />
             <Parameter Name="PaginaWeb" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="DatosInstitucion" ReturnType="Collection(EncuentraTCUModel.DatosInstitucion_Result)">
-          <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
+          <FunctionImport Name="RegistrarProyecto">
+            <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Descripcion" Mode="In" Type="String" />
+            <Parameter Name="Cupo" Mode="In" Type="Int32" />
+            <Parameter Name="CreadoPorInstitucion" Mode="In" Type="Boolean" />
+            <Parameter Name="Contacto" Mode="In" Type="String" />
+            <Parameter Name="Direccion" Mode="In" Type="String" />
+            <Parameter Name="CorreoAsociado" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="DatosEstudiante_Result">
@@ -768,6 +979,16 @@
           <Property Type="String" Name="NombreGenero" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="NombreUniversidad" Nullable="false" MaxLength="255" />
         </ComplexType>
+        <ComplexType Name="DatosInstitucion_Result">
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="1000" />
+          <Property Type="String" Name="PaginaWeb" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Imagen" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="NombreRol" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="TipoInstitucion" Nullable="false" MaxLength="100" />
+        </ComplexType>
         <ComplexType Name="IngresoSistema_Result">
           <Property Type="Int64" Name="Id" Nullable="false" />
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
@@ -780,15 +1001,33 @@
           <Property Type="Boolean" Name="TieneContrasennaTemp" Nullable="false" />
           <Property Type="DateTime" Name="FechaVencimientoTemp" Nullable="false" Precision="23" />
         </ComplexType>
-        <ComplexType Name="DatosInstitucion_Result">
+        <ComplexType Name="ObtenerCategoriasProyecto_Result">
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="15" />
-          <Property Type="String" Name="Email" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="1000" />
-          <Property Type="String" Name="PaginaWeb" Nullable="true" MaxLength="100" />
+          <Property Type="Int64" Name="IdCategoria" Nullable="false" />
+          <Property Type="Int64" Name="IdProyecto" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="ObtenerProyectosEspecifico_Result">
+          <Property Type="Int64" Name="IdProyecto" Nullable="false" />
+          <Property Type="Int64" Name="IdInstitucion" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="8000" />
+          <Property Type="Int32" Name="Cupo" Nullable="false" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="CreadoPor" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="Imagen" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="NombreRol" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="TipoInstitucion" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Contacto" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Direccion" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="CorreoAsociado" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="ObtenerProyectosInstitucion_Result">
+          <Property Type="Int64" Name="IdProyecto" Nullable="false" />
+          <Property Type="Int64" Name="IdInstitucion" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="8000" />
+          <Property Type="Int32" Name="Cupo" Nullable="false" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="CreadoPor" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Imagen" Nullable="true" MaxLength="255" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -805,6 +1044,14 @@
                 <ScalarProperty Name="Origen" ColumnName="Origen" />
                 <ScalarProperty Name="IdEstudiante" ColumnName="IdEstudiante" />
                 <ScalarProperty Name="IdInstitucion" ColumnName="IdInstitucion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categoria">
+            <EntityTypeMapping TypeName="EncuentraTCUModel.Categoria">
+              <MappingFragment StoreEntitySet="Categoria">
+                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -891,6 +1138,10 @@
                 <ScalarProperty Name="Cupo" ColumnName="Cupo" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="CreadoPor" ColumnName="CreadoPor" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="Contacto" ColumnName="Contacto" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="CorreoAsociado" ColumnName="CorreoAsociado" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -918,8 +1169,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="ProyectoCategoria" TypeName="EncuentraTCUModel.ProyectoCategoria" StoreEntitySet="ProyectoCategoria">
+            <EndProperty Name="Categoria">
+              <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+            </EndProperty>
+            <EndProperty Name="Proyecto">
+              <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+            </EndProperty>
+          </AssociationSetMapping>
           <FunctionImportMapping FunctionImportName="ActualizarContrasenna" FunctionName="EncuentraTCUModel.Store.ActualizarContrasenna" />
+          <FunctionImportMapping FunctionImportName="ActualizarImagenInstitucion" FunctionName="EncuentraTCUModel.Store.ActualizarImagenInstitucion" />
+          <FunctionImportMapping FunctionImportName="ActualizarImagenProyecto" FunctionName="EncuentraTCUModel.Store.ActualizarImagenProyecto" />
           <FunctionImportMapping FunctionImportName="ActualizarPerfilEstudiante" FunctionName="EncuentraTCUModel.Store.ActualizarPerfilEstudiante" />
+          <FunctionImportMapping FunctionImportName="ActualizarPerfilInstitucion" FunctionName="EncuentraTCUModel.Store.ActualizarPerfilInstitucion" />
+          <FunctionImportMapping FunctionImportName="ActualizarProyecto" FunctionName="EncuentraTCUModel.Store.ActualizarProyecto" />
           <FunctionImportMapping FunctionImportName="DatosEstudiante" FunctionName="EncuentraTCUModel.Store.DatosEstudiante">
             <ResultMapping>
               <ComplexTypeMapping TypeName="EncuentraTCUModel.DatosEstudiante_Result">
@@ -935,6 +1198,22 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="DatosInstitucion" FunctionName="EncuentraTCUModel.Store.DatosInstitucion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.DatosInstitucion_Result">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="PaginaWeb" ColumnName="PaginaWeb" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
+                <ScalarProperty Name="TipoInstitucion" ColumnName="TipoInstitucion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="EliminarCategoriasProyecto" FunctionName="EncuentraTCUModel.Store.EliminarCategoriasProyecto" />
+          <FunctionImportMapping FunctionImportName="EliminarProyecto" FunctionName="EncuentraTCUModel.Store.EliminarProyecto" />
           <FunctionImportMapping FunctionImportName="IngresoSistema" FunctionName="EncuentraTCUModel.Store.IngresoSistema">
             <ResultMapping>
               <ComplexTypeMapping TypeName="EncuentraTCUModel.IngresoSistema_Result">
@@ -951,22 +1230,52 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="RegistrarEstudiante" FunctionName="EncuentraTCUModel.Store.RegistrarEstudiante" />
-          <FunctionImportMapping FunctionImportName="RegistrarInstitucion" FunctionName="EncuentraTCUModel.Store.RegistrarInstitucion" />
-          <FunctionImportMapping FunctionImportName="DatosInstitucion" FunctionName="EncuentraTCUModel.Store.DatosInstitucion">
+          <FunctionImportMapping FunctionImportName="ObtenerCategoriasProyecto" FunctionName="EncuentraTCUModel.Store.ObtenerCategoriasProyecto">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="EncuentraTCUModel.DatosInstitucion_Result">
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ObtenerCategoriasProyecto_Result">
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
-                <ScalarProperty Name="PaginaWeb" ColumnName="PaginaWeb" />
-                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
-                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
-                <ScalarProperty Name="TipoInstitucion" ColumnName="TipoInstitucion" />
+                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+                <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ObtenerCategoriasUsadasEnInstitucion" FunctionName="EncuentraTCUModel.Store.ObtenerCategoriasUsadasEnInstitucion" />
+          <FunctionImportMapping FunctionImportName="ObtenerProyectoReciente" FunctionName="EncuentraTCUModel.Store.ObtenerProyectoReciente" />
+          <FunctionImportMapping FunctionImportName="ObtenerProyectosEspecifico" FunctionName="EncuentraTCUModel.Store.ObtenerProyectosEspecifico">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ObtenerProyectosEspecifico_Result">
+                <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+                <ScalarProperty Name="IdInstitucion" ColumnName="IdInstitucion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Cupo" ColumnName="Cupo" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="CreadoPor" ColumnName="CreadoPor" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="Contacto" ColumnName="Contacto" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="CorreoAsociado" ColumnName="CorreoAsociado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ObtenerProyectosInstitucion" FunctionName="EncuentraTCUModel.Store.ObtenerProyectosInstitucion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ObtenerProyectosInstitucion_Result">
+                <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+                <ScalarProperty Name="IdInstitucion" ColumnName="IdInstitucion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Cupo" ColumnName="Cupo" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="CreadoPor" ColumnName="CreadoPor" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="RegistrarCategoriaProyecto" FunctionName="EncuentraTCUModel.Store.RegistrarCategoriaProyecto" />
+          <FunctionImportMapping FunctionImportName="RegistrarEstudiante" FunctionName="EncuentraTCUModel.Store.RegistrarEstudiante" />
+          <FunctionImportMapping FunctionImportName="RegistrarInstitucion" FunctionName="EncuentraTCUModel.Store.RegistrarInstitucion" />
+          <FunctionImportMapping FunctionImportName="RegistrarProyecto" FunctionName="EncuentraTCUModel.Store.RegistrarProyecto" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -984,7 +1293,7 @@
         <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
-        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->

@@ -1,0 +1,99 @@
+﻿@model List<ProyectoG1.Models.ProyectoModel>
+
+
+
+<div>
+    <div class="row">
+        <!-- Proyectos -->
+        <div class="col-12">
+            <div class="row align-items-center mb-3">
+                <div class="col-12 col-md-8">
+                    <h1 class="display-5">Proyectos con postulaciones</h1>
+                    <p class="text-muted">Los siguientes proyectos presentan postulaciones pendientes, selecciona uno para gestionarlas!</p>
+                </div>
+                <hr />  
+            </div>
+
+            <div class="row g-3">
+                <div class="row">
+                    <div class="col-12">
+                        <table id="example" class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Imagen Proyecto</th>
+                                    <th>Título</th>
+                                    <th>Cupo</th>
+                                    <th>Postulaciones</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><img src="ruta/a/imagen1.jpg" alt="Imagen Proyecto 1" width="50" height="50"></td>
+                                    <td>Proyecto A</td>
+                                    <td>4 restante(s)</td>
+                                    <td>5</td>
+                                    <td><a href="@Url.Action("PostulacionesDeProyecto", "Postulacion")" class="btn btn-primary w-100">Gestionar</a></td>
+                                </tr>
+                                <tr>
+                                    <td><img src="ruta/a/imagen2.jpg" alt="Imagen Proyecto 2" width="50" height="50"></td>
+                                    <td>Proyecto B</td>
+                                    <td>2 restante(s)</td>
+                                    <td>15</td>
+                                    <td><a href="@Url.Action("PostulacionesDeProyecto", "Postulacion")" class="btn btn-primary w-100">Gestionar</a></td>
+                                </tr>
+                                <tr>
+                                    <td><img src="ruta/a/imagen3.jpg" alt="Imagen Proyecto 3" width="50" height="50"></td>
+                                    <td>Proyecto C</td>
+                                    <td>1 restante(s)</td>
+                                    <td>25</td>
+                                    <td><a href="@Url.Action("PostulacionesDeProyecto", "Postulacion")" class="btn btn-primary w-100">Gestionar</a></td>
+                                </tr>
+                                <tr>
+                                    <td><img src="ruta/a/imagen1.jpg" alt="Imagen Proyecto 1" width="50" height="50"></td>
+                                    <td>Proyecto A</td>
+                                    <td>4 restante(s)</td>
+                                    <td>5</td>
+                                    <td><a href="@Url.Action("PostulacionesDeProyecto", "Postulacion")" class="btn btn-primary w-100">Gestionar</a></td>
+                                </tr>
+                                <tr>
+                                    <td><img src="ruta/a/imagen2.jpg" alt="Imagen Proyecto 2" width="50" height="50"></td>
+                                    <td>Proyecto B</td>
+                                    <td>2 restante(s)</td>
+                                    <td>15</td>
+                                    <td><a href="@Url.Action("PostulacionesDeProyecto", "Postulacion")" class="btn btn-primary w-100">Gestionar</a></td>
+                                </tr>
+                                <tr>
+                                    <td><img src="ruta/a/imagen3.jpg" alt="Imagen Proyecto 3" width="50" height="50"></td>
+                                    <td>Proyecto C</td>
+                                    <td>1 restante(s)</td>
+                                    <td>25</td>
+                                    <td><a href="@Url.Action("PostulacionesDeProyecto", "Postulacion")" class="btn btn-primary w-100">Gestionar</a></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Imagen Proyecto</th>
+                                    <th>Título</th>
+                                    <th>Cupo</th>
+                                    <th>Postulaciones</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#example").DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.1.8/i18n/es-ES.json',
+            },
+        });
+    });
+</script>
