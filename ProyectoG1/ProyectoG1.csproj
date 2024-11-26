@@ -307,6 +307,7 @@
     <Content Include="Views\Proyectos\DetallesProyecto.cshtml" />
     <Content Include="Views\Postulacion\ListadoProyectosConPostulaciones.cshtml" />
     <Content Include="Views\Postulacion\PostulacionesDeProyecto.cshtml" />
+    <Content Include="Views\Estudiante\BuscarPostulaciones.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

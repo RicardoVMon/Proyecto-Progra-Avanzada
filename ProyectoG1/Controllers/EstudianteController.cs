@@ -120,12 +120,26 @@ namespace ProyectoG1.Controllers
                 ViewBag.Universidades = universidades;
             }
         }
-
+        [HttpGet]
         public ActionResult BuscarProyecto()
         {
-            return View();
+            using (var context = new EncuentraTCUEntities())
+            {
+                var datos = context.Database.SqlQuery<ProyectoModel>("ConsultarProyectos").ToList();
+                return View(datos);
+            }
         }
 
 
+
+        [HttpGet]
+        public ActionResult BuscarPostulaciones()
+        {
+            using (var context = new EncuentraTCUEntities())
+            {
+                //var datos = context.Database.SqlQuery<PostulacionModel>("ConsultarPostulaciones").ToList();
+                return View();
+            }
+        }
     }
 }

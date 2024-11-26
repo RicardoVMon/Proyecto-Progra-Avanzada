@@ -1,4 +1,4 @@
-﻿
+﻿@model List<ProyectoG1.Models.ProyectoModel>
 
 <div class="card">
     <div class="card-body">
@@ -7,58 +7,32 @@
             <input id="searchInput" type="text" class="form-control w-50" placeholder="Buscar por palabra clave..." onkeyup="filterTable()" />
         </div>
 
-        <div class="table-responsive">
-            <table id="projectTable" class="table text-nowrap align-middle mb-0">
-                <thead>
-                    <tr class="border-2 border-bottom border-primary border-0">
-                        <th>Proyecto</th>
-                        <th>Descripción</th>
-                        <th>Estado</th>
-                        <th>Cupo</th>
+        <div class="table-responsive table-striped">
+            <table id="projectTable" class="table table-bordered table-hover align-middle">
+                <thead class="table-primary">
+                    <tr>
                         <th>Institución</th>
-                        <th>Carreras a fin</th>
+                        <th>Nombre del proyecto</th>
+                        <th>Descripción</th>
+                        <th>Cupo</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
-                <tbody class="table-group-divider">
-                    <!-- Datos simulados para prueba -->
-                    @* En esta sección se llena la tabla de manera manual mientras no tengas datos reales desde la BD *@
-                    @* Código comentado para datos desde BD
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>@item.IdProyecto</td>
-                                <td>@item.Nombre</td>
-                                <td title="@item.Descripcion">@item.Descripcion</td>
-                                <td>@item.Estado</td>
-                                <td>@item.Cupo</td>
-                                <td>
-                                    <a class="btn" href="@Url.Action("ActualizarProyecto", "Proyecto", new { id = item.IdProyecto })"><i class="fa fa-pencil-square-o" style="font-size: 1.4em;"></i></a>
-                                </td>
-                            </tr>
-                        }
-                    *@
-
-                    <!-- Datos estáticos para pruebas -->
-                    <tr>
-                        <td>1</td>
-                        <td>Proyecto Alpha</td>
-                        <td>Descripción breve del Proyecto Alpha</td>
-                        <td>Activo</td>
-                        <td>20</td>
-                        <td>
-                            <a class="btn" href="#"><i class="fa fa-pencil-square-o" style="font-size: 1.4em;"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Proyecto Beta</td>
-                        <td>Descripción breve del Proyecto Beta</td>
-                        <td>En Proceso</td>
-                        <td>15</td>
-                        <td>
-                            <a class="btn" href="#"><i class="fa fa-pencil-square-o" style="font-size: 1.4em;"></i></a>
-                        </td>
-                    </tr>
+                <tbody>
+                    @foreach (var proyecto in Model)
+                    {
+                        <tr>
+                            <td>@proyecto.IdInstitucion</td>
+                            <td>@proyecto.Nombre</td>
+                            <td>@proyecto.Descripcion</td>
+                            <td>@proyecto.Cupo</td>
+                            <td class="text-center">
+                                <a href="@Url.Action("DetallesProyecto", "Proyectos", new { p = proyecto.IdProyecto })" class="btn btn-primary btn-sm">
+                                    Visualizar
+                                </a>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
@@ -73,7 +47,7 @@
         table = document.getElementById("projectTable");
         rows = table.getElementsByTagName("tr");
 
-        for (i = 1; i < rows.length; i++) { // Empezamos en 1 para saltar el header
+        for (i = 1; i < rows.length; i++) {
             cells = rows[i].getElementsByTagName("td");
             found = false;
 

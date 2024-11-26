@@ -39,7 +39,7 @@
                         <p class="fw-bold" style="color: #1F283E;">@Model.Direccion</p>
                     </div>
                 </div>
-                @if (Session["Rol"].Equals("2"))
+                @if (Session["Rol"].ToString() == "1")
                 {
                     <div class="d-flex justify-content-center">
                         <a href="#" class="btn btn-primary btn-lg w-75" style="background-color:#1F283E; border-color: #1F283E;">Quiero Postularme a este proyecto!</a>
