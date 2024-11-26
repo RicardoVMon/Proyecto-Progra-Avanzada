@@ -1,14 +1,15 @@
 ﻿@model List<ProyectoG1.Models.ProyectoModel>
 
+<div class="row align-items-center mb-3">
+    <div class="col-12 col-md-8">
+        <h1 class="display-5">Búsqueda de Proyectos</h1>
+        <p class="text-muted">Busca los proyectos en los que estás interesado en la tabla a continuación.</p>
+    </div>
+</div>
 <div class="card">
     <div class="card-body">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="card-title">Buscar Proyecto</h5>
-            <input id="searchInput" type="text" class="form-control w-50" placeholder="Buscar por palabra clave..." onkeyup="filterTable()" />
-        </div>
-
         <div class="table-responsive table-striped">
-            <table id="projectTable" class="table table-bordered table-hover align-middle">
+            <table id="example" class="table table-bordered table-hover align-middle">
                 <thead class="table-primary">
                     <tr>
                         <th>Institución</th>
@@ -22,13 +23,13 @@
                     @foreach (var proyecto in Model)
                     {
                         <tr>
-                            <td>@proyecto.IdInstitucion</td>
+                            <td>@proyecto.NombreInstitucion</td>
                             <td>@proyecto.Nombre</td>
                             <td>@proyecto.Descripcion</td>
                             <td>@proyecto.Cupo</td>
                             <td class="text-center">
                                 <a href="@Url.Action("DetallesProyecto", "Proyectos", new { p = proyecto.IdProyecto })" class="btn btn-primary btn-sm">
-                                    Visualizar
+                                    Ver Proyecto
                                 </a>
                             </td>
                         </tr>
@@ -40,24 +41,11 @@
 </div>
 
 <script>
-    function filterTable() {
-        var input, filter, table, rows, cells, found, i, j;
-        input = document.getElementById("searchInput");
-        filter = input.value.toLowerCase();
-        table = document.getElementById("projectTable");
-        rows = table.getElementsByTagName("tr");
-
-        for (i = 1; i < rows.length; i++) {
-            cells = rows[i].getElementsByTagName("td");
-            found = false;
-
-            for (j = 0; j < cells.length; j++) {
-                if (cells[j] && cells[j].textContent.toLowerCase().indexOf(filter) > -1) {
-                    found = true;
-                    break;
-                }
-            }
-            rows[i].style.display = found ? "" : "none";
-        }
-    }
+    $(document).ready(function () {
+        $("#example").DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.1.8/i18n/es-ES.json',
+            },
+        });
+    });
 </script>

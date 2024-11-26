@@ -431,5 +431,36 @@ namespace ProyectoG1.Models
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ConsultarProyectos");
         }
+    
+        public virtual int InsertarPostulacion(Nullable<long> idEstudiante, Nullable<long> idProyecto)
+        {
+            var idEstudianteParameter = idEstudiante.HasValue ?
+                new ObjectParameter("IdEstudiante", idEstudiante) :
+                new ObjectParameter("IdEstudiante", typeof(long));
+    
+            var idProyectoParameter = idProyecto.HasValue ?
+                new ObjectParameter("IdProyecto", idProyecto) :
+                new ObjectParameter("IdProyecto", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertarPostulacion", idEstudianteParameter, idProyectoParameter);
+        }
+    
+        public virtual ObjectResult<ConsultarPostulaciones_Result> ConsultarPostulaciones(Nullable<long> idEstudiante)
+        {
+            var idEstudianteParameter = idEstudiante.HasValue ?
+                new ObjectParameter("IdEstudiante", idEstudiante) :
+                new ObjectParameter("IdEstudiante", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarPostulaciones_Result>("ConsultarPostulaciones", idEstudianteParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<long>> ObtenerEstudiantesPostulados(Nullable<long> idProyecto)
+        {
+            var idProyectoParameter = idProyecto.HasValue ?
+                new ObjectParameter("IdProyecto", idProyecto) :
+                new ObjectParameter("IdProyecto", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<long>>("ObtenerEstudiantesPostulados", idProyectoParameter);
+        }
     }
 }

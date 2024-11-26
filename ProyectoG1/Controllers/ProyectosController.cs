@@ -208,6 +208,9 @@ namespace ProyectoG1.Controllers
                             Nombre = categoria.Nombre
                         });
                     }
+                    var listaEstudiantesPostuladosBD = context.ObtenerEstudiantesPostulados(IdProyecto);
+                    var estudiantesPostulados = listaEstudiantesPostuladosBD.Select(idEstudiante => (long)idEstudiante).ToList();
+                    model.IdUsuariosPostulados = estudiantesPostulados;
                     model.Categorias = categorias;
                     return View(model);
                 }

@@ -137,8 +137,22 @@ namespace ProyectoG1.Controllers
         {
             using (var context = new EncuentraTCUEntities())
             {
-                //var datos = context.Database.SqlQuery<PostulacionModel>("ConsultarPostulaciones").ToList();
-                return View();
+                long idEstudiante = long.Parse(Session["Id"].ToString());
+                var datos = context.ConsultarPostulaciones(idEstudiante).ToList();
+                var postulaciones = new List<PostulacionModel>();
+                foreach (var postulacion in datos)
+                {
+                    postulaciones.Add(new PostulacionModel
+                    {
+                        IdProyecto = postulacion.IdProyecto,
+                        NombreInstitucion = postulacion.NombreInstitucion,
+                        NombreProyecto = postulacion.NombreInstitucion,
+                        Estado = postulacion.Estado,
+                        FechaPostulacion = postulacion.FechaPostulacion
+
+                    });
+                }
+                return View(postulaciones);
             }
         }
     }

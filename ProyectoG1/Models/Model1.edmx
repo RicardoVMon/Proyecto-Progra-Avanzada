@@ -350,6 +350,9 @@
           <Parameter Name="Direccion" Type="varchar" Mode="In" />
           <Parameter Name="CorreoAsociado" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="ConsultarPostulaciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="ConsultarProyectos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="DatosEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
@@ -368,11 +371,18 @@
           <Parameter Name="Contrasenna" Type="varchar" Mode="In" />
           <Parameter Name="TipoCedula" Type="int" Mode="In" />
         </Function>
+        <Function Name="InsertarPostulacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
+          <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="ObtenerCategoriasProyecto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
         </Function>
         <Function Name="ObtenerCategoriasUsadasEnInstitucion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerEstudiantesPostulados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
         </Function>
         <Function Name="ObtenerProyectoReciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
@@ -969,6 +979,16 @@
             <Parameter Name="CorreoAsociado" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ConsultarProyectos" />
+          <FunctionImport Name="InsertarPostulacion">
+            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+            <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarPostulaciones" ReturnType="Collection(EncuentraTCUModel.ConsultarPostulaciones_Result)" >
+          <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerEstudiantesPostulados" ReturnType="Collection(Int64)">
+            <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="DatosEstudiante_Result">
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
@@ -1030,6 +1050,15 @@
           <Property Type="String" Name="Estado" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="CreadoPor" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="Imagen" Nullable="true" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="ConsultarPostulaciones_Result">
+          <Property Type="Int64" Name="IdPostulacion" Nullable="false" />
+          <Property Type="Int64" Name="IdEstudiante" Nullable="false" />
+          <Property Type="Int64" Name="IdProyecto" Nullable="false" />
+          <Property Type="DateTime" Name="FechaPostulacion" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="20" />
+          <Property Type="Boolean" Name="ConfirmacionEstudiante" Nullable="false" />
+          <Property Type="String" Name="NombreInstitucion" Nullable="false" MaxLength="100" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1279,6 +1308,21 @@
           <FunctionImportMapping FunctionImportName="RegistrarInstitucion" FunctionName="EncuentraTCUModel.Store.RegistrarInstitucion" />
           <FunctionImportMapping FunctionImportName="RegistrarProyecto" FunctionName="EncuentraTCUModel.Store.RegistrarProyecto" />
           <FunctionImportMapping FunctionImportName="ConsultarProyectos" FunctionName="EncuentraTCUModel.Store.ConsultarProyectos" />
+          <FunctionImportMapping FunctionImportName="InsertarPostulacion" FunctionName="EncuentraTCUModel.Store.InsertarPostulacion" />
+          <FunctionImportMapping FunctionImportName="ConsultarPostulaciones" FunctionName="EncuentraTCUModel.Store.ConsultarPostulaciones">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ConsultarPostulaciones_Result">
+                <ScalarProperty Name="IdPostulacion" ColumnName="IdPostulacion" />
+                <ScalarProperty Name="IdEstudiante" ColumnName="IdEstudiante" />
+                <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+                <ScalarProperty Name="FechaPostulacion" ColumnName="FechaPostulacion" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="ConfirmacionEstudiante" ColumnName="ConfirmacionEstudiante" />
+                <ScalarProperty Name="NombreInstitucion" ColumnName="NombreInstitucion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ObtenerEstudiantesPostulados" FunctionName="EncuentraTCUModel.Store.ObtenerEstudiantesPostulados" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

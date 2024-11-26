@@ -1,7 +1,50 @@
-﻿
-@{
-    ViewBag.Title = "BuscarPostulaciones";
-}
+﻿@model List<ProyectoG1.Models.PostulacionModel>
+<div class="row align-items-center mb-3">
+    <div class="col-12 col-md-8">
+        <h1 class="display-5">Postulaciones</h1>
+        <p class="text-muted">Consulta y filtra las postulaciones disponibles en la tabla a continuación.</p>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive table-striped">
+            <table id="example" class="table table-bordered table-hover align-middle">
+                <thead class="table-primary">
+                    <tr>
+                        <th>Institución</th>
+                        <th>Nombre Proyecto</th>
+                        <th>Estado</th>
+                        <th>Fecha de Postulación</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var proyecto in Model)
+                    {
+                        <tr>
+                            <td>@proyecto.NombreInstitucion</td>
+                            <td>@proyecto.NombreProyecto</td>
+                            <td>@proyecto.Estado</td>
+                            <td>@proyecto.FechaPostulacion</td>
+                            <td class="text-center">
+                                <a href="@Url.Action("DetallesProyecto", "Proyectos", new { p = proyecto.IdProyecto })" class="btn btn-primary btn-sm">
+                                    Ver detalles
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-<h2>BuscarPostulaciones</h2>
-
+<script>
+    $(document).ready(function () {
+        $("#example").DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.1.8/i18n/es-ES.json',
+            },
+        });
+    });
+</script>
