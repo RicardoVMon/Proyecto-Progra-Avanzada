@@ -241,6 +241,7 @@ namespace ProyectoG1.Controllers
                     proyectos.Add(new ProyectoModel
                     {
                         IdProyecto = proyecto.IdProyecto,
+                        IdInstitucion = proyecto.IdInstitucion,
                         Nombre = proyecto.Nombre,
                         NombreInstitucion = proyecto.NombreInstitucion,
                         Descripcion = proyecto.Descripcion,

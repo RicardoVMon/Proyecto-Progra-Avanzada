@@ -25,7 +25,7 @@
                     {
                         var descripcion = (proyecto.Descripcion.Length > 150 ? proyecto.Descripcion.Substring(0, 150) + "..." : proyecto.Descripcion);
                         <tr>
-                            <td>@proyecto.NombreInstitucion</td>
+                            <td><a href="@Url.Action("PerfilInstitucion", "Institucion", new { q = proyecto.IdInstitucion})">@proyecto.NombreInstitucion</a></td>
                             <td>@proyecto.Nombre</td>
                             <td>@descripcion</td>
                             <td>
