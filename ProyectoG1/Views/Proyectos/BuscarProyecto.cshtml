@@ -12,9 +12,10 @@
             <table id="example" class="table table-bordered table-hover align-middle">
                 <thead class="table-primary">
                     <tr>
-                        <th>Institución</th>
-                        <th>Nombre del proyecto</th>
+                        <th>Institución que publica</th>
+                        <th>Nombre</th>
                         <th>Descripción</th>
+                        <th>Categorías</th>
                         <th>Cupo</th>
                         <th>Acciones</th>
                     </tr>
@@ -22,10 +23,19 @@
                 <tbody>
                     @foreach (var proyecto in Model)
                     {
+                        var descripcion = (proyecto.Descripcion.Length > 150 ? proyecto.Descripcion.Substring(0, 150) + "..." : proyecto.Descripcion);
                         <tr>
                             <td>@proyecto.NombreInstitucion</td>
                             <td>@proyecto.Nombre</td>
-                            <td>@proyecto.Descripcion</td>
+                            <td>@descripcion</td>
+                            <td>
+                                <div class="row px-4">
+                                    @foreach (var categoria in proyecto.Categorias)
+                                    {
+                                        <span class="badge bg-info col-12 mb-1">@categoria.Nombre</span>
+                                    }
+                                </div>
+                            </td>
                             <td>@proyecto.Cupo</td>
                             <td class="text-center">
                                 <a href="@Url.Action("DetallesProyecto", "Proyectos", new { p = proyecto.IdProyecto })" class="btn btn-primary btn-sm">

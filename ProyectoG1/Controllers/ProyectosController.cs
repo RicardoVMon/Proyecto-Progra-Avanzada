@@ -217,6 +217,44 @@ namespace ProyectoG1.Controllers
                 return View();
             }
         }
+
+        [HttpGet]
+        public ActionResult BuscarProyecto()
+        {
+            using (var context = new EncuentraTCUEntities())
+            {
+                var datos = context.ConsultarProyectos().ToList();
+                var proyectos = new List<ProyectoModel>();
+                foreach (var proyecto in datos)
+                {
+                    var listaCategoriasBD = context.ObtenerCategoriasProyecto(proyecto.IdProyecto);
+                    var categorias = new List<CategoriaModel>();
+                    foreach (var categoria in listaCategoriasBD)
+                    {
+                        categorias.Add(new CategoriaModel
+                        {
+                            IdCategoria = categoria.IdCategoria,
+                            Nombre = categoria.Nombre
+                        });
+                    }
+
+                    proyectos.Add(new ProyectoModel
+                    {
+                        IdProyecto = proyecto.IdProyecto,
+                        Nombre = proyecto.Nombre,
+                        NombreInstitucion = proyecto.NombreInstitucion,
+                        Descripcion = proyecto.Descripcion,
+                        Cupo = proyecto.Cupo,
+                        Imagen = proyecto.Imagen,
+                        Categorias = categorias
+
+                    });
+                    
+                }
+                return View(proyectos);
+            }
+        }
+
         public void ObtenerCategorias()
         {
             using (var context = new EncuentraTCUEntities())

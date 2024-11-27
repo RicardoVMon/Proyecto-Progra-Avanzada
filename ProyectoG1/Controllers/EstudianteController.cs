@@ -120,40 +120,8 @@ namespace ProyectoG1.Controllers
                 ViewBag.Universidades = universidades;
             }
         }
-        [HttpGet]
-        public ActionResult BuscarProyecto()
-        {
-            using (var context = new EncuentraTCUEntities())
-            {
-                var datos = context.Database.SqlQuery<ProyectoModel>("ConsultarProyectos").ToList();
-                return View(datos);
-            }
-        }
+        
 
-
-
-        [HttpGet]
-        public ActionResult BuscarPostulaciones()
-        {
-            using (var context = new EncuentraTCUEntities())
-            {
-                long idEstudiante = long.Parse(Session["Id"].ToString());
-                var datos = context.ConsultarPostulaciones(idEstudiante).ToList();
-                var postulaciones = new List<PostulacionModel>();
-                foreach (var postulacion in datos)
-                {
-                    postulaciones.Add(new PostulacionModel
-                    {
-                        IdProyecto = postulacion.IdProyecto,
-                        NombreInstitucion = postulacion.NombreInstitucion,
-                        NombreProyecto = postulacion.NombreInstitucion,
-                        Estado = postulacion.Estado,
-                        FechaPostulacion = postulacion.FechaPostulacion
-
-                    });
-                }
-                return View(postulaciones);
-            }
-        }
+        
     }
 }

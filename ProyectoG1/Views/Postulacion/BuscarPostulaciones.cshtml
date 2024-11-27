@@ -1,10 +1,17 @@
 ﻿@model List<ProyectoG1.Models.PostulacionModel>
 <div class="row align-items-center mb-3">
     <div class="col-12 col-md-8">
-        <h1 class="display-5">Postulaciones</h1>
-        <p class="text-muted">Consulta y filtra las postulaciones disponibles en la tabla a continuación.</p>
+        <h1 class="display-5">Tus Postulaciones</h1>
+        <p class="text-muted">Consulta y filtra las postulaciones que has realizado a diversas instituciones.</p>
     </div>
 </div>
+
+@if (ViewBag.Mensaje != null)
+{
+    <div class="alert alert-danger text-center" role="alert">
+        @ViewBag.Mensaje
+    </div>
+}
 <div class="card">
     <div class="card-body">
         <div class="table-responsive table-striped">
@@ -19,16 +26,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var proyecto in Model)
+                    @foreach (var postulacion in Model)
                     {
                         <tr>
-                            <td>@proyecto.NombreInstitucion</td>
-                            <td>@proyecto.NombreProyecto</td>
-                            <td>@proyecto.Estado</td>
-                            <td>@proyecto.FechaPostulacion</td>
+                            <td>@postulacion.NombreInstitucion</td>
+                            <td>@postulacion.NombreProyecto</td>
+                            <td>@postulacion.Estado</td>
+                            <td>@postulacion.FechaPostulacion</td>
                             <td class="text-center">
-                                <a href="@Url.Action("DetallesProyecto", "Proyectos", new { p = proyecto.IdProyecto })" class="btn btn-primary btn-sm">
+                                <a href="@Url.Action("DetallesProyecto", "Proyectos", new { p = postulacion.IdProyecto })" class="btn btn-primary btn-sm">
                                     Ver detalles
+                                </a>
+                                <a href="@Url.Action("EliminarPostulacion", "Postulacion", new { t = postulacion.IdPostulacion })" class="btn btn-danger btn-sm">
+                                    Retirar postulación
                                 </a>
                             </td>
                         </tr>
