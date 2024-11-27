@@ -146,6 +146,12 @@
     <Compile Include="Models\Conexion.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ConsultarPostulaciones_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ConsultarProyectos_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DatosEstudiante_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -155,7 +161,6 @@
     <Compile Include="Models\Estudiante.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Filtros.cs" />
     <Compile Include="Models\Genero.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -165,8 +170,6 @@
     <Compile Include="Models\Institucion.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\LoginModel.cs" />
-    <Compile Include="Models\CategoriaModel.cs" />
     <Compile Include="Models\Model1.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -194,6 +197,10 @@
     <Compile Include="Models\Postulacion.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PostulacionModel.cs" />
+    <Compile Include="Models\Filtros.cs" />
+    <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\CategoriaModel.cs" />
     <Compile Include="Models\Proyecto.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -299,6 +306,7 @@
     <Content Include="Views\Estudiante\PerfilEstudiante.cshtml" />
     <Content Include="Views\Estudiante\EditarPerfilEstudiante.cshtml" />
     <Content Include="Views\Institucion\PerfilInstitucion.cshtml" />
+    <Content Include="Views\Proyectos\BuscarProyecto.cshtml" />
     <Content Include="Views\Institucion\EditarPerfilInstitucion.cshtml" />
     <Content Include="Views\Proyectos\GestionProyectos.cshtml" />
     <Content Include="Views\Proyectos\CrearProyecto.cshtml" />
@@ -306,6 +314,7 @@
     <Content Include="Views\Proyectos\DetallesProyecto.cshtml" />
     <Content Include="Views\Postulacion\ListadoProyectosConPostulaciones.cshtml" />
     <Content Include="Views\Postulacion\PostulacionesDeProyecto.cshtml" />
+    <Content Include="Views\Postulacion\BuscarPostulaciones.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

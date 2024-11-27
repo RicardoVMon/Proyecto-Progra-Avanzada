@@ -128,26 +128,6 @@ namespace ProyectoG1.Controllers
                     Session["Rol"] = respuesta.IdRol;
                     Session["Imagen"] = respuesta.Imagen;
                     return RedirectToAction("Index", "Home");
-
-                    // Validar (Se puede simplificar si no se ocupan saber más datos según el rol)
-                    //if (model.TipoCedula == 2)
-                    //{
-                    //    Session["Id"] = respuesta.Id;
-                    //    Session["Nombre"] = respuesta.Nombre;
-                    //    Session["Email"] = respuesta.Email;
-                    //    Session["Rol"] = respuesta.IdRol;
-                    //    Session["Imagen"] = respuesta.Imagen;
-                    //    return RedirectToAction("Index", "Home");
-                    //}
-                    //else if (model.TipoCedula == 1)
-                    //{
-                    //    Session["IdEstudiante"] = respuesta.Id;
-                    //    Session["Nombre"] = respuesta.Nombre;
-                    //    Session["Email"] = respuesta.Email;
-                    //    Session["Rol"] = respuesta.IdRol;
-                    //    Session["Imagen"] = respuesta.Imagen;
-                    //    return RedirectToAction("Index", "Home");
-                    //}
                 }
 
                 // Mensaje de error si falla

@@ -120,6 +120,8 @@ namespace ProyectoG1.Controllers
                 ViewBag.Universidades = universidades;
             }
         }
+        
 
+        
     }
 }

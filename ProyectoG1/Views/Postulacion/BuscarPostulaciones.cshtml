@@ -1,0 +1,60 @@
+﻿@model List<ProyectoG1.Models.PostulacionModel>
+<div class="row align-items-center mb-3">
+    <div class="col-12 col-md-8">
+        <h1 class="display-5">Tus Postulaciones</h1>
+        <p class="text-muted">Consulta y filtra las postulaciones que has realizado a diversas instituciones.</p>
+    </div>
+</div>
+
+@if (ViewBag.Mensaje != null)
+{
+    <div class="alert alert-danger text-center" role="alert">
+        @ViewBag.Mensaje
+    </div>
+}
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive table-striped">
+            <table id="example" class="table table-bordered table-hover align-middle">
+                <thead class="table-primary">
+                    <tr>
+                        <th>Institución</th>
+                        <th>Nombre Proyecto</th>
+                        <th>Estado</th>
+                        <th>Fecha de Postulación</th>
+                        <th>Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var postulacion in Model)
+                    {
+                        <tr>
+                            <td>@postulacion.NombreInstitucion</td>
+                            <td>@postulacion.NombreProyecto</td>
+                            <td>@postulacion.Estado</td>
+                            <td>@postulacion.FechaPostulacion</td>
+                            <td class="text-center">
+                                <a href="@Url.Action("DetallesProyecto", "Proyectos", new { p = postulacion.IdProyecto })" class="btn btn-primary btn-sm">
+                                    Ver detalles
+                                </a>
+                                <a href="@Url.Action("EliminarPostulacion", "Postulacion", new { t = postulacion.IdPostulacion })" class="btn btn-danger btn-sm">
+                                    Retirar postulación
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#example").DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.1.8/i18n/es-ES.json',
+            },
+        });
+    });
+</script>

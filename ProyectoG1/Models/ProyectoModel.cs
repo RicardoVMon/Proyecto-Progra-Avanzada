@@ -20,6 +20,8 @@ namespace ProyectoG1.Models
         public string CorreoAsociado { get; set; }
         public List<CategoriaModel> Categorias { get; set; }
         public List<int> CategoriasSeleccionadas { get; set; }
+        public List<long> IdUsuariosPostulados { get; set; }
+        public string NombreInstitucion { get; set; }
 
     }
 }

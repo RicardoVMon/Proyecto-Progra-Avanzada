@@ -1,0 +1,61 @@
+﻿@model List<ProyectoG1.Models.ProyectoModel>
+
+<div class="row align-items-center mb-3">
+    <div class="col-12 col-md-8">
+        <h1 class="display-5">Búsqueda de Proyectos</h1>
+        <p class="text-muted">Busca los proyectos en los que estás interesado en la tabla a continuación.</p>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive table-striped">
+            <table id="example" class="table table-bordered table-hover align-middle">
+                <thead class="table-primary">
+                    <tr>
+                        <th>Institución que publica</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Categorías</th>
+                        <th>Cupo</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var proyecto in Model)
+                    {
+                        var descripcion = (proyecto.Descripcion.Length > 150 ? proyecto.Descripcion.Substring(0, 150) + "..." : proyecto.Descripcion);
+                        <tr>
+                            <td><a href="@Url.Action("PerfilInstitucion", "Institucion", new { q = proyecto.IdInstitucion})">@proyecto.NombreInstitucion</a></td>
+                            <td>@proyecto.Nombre</td>
+                            <td>@descripcion</td>
+                            <td>
+                                <div class="row px-4">
+                                    @foreach (var categoria in proyecto.Categorias)
+                                    {
+                                        <span class="badge bg-info col-12 mb-1">@categoria.Nombre</span>
+                                    }
+                                </div>
+                            </td>
+                            <td>@proyecto.Cupo</td>
+                            <td class="text-center">
+                                <a href="@Url.Action("DetallesProyecto", "Proyectos", new { p = proyecto.IdProyecto })" class="btn btn-primary btn-sm">
+                                    Ver Proyecto
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#example").DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.1.8/i18n/es-ES.json',
+            },
+        });
+    });
+</script>

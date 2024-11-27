@@ -1,6 +1,5 @@
 ﻿@model ProyectoG1.Models.ProyectoModel
 
-
 <section class="container-fluid d-flex flex-grow-1 h-100 px-0">
     <div class="col">
         <img src="@Model.Imagen" class="img-fluid" style="object-fit: cover; height: 100%">
@@ -39,11 +38,20 @@
                         <p class="fw-bold" style="color: #1F283E;">@Model.Direccion</p>
                     </div>
                 </div>
-                @if (Session["Rol"].Equals("2"))
+                @if (Session["Rol"].ToString() == "1")
                 {
-                    <div class="d-flex justify-content-center">
-                        <a href="#" class="btn btn-primary btn-lg w-75" style="background-color:#1F283E; border-color: #1F283E;">Quiero Postularme a este proyecto!</a>
-                    </div>
+                    if (Model.IdUsuariosPostulados.Contains(long.Parse((Session["Id"].ToString()))))
+                    {
+                        <div class="d-flex justify-content-center">
+                            <a href="#" class="btn btn-success btn-lg w-75">Ya estás postulado a este proyecto</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="d-flex justify-content-center">
+                            <a href="@Url.Action("PostularseProyecto", "Postulacion", new { p = Request.QueryString["p"] })" class="btn btn-primary btn-lg w-75" style="background-color:#1F283E; border-color: #1F283E;">Quiero Postularme a este proyecto!</a>
+                        </div>
+                    }
                 }
                 else
                 {
