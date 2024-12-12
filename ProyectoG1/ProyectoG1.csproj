@@ -315,6 +315,7 @@
     <Content Include="Views\Postulacion\ListadoProyectosConPostulaciones.cshtml" />
     <Content Include="Views\Postulacion\PostulacionesDeProyecto.cshtml" />
     <Content Include="Views\Postulacion\BuscarPostulaciones.cshtml" />
+    <Content Include="Views\Autenticacion\CambiarContrasennaTemp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

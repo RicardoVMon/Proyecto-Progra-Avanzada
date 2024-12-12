@@ -350,6 +350,11 @@
           <Parameter Name="Direccion" Type="varchar" Mode="In" />
           <Parameter Name="CorreoAsociado" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="CambiarContrasennaTemp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Cedula" Type="varchar" Mode="In" />
+          <Parameter Name="TipoCedula" Type="int" Mode="In" />
+          <Parameter Name="NuevaContrasenna" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="ConsultarPostulaciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
         </Function>
@@ -993,7 +998,12 @@
             <Parameter Name="CorreoAsociado" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="EliminarPostulacion">
-            <Parameter Name="IdPostulacion" Mode="In" Type="Int64" />
+          <Parameter Name="IdPostulacion" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="CambiarContrasennaTemp">
+            <Parameter Name="Cedula" Mode="In" Type="String" />
+            <Parameter Name="TipoCedula" Mode="In" Type="Int32" />
+            <Parameter Name="NuevaContrasenna" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="ConsultarPostulaciones_Result">
@@ -1353,6 +1363,7 @@
           <FunctionImportMapping FunctionImportName="RegistrarInstitucion" FunctionName="EncuentraTCUModel.Store.RegistrarInstitucion" />
           <FunctionImportMapping FunctionImportName="RegistrarProyecto" FunctionName="EncuentraTCUModel.Store.RegistrarProyecto" />
           <FunctionImportMapping FunctionImportName="EliminarPostulacion" FunctionName="EncuentraTCUModel.Store.EliminarPostulacion" />
+          <FunctionImportMapping FunctionImportName="CambiarContrasennaTemp" FunctionName="EncuentraTCUModel.Store.CambiarContrasennaTemp" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
