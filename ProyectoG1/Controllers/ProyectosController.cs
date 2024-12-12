@@ -300,5 +300,15 @@ namespace ProyectoG1.Controllers
                 ViewBag.Categorias = categoriasProyecto;
             }
         }
+
+        [HttpGet]
+        public ActionResult ObtenerSugerencias(string query)
+        {
+            using (var context = new EncuentraTCUEntities())
+            {
+                var resultados = context.ObtenerSugerencias(query).ToList();
+                return Json(resultados, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

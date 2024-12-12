@@ -404,6 +404,9 @@
         <Function Name="ObtenerProyectosInstitucion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
         </Function>
+        <Function Name="ObtenerSugerencias" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Query" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="RegistrarCategoriaProyecto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
           <Parameter Name="IdCategoria" Type="bigint" Mode="In" />
@@ -1005,6 +1008,9 @@
             <Parameter Name="TipoCedula" Mode="In" Type="Int32" />
             <Parameter Name="NuevaContrasenna" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="ObtenerSugerencias" ReturnType="Collection(String)">
+          <Parameter Name="Query" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="ConsultarPostulaciones_Result">
           <Property Type="Int64" Name="IdPostulacion" Nullable="false" />
@@ -1364,6 +1370,7 @@
           <FunctionImportMapping FunctionImportName="RegistrarProyecto" FunctionName="EncuentraTCUModel.Store.RegistrarProyecto" />
           <FunctionImportMapping FunctionImportName="EliminarPostulacion" FunctionName="EncuentraTCUModel.Store.EliminarPostulacion" />
           <FunctionImportMapping FunctionImportName="CambiarContrasennaTemp" FunctionName="EncuentraTCUModel.Store.CambiarContrasennaTemp" />
+          <FunctionImportMapping FunctionImportName="ObtenerSugerencias" FunctionName="EncuentraTCUModel.Store.ObtenerSugerencias" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
