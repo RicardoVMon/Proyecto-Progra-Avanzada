@@ -1,0 +1,84 @@
+﻿
+@model ProyectoG1.Models.LoginModel
+@{
+    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+}
+
+<nav class="navbar navbar-dark navbar-extend p-2" style="background-color: #1A2035;">
+    <div class="container-fluid">
+        <a class="navbar-brand fs-4 fw-bold" href="@Url.Action("Ingresar","Autenticacion")">
+            <i class="fa-solid fa-hand-holding-heart mx-2"></i> Proyectos reales, progreso para todos.
+        </a>
+    </div>
+</nav>
+
+<section class="container-fluid d-flex flex-grow-1 px-0">
+    <div class="col">
+        <img src="https://images.pexels.com/photos/3183190/pexels-photo-3183190.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="img-fluid" style="object-fit: cover; height: 100%" />
+    </div>
+    <div class="col d-flex align-items-center">
+        <div class="container-fluid d-flex flex-column">
+            <form class="pb-4 border-bottom px-5" action="" method="POST">
+                <div class="text-center fw-bold" style="font-size: 10vh; color: #1F283E;">EncuentraTCU</div>
+                <h2 class="mb-5 text-center" style="color: #1F283E;">Actualizar Contraseña</h2>
+                <p class="mb-4 text-center">Por favor actualice su contraseña.</p>
+
+                @if (ViewBag.MensajePantalla != null)
+                {
+                    <div class="alert alert-danger text-center" role="alert">
+                        @ViewBag.MensajePantalla
+                    </div>
+                }
+
+                @using (Html.BeginForm("CambiarContrasennaTemp", "Autenticacion", FormMethod.Post))
+                {
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="form-group form-floating mb-4">
+                                @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control", @placeholder = "Cédula", @required = "true", @name = "cedula", @id = "cedula" })
+                                <label class="form-label">Cédula</label>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group form-floating mb-4">
+                                @Html.DropDownListFor(m => m.TipoCedula,
+                                    new List<SelectListItem>
+                                    {
+                                        new SelectListItem { Text = "Seleccione un tipo de cédula", Value = "" },
+                                        new SelectListItem { Text = "Física", Value = "1" },
+                                        new SelectListItem { Text = "Jurídica", Value = "2" }
+                                    },
+                                    new { @class = "form-select", @required = "true" })
+                                <label class="form-label">Tipo de Cédula</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-floating mb-4">
+                        @Html.PasswordFor(m => m.NuevaContrasenna, new { @class = "form-control", @placeholder = "Nueva contraseña", @required = "true" })
+                        <label class="form-label">Nueva contraseña</label>
+                    </div>
+
+                    <div class="form-group form-floating mb-4">
+                        @Html.PasswordFor(m => m.ConfirmarContrasenna, new { @class = "form-control", @placeholder = "Confirmar contraseña", @required = "true" })
+                        <label class="form-label">Confirmar contraseña</label>
+                    </div>
+
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-primary btn-lg" style="background-color:#1F283E; border-color: #1F283E;">
+                            Actualizar
+                        </button>
+                    </div>
+                }
+                <div class="mt-4 text-center">
+                    <a href="@Url.Action("RegistroEstudiante", "Autenticacion")" class="under">¿No tenés Cuenta? <br> ¡Crea una ya!</a>
+                </div>
+                <div class="mt-2 text-center">
+                    <a href="@Url.Action("Ingresar", "Autenticacion")" class="under">Si ya tenés una cuenta, <br> Iniciá Sesión</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+

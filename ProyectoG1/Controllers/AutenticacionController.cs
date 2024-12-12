@@ -120,6 +120,13 @@ namespace ProyectoG1.Controllers
                     {
                         ViewBag.MensajePantalla = "Su contraseña temporal ha expirado. Por favor, recupere su contraseña.";
                         return RedirectToAction("RecuperarContrasenna", "Autenticacion");
+                    } 
+                    else if (respuesta.TieneContrasennaTemp && respuesta.FechaVencimientoTemp > DateTime.Now)
+                    {
+                        ViewBag.MensajePantalla = "Debe actualizar su contraseña antes de ingresar.";
+                        TempData["Cedula"] = model.Cedula;
+                        TempData["TipoCedula"] = model.TipoCedula;
+                        return RedirectToAction("CambiarContrasennaTemp", "Autenticacion");
                     }
 
                     Session["Id"] = respuesta.Id;
@@ -280,5 +287,88 @@ namespace ProyectoG1.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult CambiarContrasennaTemp()
+        {
+            return View();
+        }
+
+        /*[HttpPost]
+        public ActionResult CambiarContrasennaTempxxxxxx(LoginModel model)
+        {
+            if (model.ContrasennaAnterior == model.Contrasenna)
+            {
+                ViewBag.MensajePantalla = "Debe ingresar una contraseña nueva";
+                return View();
+            }
+            else if (model.Contrasenna != model.ConfirmarContrasenna)
+            {
+                ViewBag.MensajePantalla = "Las nuevas contraseñas no coinciden";
+                return View();
+            }
+
+            using (var context = new KDataBaseEntities())
+            {
+                long Consecutivo = long.Parse(Session["Consecutivo"].ToString());
+                var datos = context.tUsuario.Where(x => x.Consecutivo == Consecutivo).FirstOrDefault();
+
+                if (datos != null)
+                {
+                    if (datos.Contrasenna != model.ContrasennaAnterior)
+                    {
+                        ViewBag.MensajePantalla = "La contraseña anterior no coincide";
+                        return View();
+                    }
+
+                    datos.Contrasenna = model.Contrasenna;
+                    datos.TieneContrasennaTemp = false;
+                    datos.FechaVencimientoTemp = DateTime.Now;
+                    context.SaveChanges();
+                    return RedirectToAction("Index", "Home");
+                }
+
+                ViewBag.MensajePantalla = "Sus credenciales no se han podido actualizar correctamente";
+                return View();
+            }
+        }*/
+
+        [HttpPost]
+        public ActionResult CambiarContrasennaTemp(LoginModel model)
+        {
+            using (var context = new EncuentraTCUEntities())
+            {
+                if (model.TipoCedula == 1) // Estudiante
+                {
+                    var estudiante = context.Estudiante.Where(x => x.Cedula == model.Cedula).FirstOrDefault();
+                    if (estudiante != null)
+                        return ProcesarCambiarContrasenna(context, model.TipoCedula, estudiante.Cedula, model.NuevaContrasenna, model.ConfirmarContrasenna);
+                }
+                else if (model.TipoCedula == 2) // Institución
+                {
+                    var institucion = context.Institucion.Where(x => x.Cedula == model.Cedula).FirstOrDefault();
+                    if (institucion != null)
+                        return ProcesarCambiarContrasenna(context, model.TipoCedula, institucion.Cedula, model.NuevaContrasenna, model.ConfirmarContrasenna);
+                }
+
+                ViewBag.MensajePantalla = "La información no se ha podido validar correctamente.";
+                return View();
+            }
+
+        }
+
+        private ActionResult ProcesarCambiarContrasenna(EncuentraTCUEntities context, int tipoCedula, string cedula, string NuevaContrasenna, string ConfirmarContrasenna)
+        {
+
+            if (NuevaContrasenna != ConfirmarContrasenna)
+            {
+                ViewBag.MensajePantalla = "Las contraseñas no coinciden.";
+                return View();
+            }
+
+            context.CambiarContrasennaTemp(cedula, tipoCedula, NuevaContrasenna);
+
+            return RedirectToAction("Ingresar", "Autenticacion");
+
+        }
     }
 }

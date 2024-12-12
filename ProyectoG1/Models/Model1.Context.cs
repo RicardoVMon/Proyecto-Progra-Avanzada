@@ -471,5 +471,22 @@ namespace ProyectoG1.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("EliminarPostulacion", idPostulacionParameter);
         }
+    
+        public virtual int CambiarContrasennaTemp(string cedula, Nullable<int> tipoCedula, string nuevaContrasenna)
+        {
+            var cedulaParameter = cedula != null ?
+                new ObjectParameter("Cedula", cedula) :
+                new ObjectParameter("Cedula", typeof(string));
+    
+            var tipoCedulaParameter = tipoCedula.HasValue ?
+                new ObjectParameter("TipoCedula", tipoCedula) :
+                new ObjectParameter("TipoCedula", typeof(int));
+    
+            var nuevaContrasennaParameter = nuevaContrasenna != null ?
+                new ObjectParameter("NuevaContrasenna", nuevaContrasenna) :
+                new ObjectParameter("NuevaContrasenna", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CambiarContrasennaTemp", cedulaParameter, tipoCedulaParameter, nuevaContrasennaParameter);
+        }
     }
 }
