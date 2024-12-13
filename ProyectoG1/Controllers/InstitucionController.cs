@@ -95,7 +95,11 @@ namespace ProyectoG1.Controllers
 
                 if (ImagenInstitucion != null)
                 {
-                    System.IO.File.Delete(AppDomain.CurrentDomain.BaseDirectory + model.Imagen);
+                    if (!(model.Imagen == "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"))
+                    {
+                        System.IO.File.Delete(AppDomain.CurrentDomain.BaseDirectory + model.Imagen);
+                    }
+
                     string extension = Path.GetExtension(ImagenInstitucion.FileName);
                     string rutaLocal = AppDomain.CurrentDomain.BaseDirectory + "Imagenes\\Instituciones\\" + idInstitucion + extension;
                     ImagenInstitucion.SaveAs(rutaLocal);

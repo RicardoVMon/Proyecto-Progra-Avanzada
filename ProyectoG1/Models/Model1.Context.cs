@@ -91,7 +91,7 @@ namespace ProyectoG1.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarImagenProyecto", idProyectoParameter, imagenParameter);
         }
     
-        public virtual int ActualizarPerfilEstudiante(Nullable<long> idEstudiante, Nullable<long> idUniversidad, string carrera, string email, string descripcion)
+        public virtual int ActualizarPerfilEstudiante(Nullable<long> idEstudiante, Nullable<long> idUniversidad, string carrera, string email, string descripcion, string imagen)
         {
             var idEstudianteParameter = idEstudiante.HasValue ?
                 new ObjectParameter("IdEstudiante", idEstudiante) :
@@ -113,7 +113,11 @@ namespace ProyectoG1.Models
                 new ObjectParameter("Descripcion", descripcion) :
                 new ObjectParameter("Descripcion", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarPerfilEstudiante", idEstudianteParameter, idUniversidadParameter, carreraParameter, emailParameter, descripcionParameter);
+            var imagenParameter = imagen != null ?
+                new ObjectParameter("Imagen", imagen) :
+                new ObjectParameter("Imagen", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarPerfilEstudiante", idEstudianteParameter, idUniversidadParameter, carreraParameter, emailParameter, descripcionParameter, imagenParameter);
         }
     
         public virtual int ActualizarPerfilInstitucion(Nullable<long> idInstitucion, string nombre, string telefono, string email, string descripcion, string paginaWeb, string imagen, Nullable<long> idTipoInstitucion)
@@ -497,6 +501,50 @@ namespace ProyectoG1.Models
                 new ObjectParameter("CorreoAsociado", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistrarProyecto", idInstitucionParameter, nombreParameter, descripcionParameter, cupoParameter, creadoPorInstitucionParameter, contactoParameter, direccionParameter, correoAsociadoParameter);
+        }
+    
+        public virtual int ActualizarImagenEstudiante(Nullable<long> idEstudiante, string imagen)
+        {
+            var idEstudianteParameter = idEstudiante.HasValue ?
+                new ObjectParameter("IdEstudiante", idEstudiante) :
+                new ObjectParameter("IdEstudiante", typeof(long));
+    
+            var imagenParameter = imagen != null ?
+                new ObjectParameter("Imagen", imagen) :
+                new ObjectParameter("Imagen", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarImagenEstudiante", idEstudianteParameter, imagenParameter);
+        }
+    
+        public virtual int EliminarHabilidadesEstudiante(Nullable<long> idEstudiante)
+        {
+            var idEstudianteParameter = idEstudiante.HasValue ?
+                new ObjectParameter("IdEstudiante", idEstudiante) :
+                new ObjectParameter("IdEstudiante", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("EliminarHabilidadesEstudiante", idEstudianteParameter);
+        }
+    
+        public virtual int RegistrarHabilidadEstudiante(Nullable<long> idEstudiante, Nullable<long> idHabilidad)
+        {
+            var idEstudianteParameter = idEstudiante.HasValue ?
+                new ObjectParameter("IdEstudiante", idEstudiante) :
+                new ObjectParameter("IdEstudiante", typeof(long));
+    
+            var idHabilidadParameter = idHabilidad.HasValue ?
+                new ObjectParameter("IdHabilidad", idHabilidad) :
+                new ObjectParameter("IdHabilidad", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistrarHabilidadEstudiante", idEstudianteParameter, idHabilidadParameter);
+        }
+    
+        public virtual ObjectResult<ObtenerHabilidadesParaEditar_Result> ObtenerHabilidadesParaEditar(Nullable<long> idEstudiante)
+        {
+            var idEstudianteParameter = idEstudiante.HasValue ?
+                new ObjectParameter("IdEstudiante", idEstudiante) :
+                new ObjectParameter("IdEstudiante", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerHabilidadesParaEditar_Result>("ObtenerHabilidadesParaEditar", idEstudianteParameter);
         }
     }
 }

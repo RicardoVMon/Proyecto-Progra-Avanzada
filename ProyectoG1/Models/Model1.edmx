@@ -354,6 +354,10 @@
           <Parameter Name="TieneContrasennaTemp" Type="bit" Mode="In" />
           <Parameter Name="FechaVencimientoTemp" Type="datetime" Mode="In" />
         </Function>
+        <Function Name="ActualizarImagenEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
+          <Parameter Name="Imagen" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="ActualizarImagenInstitucion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
           <Parameter Name="Imagen" Type="varchar" Mode="In" />
@@ -368,6 +372,7 @@
           <Parameter Name="Carrera" Type="varchar" Mode="In" />
           <Parameter Name="Email" Type="varchar" Mode="In" />
           <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+          <Parameter Name="Imagen" Type="varchar" Mode="In" />
         </Function>
         <Function Name="ActualizarPerfilInstitucion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
@@ -407,6 +412,9 @@
         <Function Name="EliminarCategoriasProyecto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
         </Function>
+        <Function Name="EliminarHabilidadesEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="EliminarPostulacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdPostulacion" Type="bigint" Mode="In" />
         </Function>
@@ -432,6 +440,9 @@
           <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
         </Function>
         <Function Name="ObtenerHabilidadesEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerHabilidadesParaEditar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
         </Function>
         <Function Name="ObtenerProyectoReciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -460,6 +471,10 @@
           <Parameter Name="Apellidos" Type="varchar" Mode="In" />
           <Parameter Name="Descripcion" Type="varchar" Mode="In" />
           <Parameter Name="Carrera" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="RegistrarHabilidadEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
+          <Parameter Name="IdHabilidad" Type="bigint" Mode="In" />
         </Function>
         <Function Name="RegistrarInstitucion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdTipoInstitucion" Type="bigint" Mode="In" />
@@ -587,6 +602,7 @@
             <Parameter Name="Carrera" Mode="In" Type="String" />
             <Parameter Name="Email" Mode="In" Type="String" />
             <Parameter Name="Descripcion" Mode="In" Type="String" />
+            <Parameter Name="Imagen" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ActualizarPerfilInstitucion">
             <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
@@ -768,6 +784,20 @@
             <End Role="Categoria" EntitySet="Categoria" />
             <End Role="Proyecto" EntitySet="Proyecto" />
           </AssociationSet>
+          <FunctionImport Name="ActualizarImagenEstudiante">
+            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+            <Parameter Name="Imagen" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="EliminarHabilidadesEstudiante">
+          <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="RegistrarHabilidadEstudiante">
+            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+            <Parameter Name="IdHabilidad" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerHabilidadesParaEditar" ReturnType="Collection(EncuentraTCUModel.ObtenerHabilidadesParaEditar_Result)">
+          <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="ConsultarPostulaciones_Result">
           <Property Type="Int64" Name="IdPostulacion" Nullable="false" />
@@ -1159,6 +1189,10 @@
           <End Type="EncuentraTCUModel.Categoria" Role="Categoria" Multiplicity="*" />
           <End Type="EncuentraTCUModel.Proyecto" Role="Proyecto" Multiplicity="*" />
         </Association>
+        <ComplexType Name="ObtenerHabilidadesParaEditar_Result">
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="Int64" Name="IdHabilidad" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1454,6 +1488,17 @@
               <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
             </EndProperty>
           </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="ActualizarImagenEstudiante" FunctionName="EncuentraTCUModel.Store.ActualizarImagenEstudiante" />
+          <FunctionImportMapping FunctionImportName="EliminarHabilidadesEstudiante" FunctionName="EncuentraTCUModel.Store.EliminarHabilidadesEstudiante" />
+          <FunctionImportMapping FunctionImportName="RegistrarHabilidadEstudiante" FunctionName="EncuentraTCUModel.Store.RegistrarHabilidadEstudiante" />
+          <FunctionImportMapping FunctionImportName="ObtenerHabilidadesParaEditar" FunctionName="EncuentraTCUModel.Store.ObtenerHabilidadesParaEditar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ObtenerHabilidadesParaEditar_Result">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdHabilidad" ColumnName="IdHabilidad" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

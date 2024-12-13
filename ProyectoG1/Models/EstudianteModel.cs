@@ -25,5 +25,6 @@ namespace ProyectoG1.Models
         public String NombreUniversidad { get; set; }
         public bool TieneContrasennaTemp { get; set; }
         public List<HabilidadModel> Habilidades { get; set; }
+        public List<int> HabilidadesSeleccionadas { get; set; }
     }
 }
