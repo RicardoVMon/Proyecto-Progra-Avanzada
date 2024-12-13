@@ -10,14 +10,24 @@ namespace ProyectoG1.Controllers
     [Filtros]
     public class EstudianteController : Controller
     {
-        [HttpGet]
-        public ActionResult PerfilEstudiante()
-        {
-            long idEstudiante = long.Parse(Session["IdEstudiante"].ToString());
 
+        [HttpGet]
+        public ActionResult PerfilEstudiante(long q)
+        {
+            var IdEstudiante = q;
             using (var context = new EncuentraTCUEntities())
             {
-                var respuesta = context.DatosEstudiante(idEstudiante).FirstOrDefault();
+                var respuesta = context.DatosEstudiante(IdEstudiante).FirstOrDefault();
+
+                var habilidadesEstudiante = context.ObtenerHabilidadesEstudiante(IdEstudiante).ToList();
+                var listaHabilidades = new List<HabilidadModel>();
+                foreach (var habilidad in habilidadesEstudiante)
+                {
+                    listaHabilidades.Add(new HabilidadModel
+                    {
+                        Nombre = habilidad
+                    });
+                }
 
                 if (respuesta != null)
                 {
@@ -26,12 +36,13 @@ namespace ProyectoG1.Controllers
                         Nombre = respuesta.Nombre,
                         Apellidos = respuesta.Apellidos,
                         Email = respuesta.Email,
-                        Descripcion = respuesta.Descripcion,  
+                        Descripcion = respuesta.Descripcion,
                         Carrera = respuesta.Carrera,
                         Imagen = respuesta.Imagen,
                         NombreRol = respuesta.NombreRol,
                         NombreGenero = respuesta.NombreGenero,
-                        NombreUniversidad = respuesta.NombreUniversidad
+                        NombreUniversidad = respuesta.NombreUniversidad,
+                        Habilidades = listaHabilidades
                     };
 
                     return View(model);
@@ -40,6 +51,8 @@ namespace ProyectoG1.Controllers
                 return View();
             }
         }
+
+        //----------------------------------------------------------------------
 
         [HttpGet]
         public ActionResult EditarPerfilEstudiante()

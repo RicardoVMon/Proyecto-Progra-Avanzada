@@ -12,6 +12,12 @@
             @ViewBag.MensajeError
         </div>
     }
+    @if (ViewBag.MensajeExito != null)
+    {
+        <div class="alert alert-success text-center" role="alert">
+            @ViewBag.MensajeExito
+        </div>
+    }
 
     @using (Html.BeginForm("EditarPerfilEstudiante", "Estudiante"))
     {

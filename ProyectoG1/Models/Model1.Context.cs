@@ -32,6 +32,7 @@ namespace ProyectoG1.Models
         public virtual DbSet<Conexion> Conexion { get; set; }
         public virtual DbSet<Estudiante> Estudiante { get; set; }
         public virtual DbSet<Genero> Genero { get; set; }
+        public virtual DbSet<Habilidad> Habilidad { get; set; }
         public virtual DbSet<Institucion> Institucion { get; set; }
         public virtual DbSet<Postulacion> Postulacion { get; set; }
         public virtual DbSet<Proyecto> Proyecto { get; set; }
@@ -189,6 +190,23 @@ namespace ProyectoG1.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarProyecto", idProyectoParameter, nombreParameter, descripcionParameter, cupoParameter, imagenParameter, contactoParameter, direccionParameter, correoAsociadoParameter);
         }
     
+        public virtual int CambiarContrasennaTemp(string cedula, Nullable<int> tipoCedula, string nuevaContrasenna)
+        {
+            var cedulaParameter = cedula != null ?
+                new ObjectParameter("Cedula", cedula) :
+                new ObjectParameter("Cedula", typeof(string));
+    
+            var tipoCedulaParameter = tipoCedula.HasValue ?
+                new ObjectParameter("TipoCedula", tipoCedula) :
+                new ObjectParameter("TipoCedula", typeof(int));
+    
+            var nuevaContrasennaParameter = nuevaContrasenna != null ?
+                new ObjectParameter("NuevaContrasenna", nuevaContrasenna) :
+                new ObjectParameter("NuevaContrasenna", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CambiarContrasennaTemp", cedulaParameter, tipoCedulaParameter, nuevaContrasennaParameter);
+        }
+    
         public virtual ObjectResult<ConsultarPostulaciones_Result> ConsultarPostulaciones(Nullable<long> idEstudiante)
         {
             var idEstudianteParameter = idEstudiante.HasValue ?
@@ -228,6 +246,15 @@ namespace ProyectoG1.Models
                 new ObjectParameter("IdProyecto", typeof(long));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("EliminarCategoriasProyecto", idProyectoParameter);
+        }
+    
+        public virtual int EliminarPostulacion(Nullable<long> idPostulacion)
+        {
+            var idPostulacionParameter = idPostulacion.HasValue ?
+                new ObjectParameter("IdPostulacion", idPostulacion) :
+                new ObjectParameter("IdPostulacion", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("EliminarPostulacion", idPostulacionParameter);
         }
     
         public virtual int EliminarProyecto(Nullable<long> idProyecto)
@@ -294,6 +321,15 @@ namespace ProyectoG1.Models
                 new ObjectParameter("IdProyecto", typeof(long));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<long>>("ObtenerEstudiantesPostulados", idProyectoParameter);
+        }
+    
+        public virtual ObjectResult<string> ObtenerHabilidadesEstudiante(Nullable<long> idEstudiante)
+        {
+            var idEstudianteParameter = idEstudiante.HasValue ?
+                new ObjectParameter("IdEstudiante", idEstudiante) :
+                new ObjectParameter("IdEstudiante", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("ObtenerHabilidadesEstudiante", idEstudianteParameter);
         }
     
         public virtual ObjectResult<Nullable<long>> ObtenerProyectoReciente(Nullable<long> idInstitucion, string nombre, string descripcion, Nullable<int> cupo)
@@ -461,32 +497,6 @@ namespace ProyectoG1.Models
                 new ObjectParameter("CorreoAsociado", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistrarProyecto", idInstitucionParameter, nombreParameter, descripcionParameter, cupoParameter, creadoPorInstitucionParameter, contactoParameter, direccionParameter, correoAsociadoParameter);
-        }
-    
-        public virtual int EliminarPostulacion(Nullable<long> idPostulacion)
-        {
-            var idPostulacionParameter = idPostulacion.HasValue ?
-                new ObjectParameter("IdPostulacion", idPostulacion) :
-                new ObjectParameter("IdPostulacion", typeof(long));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("EliminarPostulacion", idPostulacionParameter);
-        }
-    
-        public virtual int CambiarContrasennaTemp(string cedula, Nullable<int> tipoCedula, string nuevaContrasenna)
-        {
-            var cedulaParameter = cedula != null ?
-                new ObjectParameter("Cedula", cedula) :
-                new ObjectParameter("Cedula", typeof(string));
-    
-            var tipoCedulaParameter = tipoCedula.HasValue ?
-                new ObjectParameter("TipoCedula", tipoCedula) :
-                new ObjectParameter("TipoCedula", typeof(int));
-    
-            var nuevaContrasennaParameter = nuevaContrasenna != null ?
-                new ObjectParameter("NuevaContrasenna", nuevaContrasenna) :
-                new ObjectParameter("NuevaContrasenna", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CambiarContrasennaTemp", cedulaParameter, tipoCedulaParameter, nuevaContrasennaParameter);
         }
     }
 }
