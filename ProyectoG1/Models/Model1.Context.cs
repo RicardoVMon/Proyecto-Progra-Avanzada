@@ -318,6 +318,24 @@ namespace ProyectoG1.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("ObtenerCategoriasUsadasEnInstitucion", idInstitucionParameter);
         }
     
+        public virtual ObjectResult<ObtenerConexionesBusqueda_Result> ObtenerConexionesBusqueda(string query)
+        {
+            var queryParameter = query != null ?
+                new ObjectParameter("Query", query) :
+                new ObjectParameter("Query", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerConexionesBusqueda_Result>("ObtenerConexionesBusqueda", queryParameter);
+        }
+    
+        public virtual ObjectResult<ObtenerEstudiantesAceptados_Result> ObtenerEstudiantesAceptados(Nullable<long> idProyecto)
+        {
+            var idProyectoParameter = idProyecto.HasValue ?
+                new ObjectParameter("IdProyecto", idProyecto) :
+                new ObjectParameter("IdProyecto", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerEstudiantesAceptados_Result>("ObtenerEstudiantesAceptados", idProyectoParameter);
+        }
+    
         public virtual ObjectResult<Nullable<long>> ObtenerEstudiantesPostulados(Nullable<long> idProyecto)
         {
             var idProyectoParameter = idProyecto.HasValue ?
@@ -373,15 +391,6 @@ namespace ProyectoG1.Models
                 new ObjectParameter("IdInstitucion", typeof(long));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerProyectosInstitucion_Result>("ObtenerProyectosInstitucion", idInstitucionParameter);
-        }
-    
-        public virtual ObjectResult<string> ObtenerSugerencias(string query)
-        {
-            var queryParameter = query != null ?
-                new ObjectParameter("Query", query) :
-                new ObjectParameter("Query", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("ObtenerSugerencias", queryParameter);
         }
     
         public virtual int RegistrarCategoriaProyecto(Nullable<long> idProyecto, Nullable<long> idCategoria)
@@ -516,15 +525,6 @@ namespace ProyectoG1.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistrarProyecto", idInstitucionParameter, nombreParameter, descripcionParameter, cupoParameter, creadoPorInstitucionParameter, contactoParameter, direccionParameter, correoAsociadoParameter, idProvinciaParameter);
         }
     
-        public virtual ObjectResult<ObtenerEstudiantesAceptados_Result> ObtenerEstudiantesAceptados(Nullable<long> idProyecto)
-        {
-            var idProyectoParameter = idProyecto.HasValue ?
-                new ObjectParameter("IdProyecto", idProyecto) :
-                new ObjectParameter("IdProyecto", typeof(long));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerEstudiantesAceptados_Result>("ObtenerEstudiantesAceptados", idProyectoParameter);
-        }
-    
         public virtual ObjectResult<string> SugerenciasConexiones(string query)
         {
             var queryParameter = query != null ?
@@ -541,15 +541,6 @@ namespace ProyectoG1.Models
                 new ObjectParameter("Query", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SugerenciasProyectos", queryParameter);
-        }
-    
-        public virtual ObjectResult<ObtenerConexionesBusqueda_Result> ObtenerConexionesBusqueda(string query)
-        {
-            var queryParameter = query != null ?
-                new ObjectParameter("Query", query) :
-                new ObjectParameter("Query", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerConexionesBusqueda_Result>("ObtenerConexionesBusqueda", queryParameter);
         }
     }
 }

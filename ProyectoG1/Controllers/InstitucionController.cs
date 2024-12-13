@@ -73,7 +73,7 @@ namespace ProyectoG1.Controllers
                         PaginaWeb = datosInstitucion.PaginaWeb,
                         Imagen = datosInstitucion.Imagen,
                         NombreRol = datosInstitucion.NombreRol,
-                        TipoInstitucion = datosInstitucion.TipoInstitucion
+                        IdTipoInstitucion = datosInstitucion.IdTipoInstitucion
                     };
 
                     ConsultarTipoInstitucion();
@@ -95,7 +95,11 @@ namespace ProyectoG1.Controllers
 
                 if (ImagenInstitucion != null)
                 {
-                    System.IO.File.Delete(AppDomain.CurrentDomain.BaseDirectory + model.Imagen);
+
+                    if (!(model.Imagen == "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"))
+                    {
+                        System.IO.File.Delete(AppDomain.CurrentDomain.BaseDirectory + model.Imagen);
+                    }
                     string extension = Path.GetExtension(ImagenInstitucion.FileName);
                     string rutaLocal = AppDomain.CurrentDomain.BaseDirectory + "Imagenes\\Instituciones\\" + idInstitucion + extension;
                     ImagenInstitucion.SaveAs(rutaLocal);
@@ -106,6 +110,7 @@ namespace ProyectoG1.Controllers
 
                 if (respuesta > 0)
                 {
+                    Session["Imagen"] = model.Imagen;
                     return RedirectToAction("PerfilInstitucion", "Institucion", new { q = idInstitucion });
                 }
 

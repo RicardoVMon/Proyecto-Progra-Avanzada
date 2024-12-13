@@ -20,6 +20,7 @@ namespace ProyectoG1.Models
         public string PaginaWeb { get; set; }
         public string Imagen { get; set; }
         public string NombreRol { get; set; }
+        public long IdTipoInstitucion { get; set; }
         public string TipoInstitucion { get; set; }
     }
 }
