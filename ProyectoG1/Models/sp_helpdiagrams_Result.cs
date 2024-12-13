@@ -11,16 +11,12 @@ namespace ProyectoG1.Models
 {
     using System;
     
-    public partial class ObtenerProyectosInstitucion_Result
+    public partial class sp_helpdiagrams_Result
     {
-        public long IdProyecto { get; set; }
-        public long IdInstitucion { get; set; }
-        public string Nombre { get; set; }
-        public string Descripcion { get; set; }
-        public int Cupo { get; set; }
-        public string Estado { get; set; }
-        public string CreadoPor { get; set; }
-        public string Imagen { get; set; }
-        public string NombreProvincia { get; set; }
+        public string Database { get; set; }
+        public string Name { get; set; }
+        public int ID { get; set; }
+        public string Owner { get; set; }
+        public int OwnerID { get; set; }
     }
 }

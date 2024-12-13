@@ -43,7 +43,7 @@ namespace ProyectoG1.Controllers
                         NombreRol = datosInstitucion.NombreRol,
                         Proyectos = proyectos,
                         TipoInstitucion = datosInstitucion.TipoInstitucion,
-                        CategoriasUsadas = listaCategoriasUsadas
+                        CategoriasUsadas = listaCategoriasUsadas,
                     };
 
                     return View(model);
@@ -171,7 +171,8 @@ namespace ProyectoG1.Controllers
                     Estado = proyecto.Estado,
                     CreadoPor = proyecto.CreadoPor,
                     Imagen = proyecto.Imagen,
-                    Categorias = categorias
+                    Categorias = categorias,
+                    NombreProvincia = proyecto.NombreProvincia
 
                 });
             }

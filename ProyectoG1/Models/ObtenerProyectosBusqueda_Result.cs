@@ -11,7 +11,7 @@ namespace ProyectoG1.Models
 {
     using System;
     
-    public partial class ObtenerProyectosEspecifico_Result
+    public partial class ObtenerProyectosBusqueda_Result
     {
         public long IdProyecto { get; set; }
         public long IdInstitucion { get; set; }
@@ -24,7 +24,7 @@ namespace ProyectoG1.Models
         public string Contacto { get; set; }
         public string Direccion { get; set; }
         public string CorreoAsociado { get; set; }
-        public long IdProvincia { get; set; }
+        public Nullable<long> IdProvincia { get; set; }
         public string NombreProvincia { get; set; }
     }
 }

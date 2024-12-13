@@ -4,9 +4,9 @@
     <div class="col-12 col-md-8 text-center">
         <h1 class="display-5">Búsqueda de Proyectos</h1>
         <p class="text-muted">Ingresa palabras clave para buscar proyectos que te interesen.</p>
-        <form action="@Url.Action("Buscar", "Proyectos")" method="get">
+        <form action="@Url.Action("ResultadosBusqueda", "Proyectos")" method="get">
             <div class="input-group mb-3">
-                <input type="text" class="form-control" name="query" placeholder="Tecnología, Salud, Proyecto de gestión de inventario..." aria-label="Buscar proyectos" id="barraBusqueda" autocomplete="off">
+                <input type="text" class="form-control" name="query" placeholder="Tecnología, Salud, Heredia, Proyecto de gestión de inventario..." aria-label="Buscar proyectos" id="barraBusqueda" autocomplete="off">
                 <button class="btn btn-primary" type="submit">Buscar</button>
             </div>
             <div class="dropdown w-100" id="dropdownSugerencias" style="position: relative;">
@@ -20,60 +20,4 @@
     </div>
 </div>
 
-<script>
-    $(document).ready(function () {
-        var barraBusqueda = $("#barraBusqueda");
-        var listaSugerencia = $("#listaSugerencias");
-
-        // Mostrar el dropdown al hacer foco en el input si tiene contenido
-        barraBusqueda.on('focus', function () {
-            if (listaSugerencia.children().length > 0) {
-                listaSugerencia.show();
-            }
-        });
-
-        // Ocultar el dropdown al salir del input
-        barraBusqueda.on('blur', function () {
-            setTimeout(() => listaSugerencia.hide(), 200); // Delay para permitir clics
-        });
-
-        // Actualizar el campo al hacer clic en un item
-        listaSugerencia.on('click', 'li', function () {
-            var selectedText = $(this).text();
-            barraBusqueda.val(selectedText);
-        });
-
-        // AJAX para buscar sugerencias en tiempo real
-        barraBusqueda.on('keyup', function () {
-            var query = barraBusqueda.val();
-
-            if (query.length >= 2) { // Solo buscar si el usuario escribe al menos 2 caracteres
-                $.ajax({
-                    url: '/Proyectos/ObtenerSugerencias', // Ruta del controlador
-                    type: 'GET',
-                    data: { query: query }, // Enviar el término como parámetro
-                    success: function (data) {
-                        listaSugerencia.empty(); // Limpiar sugerencias actuales
-                        if (data.length > 0) {
-                            data.forEach(function (item) {
-                                listaSugerencia.append(`<li class="dropdown-item">${item}</li>`);
-                            });
-                            listaSugerencia.show(); // Mostrar las nuevas sugerencias
-                        } else {
-                            listaSugerencia.hide(); // Ocultar si no hay resultados
-                        }
-                    },
-                    error: function () {
-                        console.error('Error al obtener sugerencias.');
-                        listaSugerencia.hide(); // Ocultar en caso de error
-                    }
-                });
-            } else {
-                listaSugerencia.empty(); // Limpiar si la consulta es muy corta
-                listaSugerencia.hide(); // Ocultar si no hay búsqueda
-            }
-        });
-    });
-</script>
-
-
+<script src="~/Styles/js/busqueda.js"></script>

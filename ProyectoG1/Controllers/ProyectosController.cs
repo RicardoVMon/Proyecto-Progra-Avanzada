@@ -42,7 +42,8 @@ namespace ProyectoG1.Controllers
                         Estado = proyecto.Estado,
                         CreadoPor = proyecto.CreadoPor,
                         Imagen = proyecto.Imagen,
-                        Categorias = categorias
+                        Categorias = categorias,
+                        NombreProvincia = proyecto.NombreProvincia
 
                     });
                 }
@@ -55,6 +56,7 @@ namespace ProyectoG1.Controllers
         public ActionResult CrearProyecto()
         {
             ObtenerCategorias();
+            ObtenerProvincias();
             return View();
         }
         [HttpPost]
@@ -64,7 +66,7 @@ namespace ProyectoG1.Controllers
             {
                 long IdInstitucion = long.Parse(Session["Id"].ToString());
 
-                var respuestaRegistroProyecto = context.RegistrarProyecto(IdInstitucion, model.Nombre, model.Descripcion, model.Cupo, true, model.Contacto, model.Direccion, model.CorreoAsociado);
+                var respuestaRegistroProyecto = context.RegistrarProyecto(IdInstitucion, model.Nombre, model.Descripcion, model.Cupo, true, model.Contacto, model.Direccion, model.CorreoAsociado, model.IdProvincia);
 
                 if (respuestaRegistroProyecto > 0)
                 {
@@ -133,9 +135,11 @@ namespace ProyectoG1.Controllers
                         Imagen = respuesta.Imagen,
                         Contacto = respuesta.Contacto,
                         Direccion = respuesta.Direccion,
-                        CorreoAsociado = respuesta.CorreoAsociado
+                        CorreoAsociado = respuesta.CorreoAsociado,
+                        IdProvincia = respuesta.IdProvincia
                     };
 
+                    ObtenerProvincias();
                     ObtenerCategoriasProyecto(IdProyecto);
                     return View(model);
                 }
@@ -158,7 +162,7 @@ namespace ProyectoG1.Controllers
                     model.Imagen = "/Imagenes/Proyectos/" + model.IdProyecto + extension;
                 }
 
-                var respuesta = context.ActualizarProyecto(model.IdProyecto, model.Nombre, model.Descripcion, model.Cupo, model.Imagen, model.Contacto, model.Direccion, model.CorreoAsociado);
+                var respuesta = context.ActualizarProyecto(model.IdProyecto, model.Nombre, model.Descripcion, model.Cupo, model.Imagen, model.Contacto, model.Direccion, model.CorreoAsociado, model.IdProvincia);
 
                 if (respuesta > 0)
                 {
@@ -196,7 +200,9 @@ namespace ProyectoG1.Controllers
                         Imagen = respuesta.Imagen,
                         Contacto = respuesta.Contacto,
                         Direccion = respuesta.Direccion,
-                        CorreoAsociado = respuesta.CorreoAsociado
+                        CorreoAsociado = respuesta.CorreoAsociado,
+                        IdProvincia = respuesta.IdProvincia,
+                        NombreProvincia = respuesta.NombreProvincia,
                     };
                     var listaCategoriasBD = context.ObtenerCategoriasProyecto(IdProyecto);
                     var categorias = new List<CategoriaModel>();
@@ -256,6 +262,47 @@ namespace ProyectoG1.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult ResultadosBusqueda(string query)
+        {
+            using (var context = new EncuentraTCUEntities())
+            {
+                var listaProyectosBD = context.ObtenerProyectosBusqueda(query).ToList();
+                var proyectos = new List<ProyectoModel>();
+                foreach (var proyecto in listaProyectosBD)
+                {
+
+                    var listaCategoriasBD = context.ObtenerCategoriasProyecto(proyecto.IdProyecto);
+                    var categorias = new List<CategoriaModel>();
+                    foreach (var categoria in listaCategoriasBD)
+                    {
+                        categorias.Add(new CategoriaModel
+                        {
+                            IdCategoria = categoria.IdCategoria,
+                            Nombre = categoria.Nombre
+                        });
+                    }
+
+                    proyectos.Add(new ProyectoModel
+                    {
+                        IdProyecto = proyecto.IdProyecto,
+                        Nombre = proyecto.Nombre,
+                        Descripcion = proyecto.Descripcion,
+                        Cupo = proyecto.Cupo,
+                        Estado = proyecto.Estado,
+                        CreadoPor = proyecto.CreadoPor,
+                        Imagen = proyecto.Imagen,
+                        Categorias = categorias,
+                        NombreProvincia = proyecto.NombreProvincia
+
+                    });
+                }
+
+                return View(proyectos);
+
+            }
+        }
+
         public void ObtenerCategorias()
         {
             using (var context = new EncuentraTCUEntities())
@@ -273,6 +320,34 @@ namespace ProyectoG1.Controllers
                 }
 
                 ViewBag.Categorias = tipoInstituciones;
+            }
+        }
+        public void ObtenerProvincias()
+        {
+            using (var context = new EncuentraTCUEntities())
+            {
+                var datos = context.Provincia.ToList();
+                var provincias = new List<SelectListItem>();
+
+                provincias.Add(new SelectListItem
+                {
+                    Text = "Seleccione una provincia",
+                    Value = null,
+                    Disabled = true,
+                    Selected = true
+                });
+
+                foreach (var item in datos)
+                {
+                    
+                    provincias.Add(new SelectListItem
+                    {
+                        Text = item.Nombre,
+                        Value = item.IdProvincia.ToString()
+                    });
+                }
+
+                ViewBag.Provincias = provincias;
             }
         }
         public void ObtenerCategoriasProyecto(long IdProyecto)

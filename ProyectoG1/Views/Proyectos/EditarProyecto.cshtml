@@ -88,7 +88,17 @@
                                                     @Html.TextBoxFor(m => m.CorreoAsociado, new { @class = "form-control", @placeholder = "Correo Electrónico Asociado", @required = "true", @type = "email" })
                                                 </div>
                                             </div>
-                                            <div class="col-12">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label for="categorias" class="form-label h6 text-muted">Selecciona la provincia donde se dará tu proyecto:</label>
+                                                    @Html.DropDownListFor(
+                                                        m => m.IdProvincia,
+                                                        ViewBag.Provincias as List<SelectListItem>,
+                                                        new { @class = "form-control", @required = "true" }
+                                                    )
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
                                                 <div class="form-group">
                                                     <label for="descripcion" class="form-label h6 text-muted">¿Dónde tendrá lugar el proyecto?</label>
                                                     @Html.TextBoxFor(m => m.Direccion, new { @class = "form-control", @placeholder = "Dirección del lugar", @required = "true", @id = "descripcion" })

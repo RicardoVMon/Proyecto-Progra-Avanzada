@@ -188,6 +188,9 @@
     <Compile Include="Models\ObtenerCategoriasProyecto_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ObtenerProyectosBusqueda_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ObtenerProyectosEspecifico_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -201,11 +204,23 @@
     <Compile Include="Models\Filtros.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\CategoriaModel.cs" />
+    <Compile Include="Models\Provincia.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Proyecto.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProyectoModel.cs" />
     <Compile Include="Models\Rol.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagrams_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagrams.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TipoInstitucion.cs">
@@ -280,6 +295,7 @@
     <Content Include="Styles\img\avatars\avatar.jpg" />
     <Content Include="Styles\img\icons\icon-48x48.png" />
     <Content Include="Styles\js\app.js" />
+    <Content Include="Styles\js\busqueda.js" />
     <Content Include="Styles\js\detallesProyecto.js" />
     <Content Include="Styles\js\institucion.js" />
     <Content Include="Styles\js\usuarios.js" />
@@ -316,6 +332,7 @@
     <Content Include="Views\Postulacion\PostulacionesDeProyecto.cshtml" />
     <Content Include="Views\Postulacion\BuscarPostulaciones.cshtml" />
     <Content Include="Views\Autenticacion\CambiarContrasennaTemp.cshtml" />
+    <Content Include="Views\Proyectos\ResultadosBusqueda.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

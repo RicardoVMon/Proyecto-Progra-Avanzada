@@ -12,18 +12,18 @@ namespace ProyectoG1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Universidad
+    public partial class Provincia
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Universidad()
+        public Provincia()
         {
-            this.Estudiante = new HashSet<Estudiante>();
+            this.Proyecto = new HashSet<Proyecto>();
         }
     
-        public long IdUniversidad { get; set; }
+        public long IdProvincia { get; set; }
         public string Nombre { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Estudiante> Estudiante { get; set; }
+        public virtual ICollection<Proyecto> Proyecto { get; set; }
     }
 }
