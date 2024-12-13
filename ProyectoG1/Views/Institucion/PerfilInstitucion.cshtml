@@ -3,6 +3,9 @@
 @{
     var descripcionTitleCase = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Model.Descripcion.ToLower());
     string idQueryString = Request.QueryString["q"];
+    string idSession = Session["Id"].ToString();
+    string rolSession = Session["Rol"].ToString();
+
 }
 
 
@@ -31,7 +34,7 @@
                         <h5 class="card-title mb-0">@Model.Nombre</h5>
                         <div style="padding: 10px 20px;">
 
-                            @if (idQueryString == Session["Id"].ToString())
+                            @if (idQueryString == idSession && rolSession == "2")
                             {
                                 <a class="btn btn-primary btn-sm" href="@Url.Action("EditarPerfilInstitucion", "Institucion")">Editar</a>
                             }
@@ -116,6 +119,7 @@
                                     }
                                 </div>
                                 <h6 class="card-subtitle mt-2 mb-1 text-muted">Para @proyecto.Cupo Integrantes</h6>
+                                <h6 class="card-subtitle mb-2 text-muted">Ubicación: @proyecto.NombreProvincia</h6>
                                 <p class="card-text mb-2">@descripcion</p>
                                 <div class="row">
                                     <div class="col-12">
