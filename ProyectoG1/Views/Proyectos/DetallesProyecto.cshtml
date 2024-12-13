@@ -12,6 +12,9 @@
                 <h1 class="fw-bold display-6">
                     <span class="fw-bold" style="font-size: 5vh" ;>@Model.Nombre</span>
                 </h1>
+                <h6 class="fw-bold">
+                    <a href="@Url.Action("PerfilInstitucion", "Institucion", new { q = Model.IdInstitucion })" class="fw-bold" style="font-size: 2vh" ;>@Model.NombreInstitucion</a>
+                </h6>
                 <p class="fs-1">
                     @foreach (var categoria in Model.Categorias)
                     {
@@ -22,7 +25,7 @@
                 <p class="" style="color: #1F283E;">@Model.Descripcion</p>
 
                 <label for="descripcion" class="form-label h6 text-muted">Tamaño de Equipo Requerido</label>
-                <h4 class="fw-bold" style="color: #1F283E;">@Model.Cupo Personas (# Inscritos)</h4>
+                <h4 class="fw-bold" style="color: #1F283E;">@Model.Cupo Personas (@Model.EstudiantesAceptados.Count Inscritos)</h4>
 
                 <div class="row my-3">
                     <div class="col-3  d-flex flex-column">
@@ -37,31 +40,43 @@
                         <label for="descripcion" class="form-label h6 text-muted">Dirección</label>
                         <p class="fw-bold" style="color: #1F283E;">@Model.Direccion</p>
                     </div>
+                    @if (Session["Rol"].ToString() == "1")
+                    {
+                        var idUsuario = long.Parse(Session["Id"].ToString());
+                        if (Model.EstudiantesAceptados.Any(e => e.IdEstudiante == idUsuario))
+                        {
+                            <div class="col-4">
+                                <label for="descripcion" class="form-label h6 text-muted">Estado</label>
+                                <span class="badge bg-success fs-3">Aceptado</span>
+                            </div>
+                            <div class="col-8">
+                                <label for="descripcion" class="form-label h6 text-muted">¿Qué sigue?</label>
+                                <div>
+                                    <a href="@Url.Action("MisProyectos", "Proyectos")" class="btn btn-primary btn-lg w-100">Gestiona tus proyectos</a>
+                                </div>
+                            </div>
+                        }
+                        else if (Model.IdUsuariosPostulados.Contains(idUsuario))
+                        {
+                            <div class="col-4">
+                                <label for="descripcion" class="form-label h6 text-muted">Estado</label>
+                                <span class="badge bg-warning fs-3">Postulado</span>
+                            </div>
+                            <div class="col-8">
+                                <label for="descripcion" class="form-label h6 text-muted">¿Qué sigue?</label>
+                                <div>
+                                    <a href="@Url.Action("BuscarPostulaciones", "Postulacion")" class="btn btn-primary btn-lg w-100">Gestiona tus postulaciones</a>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="d-flex justify-content-center">
+                                <a href="@Url.Action("PostularseProyecto", "Postulacion", new { p = Request.QueryString["p"] })" class="btn btn-primary btn-lg w-75" style="background-color:#1F283E; border-color: #1F283E;">Quiero Postularme a este proyecto!</a>
+                            </div>
+                        }
+                    }
                 </div>
-                @if (Session["Rol"].ToString() == "1")
-                {
-                    if (Model.IdUsuariosPostulados.Contains(long.Parse((Session["Id"].ToString()))))
-                    {
-                        <div class="d-flex justify-content-center">
-                            <a href="#" class="btn btn-success btn-lg w-75">Ya estás postulado a este proyecto</a>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="d-flex justify-content-center">
-                            <a href="@Url.Action("PostularseProyecto", "Postulacion", new { p = Request.QueryString["p"] })" class="btn btn-primary btn-lg w-75" style="background-color:#1F283E; border-color: #1F283E;">Quiero Postularme a este proyecto!</a>
-                        </div>
-                    }
-                }
-                else
-                {
-                    <div class="d-flex justify-content-center">
-                        <em class="text-center text-muted mb-3" style="font-size: 1.1rem;">
-                            Esta es la vista previa para los proyectos de las instituciones, acá los estudiantes podrán enviar sus postulaciones.
-                        </em>
-                    </div>
-                }
-
             </div>
         </div>
     </div>

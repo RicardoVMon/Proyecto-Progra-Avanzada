@@ -22,6 +22,7 @@ namespace ProyectoG1.Models
         public List<CategoriaModel> Categorias { get; set; }
         public List<int> CategoriasSeleccionadas { get; set; }
         public List<long> IdUsuariosPostulados { get; set; }
+        public List <EstudianteModel> EstudiantesAceptados { get; set; }
         public string NombreInstitucion { get; set; }
         public string NombreProvincia { get; set; }
 

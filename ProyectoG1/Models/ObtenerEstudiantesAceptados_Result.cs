@@ -11,17 +11,9 @@ namespace ProyectoG1.Models
 {
     using System;
     
-    public partial class IngresoSistema_Result
+    public partial class ObtenerEstudiantesAceptados_Result
     {
-        public long Id { get; set; }
-        public string Nombre { get; set; }
-        public string Cedula { get; set; }
-        public string Email { get; set; }
-        public string Imagen { get; set; }
-        public string Contrasenna { get; set; }
-        public bool Activo { get; set; }
-        public long IdRol { get; set; }
-        public bool TieneContrasennaTemp { get; set; }
-        public System.DateTime FechaVencimientoTemp { get; set; }
+        public long IdEstudiante { get; set; }
+        public string NombreEstudiante { get; set; }
     }
 }

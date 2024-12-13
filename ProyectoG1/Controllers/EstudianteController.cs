@@ -13,7 +13,7 @@ namespace ProyectoG1.Controllers
         [HttpGet]
         public ActionResult PerfilEstudiante()
         {
-            long idEstudiante = long.Parse(Session["IdEstudiante"].ToString());
+            long idEstudiante = long.Parse(Session["Id"].ToString());
 
             using (var context = new EncuentraTCUEntities())
             {
@@ -44,7 +44,7 @@ namespace ProyectoG1.Controllers
         [HttpGet]
         public ActionResult EditarPerfilEstudiante()
         {
-            long idEstudiante = long.Parse(Session["IdEstudiante"].ToString());
+            long idEstudiante = long.Parse(Session["Id"].ToString());
 
             using (var context = new EncuentraTCUEntities())
             {
@@ -79,7 +79,7 @@ namespace ProyectoG1.Controllers
         {
             using (var context = new EncuentraTCUEntities())
             {
-                long idEstudiante = long.Parse(Session["IdEstudiante"].ToString());
+                long idEstudiante = long.Parse(Session["Id"].ToString());
                 var respuesta = context.ActualizarPerfilEstudiante(idEstudiante, model.IdUniversidad, model.Carrera, model.Email, model.Descripcion);
 
                 if (respuesta == 1)

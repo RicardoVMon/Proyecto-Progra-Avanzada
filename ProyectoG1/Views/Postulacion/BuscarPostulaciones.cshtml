@@ -37,7 +37,10 @@
                                 <a href="@Url.Action("DetallesProyecto", "Proyectos", new { p = postulacion.IdProyecto })" class="btn btn-primary btn-sm">
                                     Ver detalles
                                 </a>
-                                <a href="@Url.Action("EliminarPostulacion", "Postulacion", new { t = postulacion.IdPostulacion })" class="btn btn-danger btn-sm">
+                                <a href="#"
+                                   class="btn btn-danger btn-sm retirar-postulacion"
+                                   data-url="@Url.Action("EliminarPostulacion", "Postulacion", new { t = postulacion.IdPostulacion })"
+                                   data-nombre-proyecto="@postulacion.NombreProyecto">
                                     Retirar postulación
                                 </a>
                             </td>
@@ -48,7 +51,7 @@
         </div>
     </div>
 </div>
-
+<script src="~/Styles/js/validarRetiroProyecto.js"></script>
 <script>
     $(document).ready(function () {
         $("#example").DataTable({

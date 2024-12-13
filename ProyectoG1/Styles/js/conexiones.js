@@ -1,4 +1,4 @@
-$(document).ready(function () {
+ï»¿$(document).ready(function () {
     var barraBusqueda = $("#barraBusqueda");
     var listaSugerencia = $("#listaSugerencias");
 
@@ -26,9 +26,9 @@ $(document).ready(function () {
 
         if (query.length >= 2) { // Solo buscar si el usuario escribe al menos 2 caracteres
             $.ajax({
-                url: '/Proyectos/SugerenciasProyectos', // Ruta del controlador
+                url: '/Conexiones/SugerenciasConexiones', // Ruta del controlador
                 type: 'GET',
-                data: { query: query }, // Enviar el término como parámetro
+                data: { query: query }, // Enviar el tÃ©rmino como parÃ¡metro
                 success: function (data) {
                     listaSugerencia.empty(); // Limpiar sugerencias actuales
                     if (data.length > 0) {
@@ -47,7 +47,7 @@ $(document).ready(function () {
             });
         } else {
             listaSugerencia.empty(); // Limpiar si la consulta es muy corta
-            listaSugerencia.hide(); // Ocultar si no hay búsqueda
+            listaSugerencia.hide(); // Ocultar si no hay bÃºsqueda
         }
     });
 });

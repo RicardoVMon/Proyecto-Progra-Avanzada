@@ -203,6 +203,7 @@ namespace ProyectoG1.Controllers
                         CorreoAsociado = respuesta.CorreoAsociado,
                         IdProvincia = respuesta.IdProvincia,
                         NombreProvincia = respuesta.NombreProvincia,
+                        NombreInstitucion = respuesta.NombreInstitucion
                     };
                     var listaCategoriasBD = context.ObtenerCategoriasProyecto(IdProyecto);
                     var categorias = new List<CategoriaModel>();
@@ -214,10 +215,23 @@ namespace ProyectoG1.Controllers
                             Nombre = categoria.Nombre
                         });
                     }
+                    var listaEstudiantesAceptados = context.ObtenerEstudiantesAceptados(IdProyecto).ToList();
+                    var estudiantesAceptados = new List<EstudianteModel>();
+                    
+                    foreach (var estudiante in listaEstudiantesAceptados)
+                    {
+                        estudiantesAceptados.Add(new EstudianteModel
+                        {
+                            IdEstudiante = estudiante.IdEstudiante,
+                            Nombre = estudiante.NombreEstudiante
+                        });
+                    }
                     var listaEstudiantesPostuladosBD = context.ObtenerEstudiantesPostulados(IdProyecto);
                     var estudiantesPostulados = listaEstudiantesPostuladosBD.Select(idEstudiante => (long)idEstudiante).ToList();
+                    
                     model.IdUsuariosPostulados = estudiantesPostulados;
                     model.Categorias = categorias;
+                    model.EstudiantesAceptados = estudiantesAceptados;
                     return View(model);
                 }
                 return View();
@@ -285,6 +299,8 @@ namespace ProyectoG1.Controllers
 
                     proyectos.Add(new ProyectoModel
                     {
+                        IdInstitucion = proyecto.IdInstitucion,
+                        NombreInstitucion = proyecto.NombreInstitucion,
                         IdProyecto = proyecto.IdProyecto,
                         Nombre = proyecto.Nombre,
                         Descripcion = proyecto.Descripcion,
@@ -301,6 +317,13 @@ namespace ProyectoG1.Controllers
                 return View(proyectos);
 
             }
+        }
+
+        [HttpGet]
+        public ActionResult MisProyectos()
+        {
+            long IdEstudiante = long.Parse(Session["Id"].ToString());
+            return View();
         }
 
         public void ObtenerCategorias()
@@ -377,11 +400,11 @@ namespace ProyectoG1.Controllers
         }
 
         [HttpGet]
-        public ActionResult ObtenerSugerencias(string query)
+        public ActionResult SugerenciasProyectos(string query)
         {
             using (var context = new EncuentraTCUEntities())
             {
-                var resultados = context.ObtenerSugerencias(query).ToList();
+                var resultados = context.SugerenciasProyectos(query).ToList();
                 return Json(resultados, JsonRequestBehavior.AllowGet);
             }
         }

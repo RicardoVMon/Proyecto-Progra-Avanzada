@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="EncuentraTCUModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="EncuentraTCUModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Auditoria">
           <Key>
             <PropertyRef Name="IdAuditoria" />
@@ -130,16 +130,6 @@
           <Property Name="IdRol" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NombreRol" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
         <EntityType Name="TipoInstitucion">
           <Key>
             <PropertyRef Name="IdTipoInstitucion" />
@@ -154,7 +144,7 @@
           <Property Name="IdUniversidad" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
-        <Association Name="FK__ProyectoC__IdCat__5FB337D6">
+        <Association Name="FK__ProyectoC__IdCat__628FA481">
           <End Role="Categoria" Type="Self.Categoria" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -168,7 +158,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ProyectoC__IdPro__60A75C0F">
+        <Association Name="FK__ProyectoC__IdPro__6383C8BA">
           <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -405,7 +395,6 @@
         <Function Name="EliminarProyecto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
         </Function>
-        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
         <Function Name="IngresoSistema" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Cedula" Type="varchar" Mode="In" />
           <Parameter Name="Contrasenna" Type="varchar" Mode="In" />
@@ -420,6 +409,12 @@
         </Function>
         <Function Name="ObtenerCategoriasUsadasEnInstitucion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerConexionesBusqueda" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Query" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ObtenerEstudiantesAceptados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
         </Function>
         <Function Name="ObtenerEstudiantesPostulados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
@@ -438,9 +433,6 @@
         </Function>
         <Function Name="ObtenerProyectosInstitucion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
-        </Function>
-        <Function Name="ObtenerSugerencias" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="Query" Type="varchar" Mode="In" />
         </Function>
         <Function Name="RegistrarCategoriaProyecto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
@@ -478,36 +470,12 @@
           <Parameter Name="CorreoAsociado" Type="varchar" Mode="In" />
           <Parameter Name="IdProvincia" Type="bigint" Mode="In" />
         </Function>
-        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        <Function Name="SugerenciasConexiones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Query" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        <Function Name="SugerenciasProyectos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Query" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
-        </Function>
-        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="EncuentraTCUModelStoreContainer">
           <EntitySet Name="Auditoria" EntityType="Self.Auditoria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Categoria" EntityType="Self.Categoria" Schema="dbo" store:Type="Tables" />
@@ -520,14 +488,13 @@
           <EntitySet Name="Proyecto" EntityType="Self.Proyecto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProyectoCategoria" EntityType="Self.ProyectoCategoria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoInstitucion" EntityType="Self.TipoInstitucion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Universidad" EntityType="Self.Universidad" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__ProyectoC__IdCat__5FB337D6" Association="Self.FK__ProyectoC__IdCat__5FB337D6">
+          <AssociationSet Name="FK__ProyectoC__IdCat__628FA481" Association="Self.FK__ProyectoC__IdCat__628FA481">
             <End Role="Categoria" EntitySet="Categoria" />
             <End Role="ProyectoCategoria" EntitySet="ProyectoCategoria" />
           </AssociationSet>
-          <AssociationSet Name="FK__ProyectoC__IdPro__60A75C0F" Association="Self.FK__ProyectoC__IdPro__60A75C0F">
+          <AssociationSet Name="FK__ProyectoC__IdPro__6383C8BA" Association="Self.FK__ProyectoC__IdPro__6383C8BA">
             <End Role="Proyecto" EntitySet="Proyecto" />
             <End Role="ProyectoCategoria" EntitySet="ProyectoCategoria" />
           </AssociationSet>
@@ -584,8 +551,7 @@
             <End Role="Proyecto" EntitySet="Proyecto" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="EncuentraTCUModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -731,16 +697,6 @@
           <Property Name="NombreRol" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Estudiante" Relationship="Self.FK_Estudiante_Rol" FromRole="Rol" ToRole="Estudiante" />
           <NavigationProperty Name="Institucion" Relationship="Self.FK_Institucion_Rol" FromRole="Rol" ToRole="Institucion" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="TipoInstitucion">
           <Key>
@@ -929,7 +885,6 @@
           <EntitySet Name="Provincia" EntityType="Self.Provincia" />
           <EntitySet Name="Proyecto" EntityType="Self.Proyecto" />
           <EntitySet Name="Rol" EntityType="Self.Rol" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="TipoInstitucion" EntityType="Self.TipoInstitucion" />
           <EntitySet Name="Universidad" EntityType="Self.Universidad" />
           <AssociationSet Name="FK_Auditoria_Estudiante" Association="Self.FK_Auditoria_Estudiante">
@@ -1037,23 +992,23 @@
             <Parameter Name="NuevaContrasenna" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ConsultarPostulaciones" ReturnType="Collection(EncuentraTCUModel.ConsultarPostulaciones_Result)">
-            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+          <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="ConsultarProyectos" ReturnType="Collection(EncuentraTCUModel.ConsultarProyectos_Result)" />
           <FunctionImport Name="DatosEstudiante" ReturnType="Collection(EncuentraTCUModel.DatosEstudiante_Result)">
-            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+          <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="DatosInstitucion" ReturnType="Collection(EncuentraTCUModel.DatosInstitucion_Result)">
-            <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
+          <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="EliminarCategoriasProyecto">
-            <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+          <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="EliminarPostulacion">
-            <Parameter Name="IdPostulacion" Mode="In" Type="Int64" />
+          <Parameter Name="IdPostulacion" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="EliminarProyecto">
-            <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+          <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="IngresoSistema" ReturnType="Collection(EncuentraTCUModel.IngresoSistema_Result)">
             <Parameter Name="Cedula" Mode="In" Type="String" />
@@ -1065,13 +1020,13 @@
             <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="ObtenerCategoriasProyecto" ReturnType="Collection(EncuentraTCUModel.ObtenerCategoriasProyecto_Result)">
-            <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+          <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="ObtenerCategoriasUsadasEnInstitucion" ReturnType="Collection(String)">
-            <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
+          <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="ObtenerEstudiantesPostulados" ReturnType="Collection(Int64)">
-            <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+          <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="ObtenerProyectoReciente" ReturnType="Collection(Int64)">
             <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
@@ -1080,16 +1035,16 @@
             <Parameter Name="Cupo" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ObtenerProyectosBusqueda" ReturnType="Collection(EncuentraTCUModel.ObtenerProyectosBusqueda_Result)">
-            <Parameter Name="Query" Mode="In" Type="String" />
+          <Parameter Name="Query" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ObtenerProyectosEspecifico" ReturnType="Collection(EncuentraTCUModel.ObtenerProyectosEspecifico_Result)">
-            <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+          <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="ObtenerProyectosInstitucion" ReturnType="Collection(EncuentraTCUModel.ObtenerProyectosInstitucion_Result)">
-            <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
+          <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="ObtenerSugerencias" ReturnType="Collection(String)">
-            <Parameter Name="Query" Mode="In" Type="String" />
+          <Parameter Name="Query" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="RegistrarCategoriaProyecto">
             <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
@@ -1127,36 +1082,18 @@
             <Parameter Name="CorreoAsociado" Mode="In" Type="String" />
             <Parameter Name="IdProvincia" Mode="In" Type="Int64" />
           </FunctionImport>
-          <FunctionImport Name="sp_alterdiagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="version" Mode="In" Type="Int32" />
-            <Parameter Name="definition" Mode="In" Type="Binary" />
+          <FunctionImport Name="ObtenerEstudiantesAceptados" ReturnType="Collection(EncuentraTCUModel.ObtenerEstudiantesAceptados_Result)">
+          <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
           </FunctionImport>
-          <FunctionImport Name="sp_creatediagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="version" Mode="In" Type="Int32" />
-            <Parameter Name="definition" Mode="In" Type="Binary" />
+          <FunctionImport Name="SugerenciasConexiones" ReturnType="Collection(String)">
+          <Parameter Name="Query" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_dropdiagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          <FunctionImport Name="SugerenciasProyectos" ReturnType="Collection(String)">
+          <Parameter Name="Query" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(EncuentraTCUModel.sp_helpdiagramdefinition_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          <FunctionImport Name="ObtenerConexionesBusqueda" ReturnType="Collection(EncuentraTCUModel.ObtenerConexionesBusqueda_Result)">
+          <Parameter Name="Query" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(EncuentraTCUModel.sp_helpdiagrams_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_renamediagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="new_diagramname" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_upgraddiagrams" />
         </EntityContainer>
         <ComplexType Name="ConsultarPostulaciones_Result">
           <Property Type="Int64" Name="IdPostulacion" Nullable="false" />
@@ -1229,6 +1166,7 @@
           <Property Type="String" Name="CorreoAsociado" Nullable="true" MaxLength="50" />
           <Property Type="Int64" Name="IdProvincia" Nullable="true" />
           <Property Type="String" Name="NombreProvincia" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="NombreInstitucion" Nullable="false" MaxLength="100" />
         </ComplexType>
         <ComplexType Name="ObtenerProyectosEspecifico_Result">
           <Property Type="Int64" Name="IdProyecto" Nullable="false" />
@@ -1244,6 +1182,7 @@
           <Property Type="String" Name="CorreoAsociado" Nullable="true" MaxLength="50" />
           <Property Type="Int64" Name="IdProvincia" Nullable="false" />
           <Property Type="String" Name="NombreProvincia" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="NombreInstitucion" Nullable="false" MaxLength="100" />
         </ComplexType>
         <ComplexType Name="ObtenerProyectosInstitucion_Result">
           <Property Type="Int64" Name="IdProyecto" Nullable="false" />
@@ -1256,16 +1195,17 @@
           <Property Type="String" Name="Imagen" Nullable="true" MaxLength="255" />
           <Property Type="String" Name="NombreProvincia" Nullable="false" MaxLength="100" />
         </ComplexType>
-        <ComplexType Name="sp_helpdiagramdefinition_Result">
-          <Property Type="Int32" Name="version" Nullable="true" />
-          <Property Type="Binary" Name="definition" Nullable="true" />
+        <ComplexType Name="ObtenerEstudiantesAceptados_Result">
+          <Property Type="Int64" Name="IdEstudiante" Nullable="false" />
+          <Property Type="String" Name="NombreEstudiante" Nullable="false" MaxLength="100" />
         </ComplexType>
-        <ComplexType Name="sp_helpdiagrams_Result">
-          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
-          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        <ComplexType Name="ObtenerConexionesBusqueda_Result">
+          <Property Type="Int64" Name="IdEstudiante" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Apellidos" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Carrera" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Imagen" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="NombreUniversidad" Nullable="true" MaxLength="255" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1397,17 +1337,6 @@
               <MappingFragment StoreEntitySet="Rol">
                 <ScalarProperty Name="IdRol" ColumnName="IdRol" />
                 <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="EncuentraTCUModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1546,6 +1475,7 @@
                 <ScalarProperty Name="CorreoAsociado" ColumnName="CorreoAsociado" />
                 <ScalarProperty Name="IdProvincia" ColumnName="IdProvincia" />
                 <ScalarProperty Name="NombreProvincia" ColumnName="NombreProvincia" />
+                <ScalarProperty Name="NombreInstitucion" ColumnName="NombreInstitucion" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -1565,6 +1495,7 @@
                 <ScalarProperty Name="CorreoAsociado" ColumnName="CorreoAsociado" />
                 <ScalarProperty Name="IdProvincia" ColumnName="IdProvincia" />
                 <ScalarProperty Name="NombreProvincia" ColumnName="NombreProvincia" />
+                <ScalarProperty Name="NombreInstitucion" ColumnName="NombreInstitucion" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -1583,35 +1514,32 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="ObtenerSugerencias" FunctionName="EncuentraTCUModel.Store.ObtenerSugerencias" />
           <FunctionImportMapping FunctionImportName="RegistrarCategoriaProyecto" FunctionName="EncuentraTCUModel.Store.RegistrarCategoriaProyecto" />
           <FunctionImportMapping FunctionImportName="RegistrarEstudiante" FunctionName="EncuentraTCUModel.Store.RegistrarEstudiante" />
           <FunctionImportMapping FunctionImportName="RegistrarInstitucion" FunctionName="EncuentraTCUModel.Store.RegistrarInstitucion" />
           <FunctionImportMapping FunctionImportName="RegistrarProyecto" FunctionName="EncuentraTCUModel.Store.RegistrarProyecto" />
-          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="EncuentraTCUModel.Store.sp_alterdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="EncuentraTCUModel.Store.sp_creatediagram" />
-          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="EncuentraTCUModel.Store.sp_dropdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="EncuentraTCUModel.Store.sp_helpdiagramdefinition">
+          <FunctionImportMapping FunctionImportName="ObtenerEstudiantesAceptados" FunctionName="EncuentraTCUModel.Store.ObtenerEstudiantesAceptados">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="EncuentraTCUModel.sp_helpdiagramdefinition_Result">
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ObtenerEstudiantesAceptados_Result">
+                <ScalarProperty Name="IdEstudiante" ColumnName="IdEstudiante" />
+                <ScalarProperty Name="NombreEstudiante" ColumnName="NombreEstudiante" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="EncuentraTCUModel.Store.sp_helpdiagrams">
+          <FunctionImportMapping FunctionImportName="SugerenciasConexiones" FunctionName="EncuentraTCUModel.Store.SugerenciasConexiones" />
+          <FunctionImportMapping FunctionImportName="SugerenciasProyectos" FunctionName="EncuentraTCUModel.Store.SugerenciasProyectos" />
+          <FunctionImportMapping FunctionImportName="ObtenerConexionesBusqueda" FunctionName="EncuentraTCUModel.Store.ObtenerConexionesBusqueda">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="EncuentraTCUModel.sp_helpdiagrams_Result">
-                <ScalarProperty Name="Database" ColumnName="Database" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Owner" ColumnName="Owner" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ObtenerConexionesBusqueda_Result">
+                <ScalarProperty Name="IdEstudiante" ColumnName="IdEstudiante" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
+                <ScalarProperty Name="Carrera" ColumnName="Carrera" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="NombreUniversidad" ColumnName="NombreUniversidad" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="EncuentraTCUModel.Store.sp_renamediagram" />
-          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="EncuentraTCUModel.Store.sp_upgraddiagrams" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -1629,7 +1557,7 @@
         <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
-        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->

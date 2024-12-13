@@ -4,9 +4,10 @@
     <div class="col-12 col-md-8 text-center">
         <h1 class="display-5">Búsqueda de Proyectos</h1>
         <p class="text-muted">Ingresa palabras clave para buscar proyectos que te interesen.</p>
-        <form action="@Url.Action("ResultadosBusqueda", "Proyectos")" method="get">
+        @using (Html.BeginForm("ResultadosBusqueda", "Proyectos", FormMethod.Get))
+        {
             <div class="input-group mb-3">
-                <input type="text" class="form-control" name="query" placeholder="Tecnología, Salud, Heredia, Proyecto de gestión de inventario..." aria-label="Buscar proyectos" id="barraBusqueda" autocomplete="off">
+                @Html.TextBox("query", null, new { @class = "form-control", placeholder = "Tecnología, Salud, Heredia, Cruz roja, Proyecto de gestión de inventario...", aria_label = "Buscar proyectos", id = "barraBusqueda", required = "required", autocomplete = "off" })
                 <button class="btn btn-primary" type="submit">Buscar</button>
             </div>
             <div class="dropdown w-100" id="dropdownSugerencias" style="position: relative;">
@@ -16,7 +17,8 @@
                     <li class="dropdown-item">Proyecto</li>
                 </ul>
             </div>
-        </form>
+            <a href="@Url.Action("ResultadosBusqueda", "Proyectos", new {query = " "})" class="btn btn-primary btn-sm">Ver todos los proyectos</a>
+        }
     </div>
 </div>
 

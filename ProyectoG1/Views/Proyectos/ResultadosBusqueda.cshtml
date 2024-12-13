@@ -16,10 +16,11 @@
                     var descripcion = (proyecto.Descripcion.Length > 150 ? proyecto.Descripcion.Substring(0, 150) + "..." : proyecto.Descripcion);
 
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                        <div class="card h-100" style="box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3); cursor: pointer;" onclick="location.href='@Url.Action("DetallesProyecto", "Proyectos", new { p = proyecto.IdProyecto })'">
+                        <div class="card h-100" style="box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3);">
 
                             <img src="@proyecto.Imagen" class="card-img-top" alt="@proyecto.Nombre">
                             <div class="card-body d-flex flex-column">
+                                <a href="@Url.Action("PerfilInstitucion", "Institucion", new { q = proyecto.IdInstitucion})">@proyecto.NombreInstitucion</a>
                                 <h4 class="mb-2">@proyecto.Nombre</h4>
                                 <div class="mb-3">
                                     @foreach (var categoria in proyecto.Categorias)

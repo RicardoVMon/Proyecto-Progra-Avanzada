@@ -2,6 +2,9 @@
 
 @{
     var nombreTitleCase = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Model.Nombre.ToLower() + " " + Model.Apellidos.ToLower());
+    string idQueryString = Request.QueryString["q"];
+    string idSession = Session["Id"].ToString();
+    string rolSession = Session["Rol"].ToString();
 }
 
 <div class="container-fluid p-0">
@@ -40,8 +43,10 @@
                         @*Mostrar solo en los perfiles de otros usuarios*@
                         <a class="btn btn-primary btn-sm" href="#">Conectar</a>
 
-                        @*Mostrar solo en el propio perfil del usuario actual*@
-                        <a class="btn btn-warning btn-sm" href="@Url.Action("EditarPerfilEstudiante","Estudiante")">Editar</a>
+                        @if (idQueryString == idSession && rolSession == "1")
+                        {
+                            <a class="btn btn-primary btn-sm" href="@Url.Action("EditarPerfilEstudiante", "Estudiante")">Editar</a>
+                        }
 
                     </div>
                     <hr class="my-0" />
