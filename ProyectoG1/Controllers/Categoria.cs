@@ -7,26 +7,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ProyectoG1.Models
+namespace ProyectoG1.Controllers
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Rol
+    public partial class Categoria
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Rol()
+        public Categoria()
         {
-            this.Estudiante = new HashSet<Estudiante>();
-            this.Institucion = new HashSet<Institucion>();
+            this.Proyecto = new HashSet<Proyecto>();
         }
     
-        public long IdRol { get; set; }
-        public string NombreRol { get; set; }
+        public long IdCategoria { get; set; }
+        public string Nombre { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Estudiante> Estudiante { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Institucion> Institucion { get; set; }
+        public virtual ICollection<Proyecto> Proyecto { get; set; }
     }
 }

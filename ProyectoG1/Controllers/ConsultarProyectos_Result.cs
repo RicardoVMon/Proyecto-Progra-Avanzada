@@ -7,25 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ProyectoG1.Models
+namespace ProyectoG1.Controllers
 {
     using System;
     
-    public partial class ObtenerProyectosEspecifico_Result
+    public partial class ConsultarProyectos_Result
     {
         public long IdProyecto { get; set; }
         public long IdInstitucion { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
-        public int Cupo { get; set; }
-        public string Estado { get; set; }
-        public string CreadoPor { get; set; }
         public string Imagen { get; set; }
-        public string Contacto { get; set; }
-        public string Direccion { get; set; }
-        public string CorreoAsociado { get; set; }
-        public long IdProvincia { get; set; }
-        public string NombreProvincia { get; set; }
+        public int Cupo { get; set; }
         public string NombreInstitucion { get; set; }
     }
 }

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ProyectoG1.Models
+namespace ProyectoG1.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -21,6 +21,7 @@ namespace ProyectoG1.Models
             this.Conexion = new HashSet<Conexion>();
             this.Conexion1 = new HashSet<Conexion>();
             this.Postulacion = new HashSet<Postulacion>();
+            this.Habilidad = new HashSet<Habilidad>();
         }
     
         public long IdEstudiante { get; set; }
@@ -50,5 +51,7 @@ namespace ProyectoG1.Models
         public virtual Universidad Universidad { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Postulacion> Postulacion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Habilidad> Habilidad { get; set; }
     }
 }

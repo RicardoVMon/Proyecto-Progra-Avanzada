@@ -7,20 +7,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ProyectoG1.Models
+namespace ProyectoG1.Controllers
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Proyecto
+    public partial class ObtenerProyectosBusqueda_Result
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Proyecto()
-        {
-            this.Postulacion = new HashSet<Postulacion>();
-            this.Categoria = new HashSet<Categoria>();
-        }
-    
         public long IdProyecto { get; set; }
         public long IdInstitucion { get; set; }
         public string Nombre { get; set; }
@@ -33,12 +25,7 @@ namespace ProyectoG1.Models
         public string Direccion { get; set; }
         public string CorreoAsociado { get; set; }
         public Nullable<long> IdProvincia { get; set; }
-    
-        public virtual Institucion Institucion { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Postulacion> Postulacion { get; set; }
-        public virtual Provincia Provincia { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Categoria> Categoria { get; set; }
+        public string NombreProvincia { get; set; }
+        public string NombreInstitucion { get; set; }
     }
 }

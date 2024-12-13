@@ -54,12 +54,27 @@
           <Property Name="TieneContrasennaTemp" Type="bit" Nullable="false" />
           <Property Name="FechaVencimientoTemp" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="EstudianteHabilidad">
+          <Key>
+            <PropertyRef Name="IdEstudiante" />
+            <PropertyRef Name="IdHabilidad" />
+          </Key>
+          <Property Name="IdEstudiante" Type="bigint" Nullable="false" />
+          <Property Name="IdHabilidad" Type="bigint" Nullable="false" />
+        </EntityType>
         <EntityType Name="Genero">
           <Key>
             <PropertyRef Name="IdGenero" />
           </Key>
           <Property Name="IdGenero" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Habilidad">
+          <Key>
+            <PropertyRef Name="IdHabilidad" />
+          </Key>
+          <Property Name="IdHabilidad" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="Institucion">
           <Key>
@@ -144,6 +159,30 @@
           <Property Name="IdUniversidad" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
+        <Association Name="FK__Estudiant__IdEst__2B0A656D">
+          <End Role="Estudiante" Type="Self.Estudiante" Multiplicity="1" />
+          <End Role="EstudianteHabilidad" Type="Self.EstudianteHabilidad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estudiante">
+              <PropertyRef Name="IdEstudiante" />
+            </Principal>
+            <Dependent Role="EstudianteHabilidad">
+              <PropertyRef Name="IdEstudiante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Estudiant__IdHab__2BFE89A6">
+          <End Role="Habilidad" Type="Self.Habilidad" Multiplicity="1" />
+          <End Role="EstudianteHabilidad" Type="Self.EstudianteHabilidad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Habilidad">
+              <PropertyRef Name="IdHabilidad" />
+            </Principal>
+            <Dependent Role="EstudianteHabilidad">
+              <PropertyRef Name="IdHabilidad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__ProyectoC__IdCat__628FA481">
           <End Role="Categoria" Type="Self.Categoria" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -335,6 +374,10 @@
           <Parameter Name="TieneContrasennaTemp" Type="bit" Mode="In" />
           <Parameter Name="FechaVencimientoTemp" Type="datetime" Mode="In" />
         </Function>
+        <Function Name="ActualizarImagenEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
+          <Parameter Name="Imagen" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="ActualizarImagenInstitucion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
           <Parameter Name="Imagen" Type="varchar" Mode="In" />
@@ -349,6 +392,7 @@
           <Parameter Name="Carrera" Type="varchar" Mode="In" />
           <Parameter Name="Email" Type="varchar" Mode="In" />
           <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+          <Parameter Name="Imagen" Type="varchar" Mode="In" />
         </Function>
         <Function Name="ActualizarPerfilInstitucion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
@@ -389,6 +433,9 @@
         <Function Name="EliminarCategoriasProyecto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
         </Function>
+        <Function Name="EliminarHabilidadesEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="EliminarPostulacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdPostulacion" Type="bigint" Mode="In" />
         </Function>
@@ -419,6 +466,12 @@
         <Function Name="ObtenerEstudiantesPostulados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
         </Function>
+        <Function Name="ObtenerHabilidadesEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerHabilidadesParaEditar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="ObtenerProyectoReciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
           <Parameter Name="Nombre" Type="varchar" Mode="In" />
@@ -448,6 +501,10 @@
           <Parameter Name="Apellidos" Type="varchar" Mode="In" />
           <Parameter Name="Descripcion" Type="varchar" Mode="In" />
           <Parameter Name="Carrera" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="RegistrarHabilidadEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
+          <Parameter Name="IdHabilidad" Type="bigint" Mode="In" />
         </Function>
         <Function Name="RegistrarInstitucion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdTipoInstitucion" Type="bigint" Mode="In" />
@@ -481,7 +538,9 @@
           <EntitySet Name="Categoria" EntityType="Self.Categoria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Conexion" EntityType="Self.Conexion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Estudiante" EntityType="Self.Estudiante" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EstudianteHabilidad" EntityType="Self.EstudianteHabilidad" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Genero" EntityType="Self.Genero" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Habilidad" EntityType="Self.Habilidad" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Institucion" EntityType="Self.Institucion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Postulacion" EntityType="Self.Postulacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Provincia" EntityType="Self.Provincia" Schema="dbo" store:Type="Tables" />
@@ -490,6 +549,14 @@
           <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoInstitucion" EntityType="Self.TipoInstitucion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Universidad" EntityType="Self.Universidad" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Estudiant__IdEst__2B0A656D" Association="Self.FK__Estudiant__IdEst__2B0A656D">
+            <End Role="Estudiante" EntitySet="Estudiante" />
+            <End Role="EstudianteHabilidad" EntitySet="EstudianteHabilidad" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Estudiant__IdHab__2BFE89A6" Association="Self.FK__Estudiant__IdHab__2BFE89A6">
+            <End Role="Habilidad" EntitySet="Habilidad" />
+            <End Role="EstudianteHabilidad" EntitySet="EstudianteHabilidad" />
+          </AssociationSet>
           <AssociationSet Name="FK__ProyectoC__IdCat__628FA481" Association="Self.FK__ProyectoC__IdCat__628FA481">
             <End Role="Categoria" EntitySet="Categoria" />
             <End Role="ProyectoCategoria" EntitySet="ProyectoCategoria" />
@@ -616,6 +683,7 @@
           <NavigationProperty Name="Rol" Relationship="Self.FK_Estudiante_Rol" FromRole="Estudiante" ToRole="Rol" />
           <NavigationProperty Name="Universidad" Relationship="Self.FK_Estudiante_Universidad" FromRole="Estudiante" ToRole="Universidad" />
           <NavigationProperty Name="Postulacion" Relationship="Self.FK_Postulacion_Estudiante" FromRole="Estudiante" ToRole="Postulacion" />
+          <NavigationProperty Name="Habilidad" Relationship="Self.EstudianteHabilidad" FromRole="Estudiante" ToRole="Habilidad" />
         </EntityType>
         <EntityType Name="Genero">
           <Key>
@@ -624,6 +692,14 @@
           <Property Name="IdGenero" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Estudiante" Relationship="Self.FK_Estudiante_Genero" FromRole="Genero" ToRole="Estudiante" />
+        </EntityType>
+        <EntityType Name="Habilidad">
+          <Key>
+            <PropertyRef Name="IdHabilidad" />
+          </Key>
+          <Property Name="IdHabilidad" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Estudiante" Relationship="Self.EstudianteHabilidad" FromRole="Habilidad" ToRole="Estudiante" />
         </EntityType>
         <EntityType Name="Institucion">
           <Key>
@@ -871,6 +947,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="EstudianteHabilidad">
+          <End Role="Estudiante" Type="Self.Estudiante" Multiplicity="*" />
+          <End Role="Habilidad" Type="Self.Habilidad" Multiplicity="*" />
+        </Association>
         <Association Name="ProyectoCategoria">
           <End Role="Categoria" Type="Self.Categoria" Multiplicity="*" />
           <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="*" />
@@ -881,6 +961,7 @@
           <EntitySet Name="Conexion" EntityType="Self.Conexion" />
           <EntitySet Name="Estudiante" EntityType="Self.Estudiante" />
           <EntitySet Name="Genero" EntityType="Self.Genero" />
+          <EntitySet Name="Habilidad" EntityType="Self.Habilidad" />
           <EntitySet Name="Institucion" EntityType="Self.Institucion" />
           <EntitySet Name="Postulacion" EntityType="Self.Postulacion" />
           <EntitySet Name="Provincia" EntityType="Self.Provincia" />
@@ -940,6 +1021,10 @@
             <End Role="Provincia" EntitySet="Provincia" />
             <End Role="Proyecto" EntitySet="Proyecto" />
           </AssociationSet>
+          <AssociationSet Name="EstudianteHabilidad" Association="Self.EstudianteHabilidad">
+            <End Role="Estudiante" EntitySet="Estudiante" />
+            <End Role="Habilidad" EntitySet="Habilidad" />
+          </AssociationSet>
           <AssociationSet Name="ProyectoCategoria" Association="Self.ProyectoCategoria">
             <End Role="Categoria" EntitySet="Categoria" />
             <End Role="Proyecto" EntitySet="Proyecto" />
@@ -950,6 +1035,10 @@
             <Parameter Name="ContrasennaTemp" Mode="In" Type="String" />
             <Parameter Name="TieneContrasennaTemp" Mode="In" Type="Boolean" />
             <Parameter Name="FechaVencimientoTemp" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="ActualizarImagenEstudiante">
+            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+            <Parameter Name="Imagen" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ActualizarImagenInstitucion">
             <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
@@ -965,6 +1054,7 @@
             <Parameter Name="Carrera" Mode="In" Type="String" />
             <Parameter Name="Email" Mode="In" Type="String" />
             <Parameter Name="Descripcion" Mode="In" Type="String" />
+            <Parameter Name="Imagen" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ActualizarPerfilInstitucion">
             <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
@@ -1005,6 +1095,9 @@
           <FunctionImport Name="EliminarCategoriasProyecto">
             <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
           </FunctionImport>
+          <FunctionImport Name="EliminarHabilidadesEstudiante">
+            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+          </FunctionImport>
           <FunctionImport Name="EliminarPostulacion">
             <Parameter Name="IdPostulacion" Mode="In" Type="Int64" />
           </FunctionImport>
@@ -1035,6 +1128,12 @@
           <FunctionImport Name="ObtenerEstudiantesPostulados" ReturnType="Collection(Int64)">
             <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
           </FunctionImport>
+          <FunctionImport Name="ObtenerHabilidadesEstudiante" ReturnType="Collection(String)">
+            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerHabilidadesParaEditar" ReturnType="Collection(EncuentraTCUModel.ObtenerHabilidadesParaEditar_Result)">
+            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+          </FunctionImport>
           <FunctionImport Name="ObtenerProyectoReciente" ReturnType="Collection(Int64)">
             <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
             <Parameter Name="Nombre" Mode="In" Type="String" />
@@ -1064,6 +1163,10 @@
             <Parameter Name="Apellidos" Mode="In" Type="String" />
             <Parameter Name="Descripcion" Mode="In" Type="String" />
             <Parameter Name="Carrera" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="RegistrarHabilidadEstudiante">
+            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+            <Parameter Name="IdHabilidad" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="RegistrarInstitucion">
             <Parameter Name="IdTipoInstitucion" Mode="In" Type="Int64" />
@@ -1162,6 +1265,10 @@
         <ComplexType Name="ObtenerEstudiantesAceptados_Result">
           <Property Type="Int64" Name="IdEstudiante" Nullable="false" />
           <Property Type="String" Name="NombreEstudiante" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="ObtenerHabilidadesParaEditar_Result">
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="Int64" Name="IdHabilidad" Nullable="false" />
         </ComplexType>
         <ComplexType Name="ObtenerProyectosBusqueda_Result">
           <Property Type="Int64" Name="IdProyecto" Nullable="false" />
@@ -1273,6 +1380,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Habilidad">
+            <EntityTypeMapping TypeName="EncuentraTCUModel.Habilidad">
+              <MappingFragment StoreEntitySet="Habilidad">
+                <ScalarProperty Name="IdHabilidad" ColumnName="IdHabilidad" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Institucion">
             <EntityTypeMapping TypeName="EncuentraTCUModel.Institucion">
               <MappingFragment StoreEntitySet="Institucion">
@@ -1355,6 +1470,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="EstudianteHabilidad" TypeName="EncuentraTCUModel.EstudianteHabilidad" StoreEntitySet="EstudianteHabilidad">
+            <EndProperty Name="Estudiante">
+              <ScalarProperty Name="IdEstudiante" ColumnName="IdEstudiante" />
+            </EndProperty>
+            <EndProperty Name="Habilidad">
+              <ScalarProperty Name="IdHabilidad" ColumnName="IdHabilidad" />
+            </EndProperty>
+          </AssociationSetMapping>
           <AssociationSetMapping Name="ProyectoCategoria" TypeName="EncuentraTCUModel.ProyectoCategoria" StoreEntitySet="ProyectoCategoria">
             <EndProperty Name="Categoria">
               <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
@@ -1364,6 +1487,7 @@
             </EndProperty>
           </AssociationSetMapping>
           <FunctionImportMapping FunctionImportName="ActualizarContrasenna" FunctionName="EncuentraTCUModel.Store.ActualizarContrasenna" />
+          <FunctionImportMapping FunctionImportName="ActualizarImagenEstudiante" FunctionName="EncuentraTCUModel.Store.ActualizarImagenEstudiante" />
           <FunctionImportMapping FunctionImportName="ActualizarImagenInstitucion" FunctionName="EncuentraTCUModel.Store.ActualizarImagenInstitucion" />
           <FunctionImportMapping FunctionImportName="ActualizarImagenProyecto" FunctionName="EncuentraTCUModel.Store.ActualizarImagenProyecto" />
           <FunctionImportMapping FunctionImportName="ActualizarPerfilEstudiante" FunctionName="EncuentraTCUModel.Store.ActualizarPerfilEstudiante" />
@@ -1428,6 +1552,7 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="EliminarCategoriasProyecto" FunctionName="EncuentraTCUModel.Store.EliminarCategoriasProyecto" />
+          <FunctionImportMapping FunctionImportName="EliminarHabilidadesEstudiante" FunctionName="EncuentraTCUModel.Store.EliminarHabilidadesEstudiante" />
           <FunctionImportMapping FunctionImportName="EliminarPostulacion" FunctionName="EncuentraTCUModel.Store.EliminarPostulacion" />
           <FunctionImportMapping FunctionImportName="EliminarProyecto" FunctionName="EncuentraTCUModel.Store.EliminarProyecto" />
           <FunctionImportMapping FunctionImportName="IngresoSistema" FunctionName="EncuentraTCUModel.Store.IngresoSistema">
@@ -1478,6 +1603,15 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="ObtenerEstudiantesPostulados" FunctionName="EncuentraTCUModel.Store.ObtenerEstudiantesPostulados" />
+          <FunctionImportMapping FunctionImportName="ObtenerHabilidadesEstudiante" FunctionName="EncuentraTCUModel.Store.ObtenerHabilidadesEstudiante" />
+          <FunctionImportMapping FunctionImportName="ObtenerHabilidadesParaEditar" FunctionName="EncuentraTCUModel.Store.ObtenerHabilidadesParaEditar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ObtenerHabilidadesParaEditar_Result">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdHabilidad" ColumnName="IdHabilidad" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="ObtenerProyectoReciente" FunctionName="EncuentraTCUModel.Store.ObtenerProyectoReciente" />
           <FunctionImportMapping FunctionImportName="ObtenerProyectosBusqueda" FunctionName="EncuentraTCUModel.Store.ObtenerProyectosBusqueda">
             <ResultMapping>
@@ -1536,6 +1670,7 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="RegistrarCategoriaProyecto" FunctionName="EncuentraTCUModel.Store.RegistrarCategoriaProyecto" />
           <FunctionImportMapping FunctionImportName="RegistrarEstudiante" FunctionName="EncuentraTCUModel.Store.RegistrarEstudiante" />
+          <FunctionImportMapping FunctionImportName="RegistrarHabilidadEstudiante" FunctionName="EncuentraTCUModel.Store.RegistrarHabilidadEstudiante" />
           <FunctionImportMapping FunctionImportName="RegistrarInstitucion" FunctionName="EncuentraTCUModel.Store.RegistrarInstitucion" />
           <FunctionImportMapping FunctionImportName="RegistrarProyecto" FunctionName="EncuentraTCUModel.Store.RegistrarProyecto" />
           <FunctionImportMapping FunctionImportName="SugerenciasConexiones" FunctionName="EncuentraTCUModel.Store.SugerenciasConexiones" />

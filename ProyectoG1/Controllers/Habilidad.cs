@@ -7,23 +7,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ProyectoG1.Models
+namespace ProyectoG1.Controllers
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Categoria
+    public partial class Habilidad
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Categoria()
+        public Habilidad()
         {
-            this.Proyecto = new HashSet<Proyecto>();
+            this.Estudiante = new HashSet<Estudiante>();
         }
     
-        public long IdCategoria { get; set; }
+        public long IdHabilidad { get; set; }
         public string Nombre { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Proyecto> Proyecto { get; set; }
+        public virtual ICollection<Estudiante> Estudiante { get; set; }
     }
 }

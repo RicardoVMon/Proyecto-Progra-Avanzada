@@ -3,8 +3,6 @@
 @{
     var nombreTitleCase = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Model.Nombre.ToLower() + " " + Model.Apellidos.ToLower());
     string idQueryString = Request.QueryString["q"];
-    string idSession = Session["Id"].ToString();
-    string rolSession = Session["Rol"].ToString();
 }
 
 <div class="container-fluid p-0">
@@ -40,27 +38,32 @@
                     <h5 class="card-title mb-0">@nombreTitleCase</h5>
                     <div style="padding: 10px 20px;">
 
-                        @*Mostrar solo en los perfiles de otros usuarios*@
+                        <!-- Mostrar solo en los perfiles de otros estudiantes -->
+                        <!-- hacer conexionessssssssss cuando este institucion gestion postulacion!!!!! -->
                         <a class="btn btn-primary btn-sm" href="#">Conectar</a>
 
-                        @if (idQueryString == idSession && rolSession == "1")
+
+                        <!-- Editar, Mostrar solo en el propio perfil del estudiante actual -->
+                        @if (idQueryString == Session["Id"].ToString())
                         {
-                            <a class="btn btn-primary btn-sm" href="@Url.Action("EditarPerfilEstudiante", "Estudiante")">Editar</a>
+                            <a class="btn btn-primary btn-sm" href="@Url.Action("EditarPerfilEstudiante","Estudiante")">Editar</a>
                         }
 
                     </div>
                     <hr class="my-0" />
                     <div class="card-body">
                         <h5 class="h6 card-title">Habilidades</h5>
-                        <a href="#" class="badge bg-primary me-1 my-1">HTML</a>
-                        <a href="#" class="badge bg-primary me-1 my-1">JavaScript</a>
-                        <a href="#" class="badge bg-primary me-1 my-1">Sass</a>
-                        <a href="#" class="badge bg-primary me-1 my-1">Angular</a>
-                        <a href="#" class="badge bg-primary me-1 my-1">Vue</a>
-                        <a href="#" class="badge bg-primary me-1 my-1">React</a>
-                        <a href="#" class="badge bg-primary me-1 my-1">Redux</a>
-                        <a href="#" class="badge bg-primary me-1 my-1">UI</a>
-                        <a href="#" class="badge bg-primary me-1 my-1">UX</a>
+                        @if (@Model.Habilidades.Any())
+                        {
+                            foreach (var habilidad in @Model.Habilidades)
+                            {
+                                <span href="#" class="badge bg-success me-1 my-1">@habilidad.Nombre</span>
+                            }
+                        }
+                        else
+                        {
+                            <div class="text-muted">Este estudiante aún no tiene habilidades registradas.</div>
+                        }
                     </div>
                     <hr class="my-0" />
                     <div class="card-body">
@@ -68,6 +71,7 @@
                         <ul class="list-unstyled mb-0">
                             <li class="mb-1"><span data-feather="home" class="feather-sm me-1"></span> Estudiante en @Model.NombreUniversidad</li>
                             <li class="mb-1"><span data-feather="briefcase" class="feather-sm me-1"></span> Carrera en @Model.Carrera</li>
+                            <!-- hacer conexionessssssssss cuando este institucion gestion postulacion!!!!! -->
                             <li class="mb-1"><span data-feather="briefcase" class="feather-sm me-1"></span> 20 Conexiones</li>
                         </ul>
                     </div>

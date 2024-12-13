@@ -7,21 +7,17 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ProyectoG1.Models
+namespace ProyectoG1.Controllers
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Postulacion
+    public partial class ObtenerConexionesBusqueda_Result
     {
-        public long IdPostulacion { get; set; }
         public long IdEstudiante { get; set; }
-        public long IdProyecto { get; set; }
-        public System.DateTime FechaPostulacion { get; set; }
-        public string Estado { get; set; }
-        public bool ConfirmacionEstudiante { get; set; }
-    
-        public virtual Estudiante Estudiante { get; set; }
-        public virtual Proyecto Proyecto { get; set; }
+        public string Nombre { get; set; }
+        public string Apellidos { get; set; }
+        public string Carrera { get; set; }
+        public string Imagen { get; set; }
+        public string NombreUniversidad { get; set; }
     }
 }

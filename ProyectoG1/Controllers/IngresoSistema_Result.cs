@@ -7,14 +7,21 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ProyectoG1.Models
+namespace ProyectoG1.Controllers
 {
     using System;
     
-    public partial class ObtenerCategoriasProyecto_Result
+    public partial class IngresoSistema_Result
     {
+        public long Id { get; set; }
         public string Nombre { get; set; }
-        public long IdCategoria { get; set; }
-        public long IdProyecto { get; set; }
+        public string Cedula { get; set; }
+        public string Email { get; set; }
+        public string Imagen { get; set; }
+        public string Contrasenna { get; set; }
+        public bool Activo { get; set; }
+        public long IdRol { get; set; }
+        public bool TieneContrasennaTemp { get; set; }
+        public System.DateTime FechaVencimientoTemp { get; set; }
     }
 }

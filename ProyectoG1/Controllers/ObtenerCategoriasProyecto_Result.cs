@@ -7,20 +7,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ProyectoG1.Models
+namespace ProyectoG1.Controllers
 {
     using System;
     
-    public partial class DatosEstudiante_Result
+    public partial class ObtenerCategoriasProyecto_Result
     {
         public string Nombre { get; set; }
-        public string Apellidos { get; set; }
-        public string Email { get; set; }
-        public string Descripcion { get; set; }
-        public string Carrera { get; set; }
-        public string Imagen { get; set; }
-        public string NombreRol { get; set; }
-        public string NombreGenero { get; set; }
-        public string NombreUniversidad { get; set; }
+        public long IdCategoria { get; set; }
+        public long IdProyecto { get; set; }
     }
 }

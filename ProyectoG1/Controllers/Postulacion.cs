@@ -7,21 +7,21 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ProyectoG1.Models
+namespace ProyectoG1.Controllers
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Auditoria
+    public partial class Postulacion
     {
-        public long IdAuditoria { get; set; }
-        public string Mensaje { get; set; }
-        public System.DateTime Fecha { get; set; }
-        public string Origen { get; set; }
-        public Nullable<long> IdEstudiante { get; set; }
-        public Nullable<long> IdInstitucion { get; set; }
+        public long IdPostulacion { get; set; }
+        public long IdEstudiante { get; set; }
+        public long IdProyecto { get; set; }
+        public System.DateTime FechaPostulacion { get; set; }
+        public string Estado { get; set; }
+        public bool ConfirmacionEstudiante { get; set; }
     
         public virtual Estudiante Estudiante { get; set; }
-        public virtual Institucion Institucion { get; set; }
+        public virtual Proyecto Proyecto { get; set; }
     }
 }
