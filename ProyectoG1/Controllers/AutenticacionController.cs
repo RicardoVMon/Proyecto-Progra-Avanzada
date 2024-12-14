@@ -12,6 +12,8 @@ namespace ProyectoG1.Controllers
 {
     public class AutenticacionController : Controller
     {
+        MetodosPublicos MP = new MetodosPublicos();
+
         [HttpGet]
         public ActionResult RecuperarContrasenna()
         {
@@ -21,25 +23,34 @@ namespace ProyectoG1.Controllers
         [HttpPost]
         public ActionResult RecuperarContrasenna(LoginModel model)
         {
-            using (var context = new EncuentraTCUEntities())
+            try
             {
-                if (model.TipoCedula == 1) // Estudiante
+                 using (var context = new EncuentraTCUEntities())
                 {
-                    var estudiante = context.Estudiante.Where(x => x.Cedula == model.Cedula).FirstOrDefault();
-                    if (estudiante != null)
-                        return ProcesarRecuperacion(context, model.TipoCedula, estudiante.Cedula, estudiante.Nombre, estudiante.Email);
-                }
-                else if (model.TipoCedula == 2) // Institución
-                {
-                    var institucion = context.Institucion.Where(x => x.Cedula == model.Cedula).FirstOrDefault();
-                    if (institucion != null)
-                        return ProcesarRecuperacion(context, model.TipoCedula, institucion.Cedula, institucion.Nombre, institucion.Email);
-                }
+                    if (model.TipoCedula == 1) // Estudiante
+                    {
+                        var estudiante = context.Estudiante.Where(x => x.Cedula == model.Cedula).FirstOrDefault();
+                        if (estudiante != null)
+                            return ProcesarRecuperacion(context, model.TipoCedula, estudiante.Cedula, estudiante.Nombre, estudiante.Email);
+                    }
+                    else if (model.TipoCedula == 2) // Institución
+                    {
+                        var institucion = context.Institucion.Where(x => x.Cedula == model.Cedula).FirstOrDefault();
+                        if (institucion != null)
+                            return ProcesarRecuperacion(context, model.TipoCedula, institucion.Cedula, institucion.Nombre, institucion.Email);
+                    }
 
-                ViewBag.MensajePantalla = "La información no se ha podido validar correctamente.";
-                return View();
+                    ViewBag.MensajePantalla = "La información no se ha podido validar correctamente.";
+                    return View();
+                }
+            }
+            catch (Exception ex)
+            {
+                MP.sp_RegistrarError(ex.Message, "RecuperarContrasenna", Session["Id"]);
+                return View("Error");
             }
         }
+
 
         private string CrearContrasenna()
         {

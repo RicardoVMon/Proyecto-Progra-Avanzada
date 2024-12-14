@@ -10,6 +10,7 @@ namespace ProyectoG1.Controllers
     [Filtros]
     public class HomeController : Controller
     {
+        MetodosPublicos MP = new MetodosPublicos();
         public ActionResult Index()
         {
             return View();

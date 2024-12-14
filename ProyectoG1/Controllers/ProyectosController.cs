@@ -11,6 +11,7 @@ namespace ProyectoG1.Controllers
     [Filtros]
     public class ProyectosController : Controller
     {
+        MetodosPublicos MP = new MetodosPublicos();
         [HttpGet]
         public ActionResult GestionProyectos()
         {

@@ -10,6 +10,7 @@ namespace ProyectoG1.Controllers
     [Filtros]
     public class ConexionesController : Controller
     {
+        MetodosPublicos MP = new MetodosPublicos();
         [HttpGet]
         public ActionResult GestionarConexiones()
         {

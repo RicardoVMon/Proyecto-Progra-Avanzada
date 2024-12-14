@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="EncuentraTCUModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="EncuentraTCUModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Auditoria">
           <Key>
             <PropertyRef Name="IdAuditoria" />
@@ -33,6 +33,16 @@
           <Property Name="FechaSolicitud" Type="datetime" Nullable="false" />
           <Property Name="Estado" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="MensajeSolicitud" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Errores">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Mensaje" Type="varchar(max)" Nullable="false" />
+          <Property Name="FechaHora" Type="datetime" Nullable="false" />
+          <Property Name="Origen" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IdUsuario" Type="bigint" />
         </EntityType>
         <EntityType Name="Estudiante">
           <Key>
@@ -159,7 +169,7 @@
           <Property Name="IdUniversidad" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
-        <Association Name="FK__Estudiant__IdEst__2B0A656D">
+        <Association Name="FK__Estudiant__IdEst__60A75C0F">
           <End Role="Estudiante" Type="Self.Estudiante" Multiplicity="1" />
           <End Role="EstudianteHabilidad" Type="Self.EstudianteHabilidad" Multiplicity="*" />
           <ReferentialConstraint>
@@ -171,7 +181,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Estudiant__IdHab__2BFE89A6">
+        <Association Name="FK__Estudiant__IdHab__619B8048">
           <End Role="Habilidad" Type="Self.Habilidad" Multiplicity="1" />
           <End Role="EstudianteHabilidad" Type="Self.EstudianteHabilidad" Multiplicity="*" />
           <ReferentialConstraint>
@@ -183,7 +193,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ProyectoC__IdCat__628FA481">
+        <Association Name="FK__ProyectoC__IdCat__68487DD7">
           <End Role="Categoria" Type="Self.Categoria" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -197,7 +207,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__ProyectoC__IdPro__6383C8BA">
+        <Association Name="FK__ProyectoC__IdPro__693CA210">
           <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
@@ -527,6 +537,11 @@
           <Parameter Name="CorreoAsociado" Type="varchar" Mode="In" />
           <Parameter Name="IdProvincia" Type="bigint" Mode="In" />
         </Function>
+        <Function Name="sp_RegistrarError" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Mensaje" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Origen" Type="varchar" Mode="In" />
+          <Parameter Name="IdUsuario" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="SugerenciasConexiones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Query" Type="varchar" Mode="In" />
         </Function>
@@ -537,6 +552,7 @@
           <EntitySet Name="Auditoria" EntityType="Self.Auditoria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Categoria" EntityType="Self.Categoria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Conexion" EntityType="Self.Conexion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Errores" EntityType="Self.Errores" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Estudiante" EntityType="Self.Estudiante" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EstudianteHabilidad" EntityType="Self.EstudianteHabilidad" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Genero" EntityType="Self.Genero" Schema="dbo" store:Type="Tables" />
@@ -549,19 +565,19 @@
           <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoInstitucion" EntityType="Self.TipoInstitucion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Universidad" EntityType="Self.Universidad" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Estudiant__IdEst__2B0A656D" Association="Self.FK__Estudiant__IdEst__2B0A656D">
+          <AssociationSet Name="FK__Estudiant__IdEst__60A75C0F" Association="Self.FK__Estudiant__IdEst__60A75C0F">
             <End Role="Estudiante" EntitySet="Estudiante" />
             <End Role="EstudianteHabilidad" EntitySet="EstudianteHabilidad" />
           </AssociationSet>
-          <AssociationSet Name="FK__Estudiant__IdHab__2BFE89A6" Association="Self.FK__Estudiant__IdHab__2BFE89A6">
+          <AssociationSet Name="FK__Estudiant__IdHab__619B8048" Association="Self.FK__Estudiant__IdHab__619B8048">
             <End Role="Habilidad" EntitySet="Habilidad" />
             <End Role="EstudianteHabilidad" EntitySet="EstudianteHabilidad" />
           </AssociationSet>
-          <AssociationSet Name="FK__ProyectoC__IdCat__628FA481" Association="Self.FK__ProyectoC__IdCat__628FA481">
+          <AssociationSet Name="FK__ProyectoC__IdCat__68487DD7" Association="Self.FK__ProyectoC__IdCat__68487DD7">
             <End Role="Categoria" EntitySet="Categoria" />
             <End Role="ProyectoCategoria" EntitySet="ProyectoCategoria" />
           </AssociationSet>
-          <AssociationSet Name="FK__ProyectoC__IdPro__6383C8BA" Association="Self.FK__ProyectoC__IdPro__6383C8BA">
+          <AssociationSet Name="FK__ProyectoC__IdPro__693CA210" Association="Self.FK__ProyectoC__IdPro__693CA210">
             <End Role="Proyecto" EntitySet="Proyecto" />
             <End Role="ProyectoCategoria" EntitySet="ProyectoCategoria" />
           </AssociationSet>
@@ -618,8 +634,7 @@
             <End Role="Proyecto" EntitySet="Proyecto" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="EncuentraTCUModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1083,26 +1098,26 @@
             <Parameter Name="NuevaContrasenna" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ConsultarPostulaciones" ReturnType="Collection(EncuentraTCUModel.ConsultarPostulaciones_Result)">
-            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+          <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="ConsultarProyectos" ReturnType="Collection(EncuentraTCUModel.ConsultarProyectos_Result)" />
           <FunctionImport Name="DatosEstudiante" ReturnType="Collection(EncuentraTCUModel.DatosEstudiante_Result)">
-            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+          <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="DatosInstitucion" ReturnType="Collection(EncuentraTCUModel.DatosInstitucion_Result)">
-            <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
+          <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="EliminarCategoriasProyecto">
-            <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+          <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="EliminarHabilidadesEstudiante">
-            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+          <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="EliminarPostulacion">
-            <Parameter Name="IdPostulacion" Mode="In" Type="Int64" />
+          <Parameter Name="IdPostulacion" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="EliminarProyecto">
-            <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+          <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="IngresoSistema" ReturnType="Collection(EncuentraTCUModel.IngresoSistema_Result)">
             <Parameter Name="Cedula" Mode="In" Type="String" />
@@ -1114,25 +1129,25 @@
             <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="ObtenerCategoriasProyecto" ReturnType="Collection(EncuentraTCUModel.ObtenerCategoriasProyecto_Result)">
-            <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+          <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="ObtenerCategoriasUsadasEnInstitucion" ReturnType="Collection(String)">
-            <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
+          <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="ObtenerConexionesBusqueda" ReturnType="Collection(EncuentraTCUModel.ObtenerConexionesBusqueda_Result)">
-            <Parameter Name="Query" Mode="In" Type="String" />
+          <Parameter Name="Query" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ObtenerEstudiantesAceptados" ReturnType="Collection(EncuentraTCUModel.ObtenerEstudiantesAceptados_Result)">
-            <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+          <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="ObtenerEstudiantesPostulados" ReturnType="Collection(Int64)">
-            <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+          <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="ObtenerHabilidadesEstudiante" ReturnType="Collection(String)">
-            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+          <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="ObtenerHabilidadesParaEditar" ReturnType="Collection(EncuentraTCUModel.ObtenerHabilidadesParaEditar_Result)">
-            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+          <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="ObtenerProyectoReciente" ReturnType="Collection(Int64)">
             <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
@@ -1141,13 +1156,13 @@
             <Parameter Name="Cupo" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ObtenerProyectosBusqueda" ReturnType="Collection(EncuentraTCUModel.ObtenerProyectosBusqueda_Result)">
-            <Parameter Name="Query" Mode="In" Type="String" />
+          <Parameter Name="Query" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="ObtenerProyectosEspecifico" ReturnType="Collection(EncuentraTCUModel.ObtenerProyectosEspecifico_Result)">
-            <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+          <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="ObtenerProyectosInstitucion" ReturnType="Collection(EncuentraTCUModel.ObtenerProyectosInstitucion_Result)">
-            <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
+          <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="RegistrarCategoriaProyecto">
             <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
@@ -1190,10 +1205,16 @@
             <Parameter Name="IdProvincia" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="SugerenciasConexiones" ReturnType="Collection(String)">
-            <Parameter Name="Query" Mode="In" Type="String" />
+          <Parameter Name="Query" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SugerenciasProyectos" ReturnType="Collection(String)">
-            <Parameter Name="Query" Mode="In" Type="String" />
+          <Parameter Name="Query" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="Errores" EntityType="EncuentraTCUModel.Errores" />
+          <FunctionImport Name="sp_RegistrarError">
+            <Parameter Name="Mensaje" Mode="In" Type="String" />
+            <Parameter Name="Origen" Mode="In" Type="String" />
+            <Parameter Name="IdUsuario" Mode="In" Type="Int64" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="ConsultarPostulaciones_Result">
@@ -1313,6 +1334,16 @@
           <Property Type="String" Name="Imagen" Nullable="true" MaxLength="255" />
           <Property Type="String" Name="NombreProvincia" Nullable="false" MaxLength="100" />
         </ComplexType>
+        <EntityType Name="Errores">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Mensaje" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FechaHora" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Origen" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IdUsuario" Type="Int64" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1675,6 +1706,18 @@
           <FunctionImportMapping FunctionImportName="RegistrarProyecto" FunctionName="EncuentraTCUModel.Store.RegistrarProyecto" />
           <FunctionImportMapping FunctionImportName="SugerenciasConexiones" FunctionName="EncuentraTCUModel.Store.SugerenciasConexiones" />
           <FunctionImportMapping FunctionImportName="SugerenciasProyectos" FunctionName="EncuentraTCUModel.Store.SugerenciasProyectos" />
+          <EntitySetMapping Name="Errores">
+            <EntityTypeMapping TypeName="EncuentraTCUModel.Errores">
+              <MappingFragment StoreEntitySet="Errores">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Origen" ColumnName="Origen" />
+                <ScalarProperty Name="FechaHora" ColumnName="FechaHora" />
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_RegistrarError" FunctionName="EncuentraTCUModel.Store.sp_RegistrarError" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -1692,7 +1735,7 @@
         <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
-        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->
