@@ -6,6 +6,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Configuration;
 using System.Net.Mail;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace ProyectoG1.Controllers
 {
@@ -16,13 +18,87 @@ namespace ProyectoG1.Controllers
         [HttpGet]
         public ActionResult ListadoProyectosConPostulaciones()
         {
-            return View();
+            using (var context = new EncuentraTCUEntities())
+            {
+                long idInstitucion = long.Parse(Session["Id"].ToString());
+                var datos = context.ConsultarProyectosConPostulaciones(idInstitucion).ToList();
+                var proyectos = new List<ProyectoModel>();
+                foreach (var proyecto in datos)
+                {
+                    proyectos.Add(new ProyectoModel
+                    {
+                        IdProyecto = proyecto.IdProyecto,
+                        Imagen = proyecto.Imagen,
+                        Nombre = proyecto.Nombre,
+                        Cupo = proyecto.Cupo,
+                        Postulaciones = proyecto.Postulaciones
+                    });
+                }
+                return View(proyectos);
+            }
         }
 
         [HttpGet]
-        public ActionResult PostulacionesDeProyecto()
+        public ActionResult PostulacionesDeProyecto(long p)
         {
-            return View();
+            using (var context = new EncuentraTCUEntities())
+            {
+                var datos = context.ConsultarPostulacionesProyecto(p).ToList();
+                var postulaciones = new List<PostulacionModel>();
+                foreach (var postulacion in datos)
+                {
+                    postulaciones.Add(new PostulacionModel
+                    {
+                        IdPostulacion = postulacion.IdPostulacion,
+                        NombreEstudiante = postulacion.NombreEstudiante,
+                        ApellidosEstudiante = postulacion.ApellidosEstudiante,
+                        CarreraEstudiante = postulacion.CarreraEstudiante,
+                        Estado = postulacion.Estado,
+                        FechaPostulacion = postulacion.FechaPostulacion,
+
+                    });
+                }
+                return View(postulaciones);
+            }
+        }
+
+        [HttpGet]
+        public JsonResult ConsultarDetallesPostulacion(long p)
+        {
+            using (var context = new EncuentraTCUEntities())
+            {
+                var postulacion = context.ConsultarDetallesPostulacion(p).FirstOrDefault();
+                return Json(new
+                {
+                    IdEstudiante = postulacion.IdEstudiante,
+                    ImagenEstudiante = postulacion.ImagenEstudiante,
+                    NombreCompletoEstudiante = postulacion.NombreCompletoEstudiante,
+                    UniversidadEstudiante = postulacion.UniversidadEstudiante,
+                    CarreraEstudiante = postulacion.CarreraEstudiante,
+                    CorreoEstudiante = postulacion.CorreoEstudiante,
+                    FechaPostulacion = postulacion.FechaPostulacion.ToString("dd/MM/yyyy"),
+                    DescripcionEstudiante = postulacion.DescripcionEstudiante
+
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ActualizarEstadoPostulacion(long id, string estado)
+        {
+            using (var context = new EncuentraTCUEntities())
+            {
+                int resultado = context.ActualizarEstadoPostulacion(id, estado);
+
+                if (resultado > 0)
+                {
+                    return Json(new { success = true });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Error." });
+                }
+            }
         }
 
         [HttpGet]

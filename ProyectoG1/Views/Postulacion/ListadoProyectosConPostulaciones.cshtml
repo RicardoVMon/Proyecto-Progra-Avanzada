@@ -1,7 +1,5 @@
 ﻿@model List<ProyectoG1.Models.ProyectoModel>
 
-
-
 <div>
     <div class="row">
         <!-- Proyectos -->
@@ -28,48 +26,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td><img src="ruta/a/imagen1.jpg" alt="Imagen Proyecto 1" width="50" height="50"></td>
-                                    <td>Proyecto A</td>
-                                    <td>4 restante(s)</td>
-                                    <td>5</td>
-                                    <td><a href="@Url.Action("PostulacionesDeProyecto", "Postulacion")" class="btn btn-primary w-100">Gestionar</a></td>
-                                </tr>
-                                <tr>
-                                    <td><img src="ruta/a/imagen2.jpg" alt="Imagen Proyecto 2" width="50" height="50"></td>
-                                    <td>Proyecto B</td>
-                                    <td>2 restante(s)</td>
-                                    <td>15</td>
-                                    <td><a href="@Url.Action("PostulacionesDeProyecto", "Postulacion")" class="btn btn-primary w-100">Gestionar</a></td>
-                                </tr>
-                                <tr>
-                                    <td><img src="ruta/a/imagen3.jpg" alt="Imagen Proyecto 3" width="50" height="50"></td>
-                                    <td>Proyecto C</td>
-                                    <td>1 restante(s)</td>
-                                    <td>25</td>
-                                    <td><a href="@Url.Action("PostulacionesDeProyecto", "Postulacion")" class="btn btn-primary w-100">Gestionar</a></td>
-                                </tr>
-                                <tr>
-                                    <td><img src="ruta/a/imagen1.jpg" alt="Imagen Proyecto 1" width="50" height="50"></td>
-                                    <td>Proyecto A</td>
-                                    <td>4 restante(s)</td>
-                                    <td>5</td>
-                                    <td><a href="@Url.Action("PostulacionesDeProyecto", "Postulacion")" class="btn btn-primary w-100">Gestionar</a></td>
-                                </tr>
-                                <tr>
-                                    <td><img src="ruta/a/imagen2.jpg" alt="Imagen Proyecto 2" width="50" height="50"></td>
-                                    <td>Proyecto B</td>
-                                    <td>2 restante(s)</td>
-                                    <td>15</td>
-                                    <td><a href="@Url.Action("PostulacionesDeProyecto", "Postulacion")" class="btn btn-primary w-100">Gestionar</a></td>
-                                </tr>
-                                <tr>
-                                    <td><img src="ruta/a/imagen3.jpg" alt="Imagen Proyecto 3" width="50" height="50"></td>
-                                    <td>Proyecto C</td>
-                                    <td>1 restante(s)</td>
-                                    <td>25</td>
-                                    <td><a href="@Url.Action("PostulacionesDeProyecto", "Postulacion")" class="btn btn-primary w-100">Gestionar</a></td>
-                                </tr>
+                                @foreach (var proyecto in Model)
+                                {
+                                    <tr>
+                                        <td><img src="@proyecto.Imagen" alt="Imagen de Proyecto" style="width: 100px; height: auto;"></td>
+                                        <td>@proyecto.Nombre</td>
+                                        <td>@proyecto.Cupo</td>
+                                        <td>@proyecto.Postulaciones</td>
+                                        <td><a href="@Url.Action("PostulacionesDeProyecto", "Postulacion", new { p = proyecto.IdProyecto })" ) class="btn btn-primary w-100">Gestionar</a></td>
+                                    </tr>
+                                }
                             </tbody>
                             <tfoot>
                                 <tr>

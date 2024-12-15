@@ -40,7 +40,6 @@ namespace ProyectoG1.Models
         public virtual DbSet<Rol> Rol { get; set; }
         public virtual DbSet<TipoInstitucion> TipoInstitucion { get; set; }
         public virtual DbSet<Universidad> Universidad { get; set; }
-        public virtual DbSet<Errores> Errores { get; set; }
     
         public virtual int ActualizarContrasenna(string cedula, Nullable<int> tipoCedula, string contrasennaTemp, Nullable<bool> tieneContrasennaTemp, Nullable<System.DateTime> fechaVencimientoTemp)
         {
@@ -230,6 +229,15 @@ namespace ProyectoG1.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CambiarContrasennaTemp", cedulaParameter, tipoCedulaParameter, nuevaContrasennaParameter);
         }
     
+        public virtual ObjectResult<ConsultarDetallesPostulacion_Result> ConsultarDetallesPostulacion(Nullable<long> idPostulacion)
+        {
+            var idPostulacionParameter = idPostulacion.HasValue ?
+                new ObjectParameter("IdPostulacion", idPostulacion) :
+                new ObjectParameter("IdPostulacion", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarDetallesPostulacion_Result>("ConsultarDetallesPostulacion", idPostulacionParameter);
+        }
+    
         public virtual ObjectResult<ConsultarPostulaciones_Result> ConsultarPostulaciones(Nullable<long> idEstudiante)
         {
             var idEstudianteParameter = idEstudiante.HasValue ?
@@ -239,9 +247,27 @@ namespace ProyectoG1.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarPostulaciones_Result>("ConsultarPostulaciones", idEstudianteParameter);
         }
     
+        public virtual ObjectResult<ConsultarPostulacionesProyecto_Result> ConsultarPostulacionesProyecto(Nullable<long> idProyecto)
+        {
+            var idProyectoParameter = idProyecto.HasValue ?
+                new ObjectParameter("IdProyecto", idProyecto) :
+                new ObjectParameter("IdProyecto", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarPostulacionesProyecto_Result>("ConsultarPostulacionesProyecto", idProyectoParameter);
+        }
+    
         public virtual ObjectResult<ConsultarProyectos_Result> ConsultarProyectos()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarProyectos_Result>("ConsultarProyectos");
+        }
+    
+        public virtual ObjectResult<ConsultarProyectosConPostulaciones_Result> ConsultarProyectosConPostulaciones(Nullable<long> idInstitucion)
+        {
+            var idInstitucionParameter = idInstitucion.HasValue ?
+                new ObjectParameter("IdInstitucion", idInstitucion) :
+                new ObjectParameter("IdInstitucion", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarProyectosConPostulaciones_Result>("ConsultarProyectosConPostulaciones", idInstitucionParameter);
         }
     
         public virtual ObjectResult<DatosEstudiante_Result> DatosEstudiante(Nullable<long> idEstudiante)
@@ -602,21 +628,17 @@ namespace ProyectoG1.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SugerenciasProyectos", queryParameter);
         }
     
-        public virtual int sp_RegistrarError(string mensaje, string origen, Nullable<long> idUsuario)
+        public virtual int ActualizarEstadoPostulacion(Nullable<long> idPostulacion, string nuevoEstado)
         {
-            var mensajeParameter = mensaje != null ?
-                new ObjectParameter("Mensaje", mensaje) :
-                new ObjectParameter("Mensaje", typeof(string));
+            var idPostulacionParameter = idPostulacion.HasValue ?
+                new ObjectParameter("IdPostulacion", idPostulacion) :
+                new ObjectParameter("IdPostulacion", typeof(long));
     
-            var origenParameter = origen != null ?
-                new ObjectParameter("Origen", origen) :
-                new ObjectParameter("Origen", typeof(string));
+            var nuevoEstadoParameter = nuevoEstado != null ?
+                new ObjectParameter("NuevoEstado", nuevoEstado) :
+                new ObjectParameter("NuevoEstado", typeof(string));
     
-            var idUsuarioParameter = idUsuario.HasValue ?
-                new ObjectParameter("IdUsuario", idUsuario) :
-                new ObjectParameter("IdUsuario", typeof(long));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_RegistrarError", mensajeParameter, origenParameter, idUsuarioParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarEstadoPostulacion", idPostulacionParameter, nuevoEstadoParameter);
         }
     }
 }

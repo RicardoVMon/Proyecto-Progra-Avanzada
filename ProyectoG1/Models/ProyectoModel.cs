@@ -25,6 +25,7 @@ namespace ProyectoG1.Models
         public List <EstudianteModel> EstudiantesAceptados { get; set; }
         public string NombreInstitucion { get; set; }
         public string NombreProvincia { get; set; }
+        public int? Postulaciones { get; set; }
 
     }
 }
