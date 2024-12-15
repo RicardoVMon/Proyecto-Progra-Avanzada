@@ -311,6 +311,7 @@
     <Content Include="Styles\js\conexiones.js" />
     <Content Include="Styles\js\validarRetiroProyecto.js" />
     <Content Include="Styles\js\usuarios.js" />
+    <Content Include="Styles\TemplateCorreoPostulacion.html" />
     <Content Include="Styles\TemplateRecuperarContra.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

@@ -304,45 +304,6 @@ namespace ProyectoG1.Controllers
             return View();
         }
 
-        /*[HttpPost]
-        public ActionResult CambiarContrasennaTempxxxxxx(LoginModel model)
-        {
-            if (model.ContrasennaAnterior == model.Contrasenna)
-            {
-                ViewBag.MensajePantalla = "Debe ingresar una contraseña nueva";
-                return View();
-            }
-            else if (model.Contrasenna != model.ConfirmarContrasenna)
-            {
-                ViewBag.MensajePantalla = "Las nuevas contraseñas no coinciden";
-                return View();
-            }
-
-            using (var context = new KDataBaseEntities())
-            {
-                long Consecutivo = long.Parse(Session["Consecutivo"].ToString());
-                var datos = context.tUsuario.Where(x => x.Consecutivo == Consecutivo).FirstOrDefault();
-
-                if (datos != null)
-                {
-                    if (datos.Contrasenna != model.ContrasennaAnterior)
-                    {
-                        ViewBag.MensajePantalla = "La contraseña anterior no coincide";
-                        return View();
-                    }
-
-                    datos.Contrasenna = model.Contrasenna;
-                    datos.TieneContrasennaTemp = false;
-                    datos.FechaVencimientoTemp = DateTime.Now;
-                    context.SaveChanges();
-                    return RedirectToAction("Index", "Home");
-                }
-
-                ViewBag.MensajePantalla = "Sus credenciales no se han podido actualizar correctamente";
-                return View();
-            }
-        }*/
-
         [HttpPost]
         public ActionResult CambiarContrasennaTemp(LoginModel model)
         {
