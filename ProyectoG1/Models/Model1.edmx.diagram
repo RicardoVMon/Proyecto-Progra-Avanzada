@@ -33,7 +33,6 @@
         <AssociationConnector Association="EncuentraTCUModel.FK_Proyecto_Provincia" ManuallyRouted="false" />
         <AssociationConnector Association="EncuentraTCUModel.EstudianteHabilidad" ManuallyRouted="false" />
         <AssociationConnector Association="EncuentraTCUModel.ProyectoCategoria" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="EncuentraTCUModel.Errores" Width="1.5" PointX="0.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

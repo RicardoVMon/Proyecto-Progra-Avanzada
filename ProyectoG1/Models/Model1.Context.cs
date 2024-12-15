@@ -602,21 +602,29 @@ namespace ProyectoG1.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SugerenciasProyectos", queryParameter);
         }
     
-        public virtual int sp_RegistrarError(string mensaje, string origen, Nullable<long> idUsuario)
+        public virtual int sp_RegistrarError(string mensaje, Nullable<System.DateTime> fecha, string origen, Nullable<long> idEstudiante, Nullable<long> idInstitucion)
         {
             var mensajeParameter = mensaje != null ?
                 new ObjectParameter("Mensaje", mensaje) :
                 new ObjectParameter("Mensaje", typeof(string));
     
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
             var origenParameter = origen != null ?
                 new ObjectParameter("Origen", origen) :
                 new ObjectParameter("Origen", typeof(string));
     
-            var idUsuarioParameter = idUsuario.HasValue ?
-                new ObjectParameter("IdUsuario", idUsuario) :
-                new ObjectParameter("IdUsuario", typeof(long));
+            var idEstudianteParameter = idEstudiante.HasValue ?
+                new ObjectParameter("IdEstudiante", idEstudiante) :
+                new ObjectParameter("IdEstudiante", typeof(long));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_RegistrarError", mensajeParameter, origenParameter, idUsuarioParameter);
+            var idInstitucionParameter = idInstitucion.HasValue ?
+                new ObjectParameter("IdInstitucion", idInstitucion) :
+                new ObjectParameter("IdInstitucion", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_RegistrarError", mensajeParameter, fechaParameter, origenParameter, idEstudianteParameter, idInstitucionParameter);
         }
     }
 }

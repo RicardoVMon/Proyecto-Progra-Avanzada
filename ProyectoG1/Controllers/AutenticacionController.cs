@@ -46,7 +46,14 @@ namespace ProyectoG1.Controllers
             }
             catch (Exception ex)
             {
-                MP.sp_RegistrarError(ex.Message, "RecuperarContrasenna", Session["Id"]);
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MetodosPublicos MP = new MetodosPublicos();
+                MP.sp_RegistrarError(ex.Message, "RecuperarContrasenna", idSesion);
+
+                // Retornar la vista de error
                 return View("Error");
             }
         }
@@ -120,37 +127,52 @@ namespace ProyectoG1.Controllers
         [HttpPost]
         public ActionResult Ingresar(LoginModel model)
         {
-            using (var context = new EncuentraTCUEntities())
+            try
             {
-                var respuesta = context.IngresoSistema(model.Cedula, model.Contrasenna, model.TipoCedula).FirstOrDefault();
-
-                if (respuesta != null)
+                using (var context = new EncuentraTCUEntities())
                 {
+                    var respuesta = context.IngresoSistema(model.Cedula, model.Contrasenna, model.TipoCedula).FirstOrDefault();
 
-                    if (respuesta.TieneContrasennaTemp && respuesta.FechaVencimientoTemp < DateTime.Now)
+                    if (respuesta != null)
                     {
-                        ViewBag.MensajePantalla = "Su contraseña temporal ha expirado. Por favor, recupere su contraseña.";
-                        return RedirectToAction("RecuperarContrasenna", "Autenticacion");
-                    } 
-                    else if (respuesta.TieneContrasennaTemp && respuesta.FechaVencimientoTemp > DateTime.Now)
-                    {
-                        ViewBag.MensajePantalla = "Debe actualizar su contraseña antes de ingresar.";
-                        TempData["Cedula"] = model.Cedula;
-                        TempData["TipoCedula"] = model.TipoCedula;
-                        return RedirectToAction("CambiarContrasennaTemp", "Autenticacion");
+
+                        if (respuesta.TieneContrasennaTemp && respuesta.FechaVencimientoTemp < DateTime.Now)
+                        {
+                            ViewBag.MensajePantalla = "Su contraseña temporal ha expirado. Por favor, recupere su contraseña.";
+                            return RedirectToAction("RecuperarContrasenna", "Autenticacion");
+                        }
+                        else if (respuesta.TieneContrasennaTemp && respuesta.FechaVencimientoTemp > DateTime.Now)
+                        {
+                            ViewBag.MensajePantalla = "Debe actualizar su contraseña antes de ingresar.";
+                            TempData["Cedula"] = model.Cedula;
+                            TempData["TipoCedula"] = model.TipoCedula;
+                            return RedirectToAction("CambiarContrasennaTemp", "Autenticacion");
+                        }
+
+                        Session["Id"] = respuesta.Id;
+                        Session["Nombre"] = respuesta.Nombre;
+                        Session["Email"] = respuesta.Email;
+                        Session["Rol"] = respuesta.IdRol;
+                        Session["Imagen"] = respuesta.Imagen;
+                        return RedirectToAction("Index", "Home");
                     }
 
-                    Session["Id"] = respuesta.Id;
-                    Session["Nombre"] = respuesta.Nombre;
-                    Session["Email"] = respuesta.Email;
-                    Session["Rol"] = respuesta.IdRol;
-                    Session["Imagen"] = respuesta.Imagen;
-                    return RedirectToAction("Index", "Home");
+                    // Mensaje de error si falla
+                    ViewBag.MensajePantalla = "Su información no se ha podido validar correctamente";
+                    return View();
                 }
 
-                // Mensaje de error si falla
-                ViewBag.MensajePantalla = "Su información no se ha podido validar correctamente";
-                return View();
+            }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MetodosPublicos MP = new MetodosPublicos();
+                MP.sp_RegistrarError(ex.Message, "Ingresar", idSesion);
+
+                return View("Error");
             }
         }
 
@@ -173,7 +195,7 @@ namespace ProyectoG1.Controllers
         [HttpPost]
         public ActionResult RegistroEstudiante(EstudianteModel model)
         {
-
+            
             // TitleCase para nombre y apellido
             model.Nombre = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(model.Nombre.ToLower());
             model.Apellidos = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(model.Apellidos.ToLower());
