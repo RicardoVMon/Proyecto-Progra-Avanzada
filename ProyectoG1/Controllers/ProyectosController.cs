@@ -53,6 +53,49 @@ namespace ProyectoG1.Controllers
 
             }
         }
+
+        [HttpGet]
+        public ActionResult MisProyectos()
+        {
+            long IdEstudiante = long.Parse(Session["Id"].ToString());
+            using (var context = new EncuentraTCUEntities())
+            {
+                var listaProyectosBD = context.ObtenerProyectosEstudiante(IdEstudiante).ToList();
+                var proyectos = new List<ProyectoModel>();
+                foreach (var proyecto in listaProyectosBD)
+                {
+
+                    var listaCategoriasBD = context.ObtenerCategoriasProyecto(proyecto.IdProyecto);
+                    var categorias = new List<CategoriaModel>();
+                    foreach (var categoria in listaCategoriasBD)
+                    {
+                        categorias.Add(new CategoriaModel
+                        {
+                            IdCategoria = categoria.IdCategoria,
+                            Nombre = categoria.Nombre
+                        });
+                    }
+
+                    proyectos.Add(new ProyectoModel
+                    {
+                        IdEstudiante = proyecto.IdEstudiante,
+                        Nombre = proyecto.Nombre,
+                        Descripcion = proyecto.Descripcion,
+                        Cupo = proyecto.Cupo,
+                        Estado = proyecto.Estado,
+                        CreadoPor = proyecto.CreadoPor,
+                        Imagen = proyecto.Imagen,
+                        Categorias = categorias,
+                        NombreProvincia = proyecto.NombreProvincia
+
+                    });
+                }
+
+                return View(proyectos);
+
+            }
+        }
+
         [HttpGet]
         public ActionResult CrearProyecto()
         {
@@ -65,14 +108,31 @@ namespace ProyectoG1.Controllers
         {
             using (var context = new EncuentraTCUEntities())
             {
-                long IdInstitucion = long.Parse(Session["Id"].ToString());
+                long IdCreador = long.Parse(Session["Id"].ToString());
+                bool creadoPorInstitucion = false;
 
-                var respuestaRegistroProyecto = context.RegistrarProyecto(IdInstitucion, model.Nombre, model.Descripcion, model.Cupo, true, model.Contacto, model.Direccion, model.CorreoAsociado, model.IdProvincia);
+                if ((long)Session["Rol"] == 2)
+                {
+                    creadoPorInstitucion = true;
+                }
+
+                var respuestaRegistroProyecto = context.RegistrarProyecto(
+                    creadoPorInstitucion ? (long?)IdCreador : null, 
+                    creadoPorInstitucion ? null : (long?)IdCreador, 
+                    model.Nombre,
+                    model.Descripcion,
+                    model.Cupo,
+                    creadoPorInstitucion,
+                    model.Contacto,
+                    model.Direccion,
+                    model.CorreoAsociado,
+                    model.IdProvincia
+                    );
 
                 if (respuestaRegistroProyecto > 0)
                 {
 
-                    var IdNuevoProyecto = context.ObtenerProyectoReciente(IdInstitucion, model.Nombre, model.Descripcion, model.Cupo).FirstOrDefault();
+                    var IdNuevoProyecto = context.ObtenerProyectoReciente(IdCreador, model.Nombre, model.Descripcion, model.Cupo).FirstOrDefault();
 
                     if (ImagenProyecto != null)
                     {
@@ -88,8 +148,9 @@ namespace ProyectoG1.Controllers
                     {
                         context.RegistrarCategoriaProyecto(IdNuevoProyecto, item);
                     }
+
                     ObtenerCategorias();
-                    return RedirectToAction("GestionProyectos", "Proyectos");
+                    return RedirectToAction("MisProyectos", "Proyectos");
                 }
                 ObtenerCategorias();
                 ViewBag.MensajeError = "Su información no se ha podido validar correctamente";
@@ -318,13 +379,6 @@ namespace ProyectoG1.Controllers
                 return View(proyectos);
 
             }
-        }
-
-        [HttpGet]
-        public ActionResult MisProyectos()
-        {
-            long IdEstudiante = long.Parse(Session["Id"].ToString());
-            return View();
         }
 
         public void ObtenerCategorias()

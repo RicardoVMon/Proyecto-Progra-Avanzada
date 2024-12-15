@@ -14,7 +14,7 @@ namespace ProyectoG1.Models
     public partial class ConsultarProyectos_Result
     {
         public long IdProyecto { get; set; }
-        public long IdInstitucion { get; set; }
+        public Nullable<long> IdInstitucion { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public string Imagen { get; set; }

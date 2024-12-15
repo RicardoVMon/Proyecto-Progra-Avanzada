@@ -22,7 +22,7 @@ namespace ProyectoG1.Models
         }
     
         public long IdProyecto { get; set; }
-        public long IdInstitucion { get; set; }
+        public Nullable<long> IdInstitucion { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public int Cupo { get; set; }
@@ -33,7 +33,9 @@ namespace ProyectoG1.Models
         public string Direccion { get; set; }
         public string CorreoAsociado { get; set; }
         public Nullable<long> IdProvincia { get; set; }
+        public Nullable<long> IdEstudiante { get; set; }
     
+        public virtual Estudiante Estudiante { get; set; }
         public virtual Institucion Institucion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Postulacion> Postulacion { get; set; }

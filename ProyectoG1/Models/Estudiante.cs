@@ -21,6 +21,7 @@ namespace ProyectoG1.Models
             this.Conexion = new HashSet<Conexion>();
             this.Conexion1 = new HashSet<Conexion>();
             this.Postulacion = new HashSet<Postulacion>();
+            this.Proyecto = new HashSet<Proyecto>();
             this.Habilidad = new HashSet<Habilidad>();
         }
     
@@ -51,6 +52,8 @@ namespace ProyectoG1.Models
         public virtual Universidad Universidad { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Postulacion> Postulacion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Proyecto> Proyecto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Habilidad> Habilidad { get; set; }
     }

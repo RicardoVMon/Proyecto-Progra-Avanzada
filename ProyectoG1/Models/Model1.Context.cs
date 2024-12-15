@@ -66,6 +66,19 @@ namespace ProyectoG1.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarContrasenna", cedulaParameter, tipoCedulaParameter, contrasennaTempParameter, tieneContrasennaTempParameter, fechaVencimientoTempParameter);
         }
     
+        public virtual int ActualizarEstadoPostulacion(Nullable<long> idPostulacion, string nuevoEstado)
+        {
+            var idPostulacionParameter = idPostulacion.HasValue ?
+                new ObjectParameter("IdPostulacion", idPostulacion) :
+                new ObjectParameter("IdPostulacion", typeof(long));
+    
+            var nuevoEstadoParameter = nuevoEstado != null ?
+                new ObjectParameter("NuevoEstado", nuevoEstado) :
+                new ObjectParameter("NuevoEstado", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarEstadoPostulacion", idPostulacionParameter, nuevoEstadoParameter);
+        }
+    
         public virtual int ActualizarImagenEstudiante(Nullable<long> idEstudiante, string imagen)
         {
             var idEstudianteParameter = idEstudiante.HasValue ?
@@ -417,11 +430,11 @@ namespace ProyectoG1.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerHabilidadesParaEditar_Result>("ObtenerHabilidadesParaEditar", idEstudianteParameter);
         }
     
-        public virtual ObjectResult<Nullable<long>> ObtenerProyectoReciente(Nullable<long> idInstitucion, string nombre, string descripcion, Nullable<int> cupo)
+        public virtual ObjectResult<Nullable<long>> ObtenerProyectoReciente(Nullable<long> idCreador, string nombre, string descripcion, Nullable<int> cupo)
         {
-            var idInstitucionParameter = idInstitucion.HasValue ?
-                new ObjectParameter("IdInstitucion", idInstitucion) :
-                new ObjectParameter("IdInstitucion", typeof(long));
+            var idCreadorParameter = idCreador.HasValue ?
+                new ObjectParameter("IdCreador", idCreador) :
+                new ObjectParameter("IdCreador", typeof(long));
     
             var nombreParameter = nombre != null ?
                 new ObjectParameter("Nombre", nombre) :
@@ -435,7 +448,7 @@ namespace ProyectoG1.Models
                 new ObjectParameter("Cupo", cupo) :
                 new ObjectParameter("Cupo", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<long>>("ObtenerProyectoReciente", idInstitucionParameter, nombreParameter, descripcionParameter, cupoParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<long>>("ObtenerProyectoReciente", idCreadorParameter, nombreParameter, descripcionParameter, cupoParameter);
         }
     
         public virtual ObjectResult<ObtenerProyectosBusqueda_Result> ObtenerProyectosBusqueda(string query)
@@ -454,6 +467,15 @@ namespace ProyectoG1.Models
                 new ObjectParameter("IdProyecto", typeof(long));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerProyectosEspecifico_Result>("ObtenerProyectosEspecifico", idProyectoParameter);
+        }
+    
+        public virtual ObjectResult<ObtenerProyectosEstudiante_Result> ObtenerProyectosEstudiante(Nullable<long> idEstudiante)
+        {
+            var idEstudianteParameter = idEstudiante.HasValue ?
+                new ObjectParameter("IdEstudiante", idEstudiante) :
+                new ObjectParameter("IdEstudiante", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerProyectosEstudiante_Result>("ObtenerProyectosEstudiante", idEstudianteParameter);
         }
     
         public virtual ObjectResult<ObtenerProyectosInstitucion_Result> ObtenerProyectosInstitucion(Nullable<long> idInstitucion)
@@ -569,11 +591,15 @@ namespace ProyectoG1.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistrarInstitucion", idTipoInstitucionParameter, cedulaParameter, emailParameter, contrasennaParameter, nombreParameter, descripcionParameter, telefonoParameter, paginaWebParameter);
         }
     
-        public virtual int RegistrarProyecto(Nullable<long> idInstitucion, string nombre, string descripcion, Nullable<int> cupo, Nullable<bool> creadoPorInstitucion, string contacto, string direccion, string correoAsociado, Nullable<long> idProvincia)
+        public virtual int RegistrarProyecto(Nullable<long> idInstitucion, Nullable<long> idEstudiante, string nombre, string descripcion, Nullable<int> cupo, Nullable<bool> creadoPorInstitucion, string contacto, string direccion, string correoAsociado, Nullable<long> idProvincia)
         {
             var idInstitucionParameter = idInstitucion.HasValue ?
                 new ObjectParameter("IdInstitucion", idInstitucion) :
                 new ObjectParameter("IdInstitucion", typeof(long));
+    
+            var idEstudianteParameter = idEstudiante.HasValue ?
+                new ObjectParameter("IdEstudiante", idEstudiante) :
+                new ObjectParameter("IdEstudiante", typeof(long));
     
             var nombreParameter = nombre != null ?
                 new ObjectParameter("Nombre", nombre) :
@@ -607,7 +633,7 @@ namespace ProyectoG1.Models
                 new ObjectParameter("IdProvincia", idProvincia) :
                 new ObjectParameter("IdProvincia", typeof(long));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistrarProyecto", idInstitucionParameter, nombreParameter, descripcionParameter, cupoParameter, creadoPorInstitucionParameter, contactoParameter, direccionParameter, correoAsociadoParameter, idProvinciaParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistrarProyecto", idInstitucionParameter, idEstudianteParameter, nombreParameter, descripcionParameter, cupoParameter, creadoPorInstitucionParameter, contactoParameter, direccionParameter, correoAsociadoParameter, idProvinciaParameter);
         }
     
         public virtual ObjectResult<string> SugerenciasConexiones(string query)
@@ -626,19 +652,6 @@ namespace ProyectoG1.Models
                 new ObjectParameter("Query", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SugerenciasProyectos", queryParameter);
-        }
-    
-        public virtual int ActualizarEstadoPostulacion(Nullable<long> idPostulacion, string nuevoEstado)
-        {
-            var idPostulacionParameter = idPostulacion.HasValue ?
-                new ObjectParameter("IdPostulacion", idPostulacion) :
-                new ObjectParameter("IdPostulacion", typeof(long));
-    
-            var nuevoEstadoParameter = nuevoEstado != null ?
-                new ObjectParameter("NuevoEstado", nuevoEstado) :
-                new ObjectParameter("NuevoEstado", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ActualizarEstadoPostulacion", idPostulacionParameter, nuevoEstadoParameter);
         }
     }
 }
