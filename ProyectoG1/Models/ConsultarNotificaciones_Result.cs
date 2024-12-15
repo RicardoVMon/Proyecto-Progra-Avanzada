@@ -10,14 +10,14 @@
 namespace ProyectoG1.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Errores
+    public partial class ConsultarNotificaciones_Result
     {
-        public long Id { get; set; }
-        public string Mensaje { get; set; }
-        public System.DateTime FechaHora { get; set; }
-        public string Origen { get; set; }
-        public Nullable<long> IdUsuario { get; set; }
+        public long IdNotificacion { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public string Contenido { get; set; }
+        public string NombreProyecto { get; set; }
+        public long IdProyecto { get; set; }
+        public long IdEstudiante { get; set; }
     }
 }

@@ -34,13 +34,13 @@ namespace ProyectoG1.Models
         public virtual DbSet<Genero> Genero { get; set; }
         public virtual DbSet<Habilidad> Habilidad { get; set; }
         public virtual DbSet<Institucion> Institucion { get; set; }
+        public virtual DbSet<Notificacion> Notificacion { get; set; }
         public virtual DbSet<Postulacion> Postulacion { get; set; }
         public virtual DbSet<Provincia> Provincia { get; set; }
         public virtual DbSet<Proyecto> Proyecto { get; set; }
         public virtual DbSet<Rol> Rol { get; set; }
         public virtual DbSet<TipoInstitucion> TipoInstitucion { get; set; }
         public virtual DbSet<Universidad> Universidad { get; set; }
-        public virtual DbSet<Errores> Errores { get; set; }
     
         public virtual int ActualizarContrasenna(string cedula, Nullable<int> tipoCedula, string contrasennaTemp, Nullable<bool> tieneContrasennaTemp, Nullable<System.DateTime> fechaVencimientoTemp)
         {
@@ -228,6 +228,19 @@ namespace ProyectoG1.Models
                 new ObjectParameter("NuevaContrasenna", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CambiarContrasennaTemp", cedulaParameter, tipoCedulaParameter, nuevaContrasennaParameter);
+        }
+    
+        public virtual ObjectResult<ConsultarNotificaciones_Result> ConsultarNotificaciones(Nullable<long> idUsuario, Nullable<int> tipoUsuario)
+        {
+            var idUsuarioParameter = idUsuario.HasValue ?
+                new ObjectParameter("IdUsuario", idUsuario) :
+                new ObjectParameter("IdUsuario", typeof(long));
+    
+            var tipoUsuarioParameter = tipoUsuario.HasValue ?
+                new ObjectParameter("TipoUsuario", tipoUsuario) :
+                new ObjectParameter("TipoUsuario", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarNotificaciones_Result>("ConsultarNotificaciones", idUsuarioParameter, tipoUsuarioParameter);
         }
     
         public virtual ObjectResult<ConsultarPostulaciones_Result> ConsultarPostulaciones(Nullable<long> idEstudiante)
@@ -543,6 +556,35 @@ namespace ProyectoG1.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistrarInstitucion", idTipoInstitucionParameter, cedulaParameter, emailParameter, contrasennaParameter, nombreParameter, descripcionParameter, telefonoParameter, paginaWebParameter);
         }
     
+        public virtual int RegistrarNotificacion(Nullable<long> idEstudiante, Nullable<long> idInstitucion, Nullable<long> idPostulacion, Nullable<long> idProyecto, string contenido, Nullable<bool> tipoNotificacion)
+        {
+            var idEstudianteParameter = idEstudiante.HasValue ?
+                new ObjectParameter("IdEstudiante", idEstudiante) :
+                new ObjectParameter("IdEstudiante", typeof(long));
+    
+            var idInstitucionParameter = idInstitucion.HasValue ?
+                new ObjectParameter("IdInstitucion", idInstitucion) :
+                new ObjectParameter("IdInstitucion", typeof(long));
+    
+            var idPostulacionParameter = idPostulacion.HasValue ?
+                new ObjectParameter("IdPostulacion", idPostulacion) :
+                new ObjectParameter("IdPostulacion", typeof(long));
+    
+            var idProyectoParameter = idProyecto.HasValue ?
+                new ObjectParameter("IdProyecto", idProyecto) :
+                new ObjectParameter("IdProyecto", typeof(long));
+    
+            var contenidoParameter = contenido != null ?
+                new ObjectParameter("Contenido", contenido) :
+                new ObjectParameter("Contenido", typeof(string));
+    
+            var tipoNotificacionParameter = tipoNotificacion.HasValue ?
+                new ObjectParameter("TipoNotificacion", tipoNotificacion) :
+                new ObjectParameter("TipoNotificacion", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistrarNotificacion", idEstudianteParameter, idInstitucionParameter, idPostulacionParameter, idProyectoParameter, contenidoParameter, tipoNotificacionParameter);
+        }
+    
         public virtual int RegistrarProyecto(Nullable<long> idInstitucion, string nombre, string descripcion, Nullable<int> cupo, Nullable<bool> creadoPorInstitucion, string contacto, string direccion, string correoAsociado, Nullable<long> idProvincia)
         {
             var idInstitucionParameter = idInstitucion.HasValue ?
@@ -600,23 +642,6 @@ namespace ProyectoG1.Models
                 new ObjectParameter("Query", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SugerenciasProyectos", queryParameter);
-        }
-    
-        public virtual int sp_RegistrarError(string mensaje, string origen, Nullable<long> idUsuario)
-        {
-            var mensajeParameter = mensaje != null ?
-                new ObjectParameter("Mensaje", mensaje) :
-                new ObjectParameter("Mensaje", typeof(string));
-    
-            var origenParameter = origen != null ?
-                new ObjectParameter("Origen", origen) :
-                new ObjectParameter("Origen", typeof(string));
-    
-            var idUsuarioParameter = idUsuario.HasValue ?
-                new ObjectParameter("IdUsuario", idUsuario) :
-                new ObjectParameter("IdUsuario", typeof(long));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_RegistrarError", mensajeParameter, origenParameter, idUsuarioParameter);
         }
     }
 }

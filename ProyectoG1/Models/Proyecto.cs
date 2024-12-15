@@ -17,6 +17,7 @@ namespace ProyectoG1.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Proyecto()
         {
+            this.Notificacion = new HashSet<Notificacion>();
             this.Postulacion = new HashSet<Postulacion>();
             this.Categoria = new HashSet<Categoria>();
         }
@@ -35,6 +36,8 @@ namespace ProyectoG1.Models
         public Nullable<long> IdProvincia { get; set; }
     
         public virtual Institucion Institucion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Notificacion> Notificacion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Postulacion> Postulacion { get; set; }
         public virtual Provincia Provincia { get; set; }

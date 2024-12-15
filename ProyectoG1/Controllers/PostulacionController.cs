@@ -38,14 +38,25 @@ namespace ProyectoG1.Controllers
                     var estudiante = context.Estudiante.Where(x => x.IdEstudiante == idEstudiante).FirstOrDefault();
                     var proyecto = context.Proyecto.Where(x => x.IdProyecto == p).FirstOrDefault();
                     var institucion = context.Institucion.Where(x => x.IdInstitucion == proyecto.IdInstitucion).FirstOrDefault();
+                    var postulacion = context.Postulacion.Where(x => x.IdEstudiante == idEstudiante && x.IdProyecto == p).FirstOrDefault();
 
                     if (estudiante != null && proyecto != null && institucion != null)
                     {
+                        //correo
                         var contenidoCorreo = GenerarContenidoCorreoPostulacion(estudiante.Nombre,proyecto.Nombre,institucion.Nombre);
-
                         EnviarCorreoPostulacion(institucion.Email,"Nueva postulación",contenidoCorreo);
-                    }
 
+                        //notificación
+                        var contenidoNotificacion = $"Tu proyecto {proyecto.Nombre} ha recibido una nueva postulación de parte de el/la estudiante {estudiante.Nombre}. Revisa en las postulaciones de tus proyectos para gestionar la postulación.";
+                        //GuardarNotificacion(idEstudiante, proyecto.IdInstitucion, respuesta, p, contenidoNotificacion, false);
+                        var resultadoNotificacion = GuardarNotificacion(idEstudiante, proyecto.IdInstitucion, postulacion.IdPostulacion, p, contenidoNotificacion, false);
+
+                        if (resultadoNotificacion <= 0)
+                        {
+                            ViewBag.MensajeError = "No se pudo notificar a la Institucion de su postulación.";
+                        }
+                    
+                    }
                     return RedirectToAction("BuscarPostulaciones", "Postulacion");
                 }
                 else
@@ -130,6 +141,23 @@ namespace ProyectoG1.Controllers
             client.Credentials = new System.Net.NetworkCredential(cuenta, contrasenna);
             client.EnableSsl = true;
             client.Send(message);
+        }
+
+        private int GuardarNotificacion(long idEstudiante, long idInstitucion, long idPostulacion, long idProyecto, string contenido, bool tipoNotificacion)
+        {
+            using (var context = new EncuentraTCUEntities())
+            {
+                var respuesta = context.RegistrarNotificacion(
+                    idEstudiante,
+                    idInstitucion,
+                    idPostulacion,
+                    idProyecto,
+                    contenido,
+                    tipoNotificacion
+                );
+
+                return respuesta;
+            }
         }
 
     }

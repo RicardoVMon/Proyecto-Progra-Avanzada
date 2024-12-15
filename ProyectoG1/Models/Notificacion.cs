@@ -12,24 +12,20 @@ namespace ProyectoG1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Postulacion
+    public partial class Notificacion
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Postulacion()
-        {
-            this.Notificacion = new HashSet<Notificacion>();
-        }
-    
-        public long IdPostulacion { get; set; }
+        public long IdNotificacion { get; set; }
         public long IdEstudiante { get; set; }
+        public long IdInstitucion { get; set; }
+        public long IdPostulacion { get; set; }
         public long IdProyecto { get; set; }
-        public System.DateTime FechaPostulacion { get; set; }
-        public string Estado { get; set; }
-        public bool ConfirmacionEstudiante { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public string Contenido { get; set; }
+        public bool TipoNotificacion { get; set; }
     
         public virtual Estudiante Estudiante { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Notificacion> Notificacion { get; set; }
+        public virtual Institucion Institucion { get; set; }
+        public virtual Postulacion Postulacion { get; set; }
         public virtual Proyecto Proyecto { get; set; }
     }
 }

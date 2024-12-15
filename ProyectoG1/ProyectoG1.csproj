@@ -133,6 +133,7 @@
     <Compile Include="Controllers\EstudianteController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InstitucionController.cs" />
+    <Compile Include="Controllers\NotificacionController.cs" />
     <Compile Include="Controllers\PostulacionController.cs" />
     <Compile Include="Controllers\ProyectosController.cs" />
     <Compile Include="Global.asax.cs">
@@ -147,6 +148,9 @@
     <Compile Include="Models\Conexion.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ConsultarNotificaciones_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ConsultarPostulaciones_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -157,9 +161,6 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DatosInstitucion_Result.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Errores.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Estudiante.cs">
@@ -194,6 +195,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Notificacion.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NotificacionModel.cs" />
     <Compile Include="Models\ObtenerCategoriasProyecto_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -349,6 +354,7 @@
     <Content Include="Views\Proyectos\MisProyectos.cshtml" />
     <Content Include="Views\Conexiones\GestionarConexiones.cshtml" />
     <Content Include="Views\Conexiones\ResultadosBusqueda.cshtml" />
+    <Content Include="Views\Notificacion\Notificaciones.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -18,6 +18,7 @@ namespace ProyectoG1.Models
         public Institucion()
         {
             this.Auditoria = new HashSet<Auditoria>();
+            this.Notificacion = new HashSet<Notificacion>();
             this.Proyecto = new HashSet<Proyecto>();
         }
     
@@ -40,6 +41,8 @@ namespace ProyectoG1.Models
         public virtual ICollection<Auditoria> Auditoria { get; set; }
         public virtual Rol Rol { get; set; }
         public virtual TipoInstitucion TipoInstitucion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Notificacion> Notificacion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Proyecto> Proyecto { get; set; }
     }
