@@ -77,7 +77,7 @@
                             </div>
                             <div class="col-12 text-center">
                                 <h3 class="card-title mb-2">Foto de Perfil</h3>
-                                <a href="#" class="btn btn-primary">Ver Perfil</a>
+                                <a id="verPerfil" href="#" class="btn btn-primary">Ver Perfil</a>
                             </div>
                         </div>
                     </div>
@@ -150,7 +150,7 @@ $('#postulacion').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget);
     var postulacionId = button.data('id');
 
-    $(this).data('id', postulacionId); 
+    $(this).data('id', postulacionId);
 
     $.get('@Url.Action("ConsultarDetallesPostulacion", "Postulacion")', { p: postulacionId })
         .done(function(postulacion) {
@@ -163,11 +163,13 @@ $('#postulacion').on('show.bs.modal', function (event) {
                 $('#correoEstudiante').text(postulacion.CorreoEstudiante || '');
                 $('#descripcionEstudiante').text(postulacion.DescripcionEstudiante || '');
                 $('#fechaPostulacion').text(postulacion.FechaPostulacion || '');
+
+                $('#verPerfil').attr('href', '@Url.Action("PerfilEstudiante", "Estudiante")' + '?q=' + postulacion.IdEstudiante);
             }
         })
         .fail(function(error) {
-            console.error('Error loading postulacion details:', error);
-            alert('Error loading postulation details. Please try again.');
+            console.error('Error:', error);
+            alert('Error. Intente nuevamente.');
         });
 });
 
