@@ -8,8 +8,8 @@
 
 <style>
     .select2-container--default .select2-selection--multiple {
-        padding: 0.50rem 0.50rem; /* Matches Bootstrap input padding */
-        height: auto; /* Ensures it adjusts for content */
+        padding: 0.50rem 0.50rem;
+        height: auto;
     }
 </style>
 
@@ -36,8 +36,6 @@
                             {
                                 <div class="row">
                                     <div class="col-8">
-
-                                        <!-- Nombre de Proyecto -->
                                         <div class="row mb-3">
                                             <div class="col-8">
                                                 <div class="form-group">
@@ -142,7 +140,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             }
                         </div>
@@ -156,9 +153,9 @@
 <script>
         $(document).ready(function () {
             $(".mul-select").select2({
-                placeholder: "Selecciona las categorías con las que deseas asociar tu proyecto (máximo 3)", // Placeholder in Spanish
-                tags: false, // Disable creating new tags
-                maximumSelectionLength: 3, // Limit to 3 selections
+                placeholder: "Selecciona las categorías con las que deseas asociar tu proyecto (máximo 3)", 
+                tags: false, 
+                maximumSelectionLength: 3,
                 language: {
                     maximumSelected: function (args) {
                         return "Solo puedes seleccionar hasta " + args.maximum + " categorías.";

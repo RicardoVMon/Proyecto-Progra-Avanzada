@@ -8,8 +8,9 @@ namespace ProyectoG1.Models
     public class ProyectoModel
     {
         public long IdProyecto { get; set; }
-        public long IdInstitucion { get; set; }
-        public long IdProvincia { get; set; }
+        public long? IdInstitucion { get; set; }
+        public long? IdProvincia { get; set; }
+        public long? IdEstudiante { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public int Cupo { get; set; }
@@ -25,6 +26,9 @@ namespace ProyectoG1.Models
         public List <EstudianteModel> EstudiantesAceptados { get; set; }
         public string NombreInstitucion { get; set; }
         public string NombreProvincia { get; set; }
+        public int? Postulaciones { get; set; }
+        public string NombreEstudiante { get; set; }
+        public long IdPostulacion { get; set; }
 
     }
 }

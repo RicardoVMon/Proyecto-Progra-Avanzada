@@ -1,6 +1,8 @@
-﻿@model List<ProyectoG1.Models.ProyectoModel>
+﻿@model List<ProyectoG1.Models.PostulacionModel>
 
-
+@{
+    string nombreProyecto = Model.FirstOrDefault()?.NombreProyecto ?? "Nombre de Proyecto";
+}
 
 <div>
     <div class="row">
@@ -8,7 +10,7 @@
         <div class="col-12">
             <div class="row align-items-center mb-3">
                 <div class="col-12 col-md-8">
-                    <h1 class="display-5">Nombre de Proyecto</h1>
+                    <h1 class="display-5">@nombreProyecto</h1>
                     <h2 class="text-muted mb-3">Postulaciones recibidas</h2>
                 </div>
             </div>
@@ -22,27 +24,48 @@
                                     <th>Nombre</th>
                                     <th>Apellidos</th>
                                     <th>Carrera</th>
-                                    <th>Habilidades relacionadas</th>
+                                    <th>Estado</th>
                                     <th>Fecha de postulación</th>
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Juan</td>
-                                    <td>Vargas Díaz</td>
-                                    <td>Ingenieria en sistemas</td>
-                                    <td>XYZ</td>
-                                    <td>12/11/2024</td>
-                                    <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Ver postulación</button></td>
-                                </tr>
+                                @foreach (var postulacion in Model)
+                                {
+                                    <tr>
+                                        <td>@postulacion.NombreEstudiante</td>
+                                        <td>@postulacion.ApellidosEstudiante</td>
+                                        <td>@postulacion.CarreraEstudiante</td>
+                                        <td class="text-center">
+                                            @if (postulacion.Estado == "Pendiente")
+                                            {
+                                                <button class="btn btn-warning">@postulacion.Estado</button>
+                                            }
+                                            else if (postulacion.Estado == "Aceptado")
+                                            {
+                                                <button class="btn btn-success">@postulacion.Estado</button>
+                                            }
+                                            else if (postulacion.Estado == "Rechazado")
+                                            {
+                                                <button class="btn btn-danger">@postulacion.Estado</button>
+                                            }
+                                        </td>
+                                        <td>@postulacion.FechaPostulacion</td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#postulacion" data-id="@postulacion.IdPostulacion">
+                                                Ver postulación
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th>Imagen Proyecto</th>
-                                    <th>Título</th>
-                                    <th>Cupo</th>
-                                    <th>Postulaciones</th>
+                                    <th>Nombre</th>
+                                    <th>Apellidos</th>
+                                    <th>Carrera</th>
+                                    <th>Estado</th>
+                                    <th>Fecha de postulación</th>
                                     <th>Opciones</th>
                                 </tr>
                             </tfoot>
@@ -55,73 +78,62 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="postulacion" tabindex="-1" aria-labelledby="postulacionLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Detalles de Postulación</h5>
+                <h5 class="modal-title" id="postulacionLabel">Detalles de Postulación</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-3 d-flex justify-content-center flex-column">
-                            <div class="row">
-                                <div class="col-12 text-center mb-3">
-                                    <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" class="rounded-circle" alt="Imagen de perfil" width="150" height="150">
-                                </div>
-                                <div class="col-12 text-center">
-                                    <h3 class="card-title mb-2">Foto de Perfil</h3>
-                                    <a href="#" class="btn btn-primary">Ver Perfil</a>
-                                </div>
+                        <div class="row">
+                            <div class="col-12 text-center mb-3">
+                                <img id="imagenEstudiante" src="" class="rounded-circle" alt="Imagen de perfil" width="150" height="150">
                             </div>
+                            <div class="col-12 text-center">
+                                <h3 class="card-title mb-2">Foto de Perfil</h3>
+                                <a id="verPerfil" href="#" class="btn btn-primary">Ver Perfil</a>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-9">
                         <div class="row">
                             <div class="col-12 d-flex flex-column">
                                 <label for="descripcion" class="form-label h6 text-muted mb-0">Nombre</label>
-                                <span class="h2">Ricardo Vargas</span>
+                                <span id="nombreEstudiante" class="h2">Nombre Estudiante</span>
                             </div>
                             <div class="col-6 d-flex flex-column">
-                                <label for="descripcion" class="form-label h6 text-muted  mb-0">Universidad de Procedencia</label>
-                                <span class="h2">Universidad Fidélitas</span>
+                                <label for="descripcion" class="form-label h6 text-muted mb-0">Universidad de Procedencia</label>
+                                <span id="universidadEstudiante" class="h2">Universidad</span>
                             </div>
                             <div class="col-6 d-flex flex-column">
-                                <label for="descripcion" class="form-label h6 text-muted  mb-0">Carrera</label>
-                                <span class="h2">Ingeniería en Sistemas</span>
+                                <label for="descripcion" class="form-label h6 text-muted mb-0">Carrera</label>
+                                <span id="carreraEstudiante" class="h2">Carrera</span>
                             </div>
 
                             <div class="col-6 d-flex flex-column">
-                                <label for="descripcion" class="form-label h6 text-muted  mb-0">Correo Electrónico</label>
-                                <span class="h2">prueba@gmail.com</span>
+                                <label for="descripcion" class="form-label h6 text-muted mb-0">Correo Electrónico</label>
+                                <span id="correoEstudiante" class="h2">Correo</span>
                             </div>
                             <div class="col-6 d-flex flex-column">
-                                <label for="descripcion" class="form-label h6 text-muted  mb-0">Fecha de Postulación</label>
-                                <span class="h2">12/11/2024</span>
+                                <label for="descripcion" class="form-label h6 text-muted mb-0">Fecha de Postulación</label>
+                                <span id="fechaPostulacion" class="h2">Fecha</span>
                             </div>
                             <div class="col-12 d-flex flex-column mb-2">
-                                <label for="descripcion" class="form-label h6 text-muted">Habilidades</label>
-                                <div class="d-flex">
-                                    <span class="mb-1 me-1 badge bg-primary">Habilidad 1</span>
-                                    <span class=" mb-1 me-1 badge bg-secondary">Habilidad 2</span>
-                                    <span class=" mb-1 me-1 badge bg-success">Habilidad 3</span>
-                                    <span class=" mb-1 me-1 badge bg-danger">Habilidad 4</span>
-                                    <span class=" mb-1 me-1 badge bg-warning text-dark">Habilidad 5</span>
-                                    <span class=" mb-1 me-1 badge bg-info text-dark">Habilidad 6</span>
-                                </div>
-                            </div>
-                            <div class="col-12 d-flex flex-column">
-                                <label for="descripcion" class="form-label h6 text-muted  mb-2">Mensaje Adicional de Postulación</label>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <label for="descripcion" class="form-label h6 text-muted">Descripción</label>
+                                <p id="descripcionEstudiante">Descripción aquí</p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-6">
-                                <button type="submit" id="btnRegistrar" name="btnRegistrar" class="btn btn-success btn-lg mt-3 w-100" >
+                                <button type="submit" id="btnAceptar" name="btnAceptar" class="btn btn-success btn-lg mt-3 w-100">
                                     Aceptar
                                 </button>
                             </div>
                             <div class="col-6">
-                                <button type="submit" id="btnRegistrar" name="btnRegistrar" class="btn btn-danger btn-lg mt-3 w-100">
+                                <button type="submit" id="btnRechazar" name="btnRechazar" class="btn btn-danger btn-lg mt-3 w-100">
                                     Rechazar
                                 </button>
                             </div>
@@ -129,13 +141,10 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
         </div>
     </div>
 </div>
+
 
 <script>
     $(document).ready(function () {
@@ -145,10 +154,83 @@
             },
             columnDefs: [
                 {
-                    targets: 5, // Apply settings to "Foto de Perfil" (1) and "Opciones" (6)
-                    className: 'text-center' // Center align for both columns
+                    targets: 5,
+                    className: 'text-center'
                 }
             ]
         });
     });
+</script>
+
+<script>
+$('#postulacion').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    var postulacionId = button.data('id');
+
+    $(this).data('id', postulacionId);
+
+    $.get('@Url.Action("ConsultarDetallesPostulacion", "Postulacion")', { p: postulacionId })
+        .done(function(postulacion) {
+            if (postulacion) {
+
+                $('#imagenEstudiante').attr('src', postulacion.ImagenEstudiante || '');
+                $('#nombreEstudiante').text(postulacion.NombreCompletoEstudiante || '');
+                $('#universidadEstudiante').text(postulacion.UniversidadEstudiante || '');
+                $('#carreraEstudiante').text(postulacion.CarreraEstudiante || '');
+                $('#correoEstudiante').text(postulacion.CorreoEstudiante || '');
+                $('#descripcionEstudiante').text(postulacion.DescripcionEstudiante || '');
+                $('#fechaPostulacion').text(postulacion.FechaPostulacion || '');
+
+                $('#verPerfil').attr('href', '@Url.Action("PerfilEstudiante", "Estudiante")' + '?q=' + postulacion.IdEstudiante);
+            }
+        })
+        .fail(function(error) {
+            console.error('Error:', error);
+            alert('Error. Intente nuevamente.');
+        });
+});
+
+</script>
+
+<script>
+$('#btnAceptar').on('click', function () {
+    var postulacionId = $('#postulacion').data('id');
+    var nuevoEstado = 'Aceptado';
+
+    actualizarEstadoPostulacion(postulacionId, nuevoEstado);
+});
+
+$('#btnRechazar').on('click', function () {
+    var postulacionId = $('#postulacion').data('id');
+    var nuevoEstado = 'Rechazado';
+
+    actualizarEstadoPostulacion(postulacionId, nuevoEstado);
+});
+
+function actualizarEstadoPostulacion(postulacionId, nuevoEstado) {
+    $.post('@Url.Action("ActualizarEstadoPostulacion", "Postulacion")', { id: postulacionId, estado: nuevoEstado })
+        .done(function () {
+            // SweetAlert success message
+            Swal.fire({
+                icon: 'success',
+                title: 'Estado actualizado',
+                text: 'El estado de la postulación ha sido actualizado a ' + nuevoEstado + '.',
+                showConfirmButton: true,
+                timer: 3000 // auto-close after 3 seconds
+            }).then(function() {
+                location.reload(); // Reload page after closing SweetAlert
+            });
+        })
+        .fail(function (error) {
+            console.error('Error:', error);
+            // SweetAlert error message
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Ocurrió un error al actualizar el estado. Intente nuevamente.',
+                showConfirmButton: true
+            });
+        });
+}
+
 </script>

@@ -38,7 +38,7 @@
                             {
                                 <a class="btn btn-primary btn-sm" href="@Url.Action("EditarPerfilInstitucion", "Institucion")">Editar</a>
                             }
-                            
+
                         </div>
                         <hr class="my-0" />
                         <div class="card-body">
@@ -118,7 +118,7 @@
                                         <span class="badge bg-info ">@categoria.Nombre</span>
                                     }
                                 </div>
-                                <h6 class="card-subtitle mt-2 mb-1 text-muted">Para @proyecto.Cupo Integrantes</h6>
+                                <h6 class="card-subtitle mt-2 mb-1 text-muted">Para @proyecto.Cupo Integrantes (@proyecto.EstudiantesAceptados.Count Inscritos)</h6>
                                 <h6 class="card-subtitle mb-2 text-muted">Ubicación: @proyecto.NombreProvincia</h6>
                                 <p class="card-text mb-2">@descripcion</p>
                                 <div class="row">

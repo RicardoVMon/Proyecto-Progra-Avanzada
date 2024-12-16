@@ -1,0 +1,55 @@
+﻿@model List<ProyectoG1.Models.NotificacionModel>
+
+<div class="row align-items-center mb-3">
+    <div class="col-12 col-md-8">
+        <h1 class="display-5">Tus Notificaciones</h1>
+        <p class="text-muted">Consulta y filtra las notificaciones que has recibido.</p>
+    </div>
+</div>
+
+@if (ViewBag.Mensaje != null)
+{
+    <div class="alert alert-danger text-center" role="alert">
+        @ViewBag.Mensaje
+    </div>
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive table-striped">
+            <table id="example" class="table table-bordered table-hover align-middle">
+                <thead class="table-primary">
+                    <tr>
+                        
+                        <th>Proyecto</th>
+                        <th>Contenido</th>
+                        <th>Fecha de Notificación</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var notificacion in Model)
+                    {
+                        <tr>
+
+                            <td>@notificacion.NombreProyecto</td>
+                            <td>@notificacion.Contenido</td>
+                            <td>@notificacion.Fecha.ToString("dd/MM/yyyy")</td>
+                            
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="~/Styles/js/validarRetiroProyecto.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#example").DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.1.8/i18n/es-ES.json',
+            },
+        });
+    });
+</script>
