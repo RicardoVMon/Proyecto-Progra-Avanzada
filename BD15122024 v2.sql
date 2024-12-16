@@ -1,9 +1,12 @@
+USE [master]
+GO
+/****** Object:  Database [EncuentraTCU]    Script Date: 12/15/2024 8:14:08 PM ******/
 CREATE DATABASE [EncuentraTCU]
 GO
 
 USE [EncuentraTCU]
 GO
-/****** Object:  Table [dbo].[Auditoria]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  Table [dbo].[Auditoria]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -21,7 +24,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Categoria]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  Table [dbo].[Categoria]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -35,7 +38,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Conexion]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  Table [dbo].[Conexion]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -53,7 +56,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Estudiante]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  Table [dbo].[Estudiante]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -80,7 +83,7 @@ CREATE TABLE [dbo].[Estudiante](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[EstudianteHabilidad]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  Table [dbo].[EstudianteHabilidad]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -95,7 +98,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Genero]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  Table [dbo].[Genero]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -109,7 +112,7 @@ CREATE TABLE [dbo].[Genero](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Habilidad]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  Table [dbo].[Habilidad]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -123,7 +126,7 @@ CREATE TABLE [dbo].[Habilidad](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Institucion]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  Table [dbo].[Institucion]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -149,7 +152,7 @@ CREATE TABLE [dbo].[Institucion](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Notificacion]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  Table [dbo].[Notificacion]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -169,7 +172,7 @@ CREATE TABLE [dbo].[Notificacion](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Postulacion]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  Table [dbo].[Postulacion]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -187,7 +190,7 @@ CREATE TABLE [dbo].[Postulacion](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Provincia]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  Table [dbo].[Provincia]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -201,7 +204,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Proyecto]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  Table [dbo].[Proyecto]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -225,7 +228,7 @@ CREATE TABLE [dbo].[Proyecto](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ProyectoCategoria]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  Table [dbo].[ProyectoCategoria]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -240,7 +243,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Rol]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  Table [dbo].[Rol]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -254,7 +257,7 @@ CREATE TABLE [dbo].[Rol](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TipoInstitucion]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  Table [dbo].[TipoInstitucion]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -268,7 +271,7 @@ CREATE TABLE [dbo].[TipoInstitucion](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Universidad]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  Table [dbo].[Universidad]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -298,6 +301,12 @@ INSERT [dbo].[Categoria] ([IdCategoria], [Nombre]) VALUES (6, N'Emprendimiento')
 GO
 SET IDENTITY_INSERT [dbo].[Categoria] OFF
 GO
+SET IDENTITY_INSERT [dbo].[Conexion] ON 
+GO
+INSERT [dbo].[Conexion] ([IdConexion], [IdEstudianteSolicitante], [IdEstudianteReceptor], [FechaSolicitud], [Estado], [MensajeSolicitud]) VALUES (2, 2, 5, CAST(N'2024-12-15T16:11:44.570' AS DateTime), N'Rechazada', N'porfa acpetame')
+GO
+SET IDENTITY_INSERT [dbo].[Conexion] OFF
+GO
 SET IDENTITY_INSERT [dbo].[Estudiante] ON 
 GO
 INSERT [dbo].[Estudiante] ([IdEstudiante], [Cedula], [Email], [Contrasenna], [Nombre], [Apellidos], [Descripcion], [Carrera], [Imagen], [Activo], [IdRol], [IdGenero], [IdUniversidad], [TieneContrasennaTemp], [FechaVencimientoTemp]) VALUES (1, N'117310079', N'jvega10079@ufide.ac.cr', N'12345', N'JESUS DANIEL', N'VEGA MARVEZ', N'Hola! Estoy buscando lugares para hacer mi TCU!', N'Sistemas', N'https://us.123rf.com/450wm/arhimicrostok/arhimicrostok1705/arhimicrostok170504136/78019673-user-sign-icon-person-symbol-human-avatar-flat-style.jpg?ver=6', 1, 1, 1, 1, 0, CAST(N'2024-11-17T00:00:00.000' AS DateTime))
@@ -309,6 +318,8 @@ GO
 INSERT [dbo].[Estudiante] ([IdEstudiante], [Cedula], [Email], [Contrasenna], [Nombre], [Apellidos], [Descripcion], [Carrera], [Imagen], [Activo], [IdRol], [IdGenero], [IdUniversidad], [TieneContrasennaTemp], [FechaVencimientoTemp]) VALUES (5, N'402620226', N'ricardovm2803@gmail.com', N'123', N'Ricardo Aaron', N'Vargas Montero', N'Hola! Estoy buscando lugares para hacer mi TCU!', N'Ingeniería en Sistemas', N'/Imagenes/Estudiantes/5.jpg', 1, 1, 1, 1, 0, CAST(N'2024-12-12T13:54:13.443' AS DateTime))
 GO
 INSERT [dbo].[Estudiante] ([IdEstudiante], [Cedula], [Email], [Contrasenna], [Nombre], [Apellidos], [Descripcion], [Carrera], [Imagen], [Activo], [IdRol], [IdGenero], [IdUniversidad], [TieneContrasennaTemp], [FechaVencimientoTemp]) VALUES (6, N'402300855', N'fiorellah0996@gmail.com', N'123456', N'Fiorella', N'Hernandez Miranda', N'Hola! Estoy buscando lugares para hacer mi TCU!', N'Sistemas', N'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png', 1, 1, 2, 1, 0, CAST(N'2024-11-25T09:04:51.307' AS DateTime))
+GO
+INSERT [dbo].[Estudiante] ([IdEstudiante], [Cedula], [Email], [Contrasenna], [Nombre], [Apellidos], [Descripcion], [Carrera], [Imagen], [Activo], [IdRol], [IdGenero], [IdUniversidad], [TieneContrasennaTemp], [FechaVencimientoTemp]) VALUES (7, N'115730574', N'nela@gmail.com', N'123', N'Marianella', N'Mata Retana', N'Hola! Estoy buscando lugares para hacer mi TCU!', N'Microbiología', N'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png', 1, 1, 2, 2, 0, CAST(N'2024-12-15T12:54:58.833' AS DateTime))
 GO
 SET IDENTITY_INSERT [dbo].[Estudiante] OFF
 GO
@@ -488,7 +499,7 @@ SET IDENTITY_INSERT [dbo].[Universidad] OFF
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UQ_Cedula_Estudiante]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  Index [UQ_Cedula_Estudiante]    Script Date: 12/15/2024 8:14:08 PM ******/
 ALTER TABLE [dbo].[Estudiante] ADD  CONSTRAINT [UQ_Cedula_Estudiante] UNIQUE NONCLUSTERED 
 (
 	[Cedula] ASC
@@ -496,7 +507,7 @@ ALTER TABLE [dbo].[Estudiante] ADD  CONSTRAINT [UQ_Cedula_Estudiante] UNIQUE NON
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UQ_Email_Estudiante]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  Index [UQ_Email_Estudiante]    Script Date: 12/15/2024 8:14:08 PM ******/
 ALTER TABLE [dbo].[Estudiante] ADD  CONSTRAINT [UQ_Email_Estudiante] UNIQUE NONCLUSTERED 
 (
 	[Email] ASC
@@ -504,7 +515,7 @@ ALTER TABLE [dbo].[Estudiante] ADD  CONSTRAINT [UQ_Email_Estudiante] UNIQUE NONC
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UQ_Cedula_Institucion]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  Index [UQ_Cedula_Institucion]    Script Date: 12/15/2024 8:14:08 PM ******/
 ALTER TABLE [dbo].[Institucion] ADD  CONSTRAINT [UQ_Cedula_Institucion] UNIQUE NONCLUSTERED 
 (
 	[Cedula] ASC
@@ -512,7 +523,7 @@ ALTER TABLE [dbo].[Institucion] ADD  CONSTRAINT [UQ_Cedula_Institucion] UNIQUE N
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UQ_Email_Institucion]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  Index [UQ_Email_Institucion]    Script Date: 12/15/2024 8:14:08 PM ******/
 ALTER TABLE [dbo].[Institucion] ADD  CONSTRAINT [UQ_Email_Institucion] UNIQUE NONCLUSTERED 
 (
 	[Email] ASC
@@ -520,7 +531,7 @@ ALTER TABLE [dbo].[Institucion] ADD  CONSTRAINT [UQ_Email_Institucion] UNIQUE NO
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UQ_Telefono_Institucion]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  Index [UQ_Telefono_Institucion]    Script Date: 12/15/2024 8:14:08 PM ******/
 ALTER TABLE [dbo].[Institucion] ADD  CONSTRAINT [UQ_Telefono_Institucion] UNIQUE NONCLUSTERED 
 (
 	[Telefono] ASC
@@ -643,7 +654,21 @@ ALTER TABLE [dbo].[Proyecto]  WITH CHECK ADD CHECK  (([CreadoPor]='Estudiante' O
 GO
 ALTER TABLE [dbo].[Proyecto]  WITH CHECK ADD CHECK  (([Estado]='Rechazado' OR [Estado]='Confirmado' OR [Estado]='En revision' OR [Estado]='Pendiente'))
 GO
-/****** Object:  StoredProcedure [dbo].[ActualizarContrasenna]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[AceptarSolicitud]    Script Date: 12/15/2024 8:14:08 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[AceptarSolicitud]
+    @IdConexion BIGINT
+AS
+BEGIN
+    UPDATE Conexion
+    SET Estado = 'Aceptada'
+    WHERE IdConexion = @IdConexion;
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[ActualizarContrasenna]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -674,7 +699,7 @@ BEGIN
     END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ActualizarImagenEstudiante]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[ActualizarImagenEstudiante]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -690,7 +715,7 @@ BEGIN
         WHERE IdEstudiante = @IdEstudiante;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ActualizarImagenInstitucion]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[ActualizarImagenInstitucion]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -706,7 +731,7 @@ BEGIN
         WHERE IdInstitucion = @IdInstitucion; 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ActualizarImagenProyecto]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[ActualizarImagenProyecto]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -723,7 +748,7 @@ BEGIN
         WHERE IdProyecto = @IdProyecto; 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ActualizarPerfilEstudiante]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[ActualizarPerfilEstudiante]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -749,7 +774,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[ActualizarPerfilInstitucion]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[ActualizarPerfilInstitucion]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -780,7 +805,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[ActualizarProyecto]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[ActualizarProyecto]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -811,7 +836,7 @@ BEGIN
 	WHERE IdProyecto = @IdProyecto;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[CambiarContrasennaTemp]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[CambiarContrasennaTemp]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -840,7 +865,37 @@ BEGIN
     END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ConsultarNotificaciones]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[ConsultarConexiones]    Script Date: 12/15/2024 8:14:08 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[ConsultarConexiones]
+    @IdEstudiante BIGINT
+AS
+BEGIN
+    SELECT 
+        C.IdConexion,
+        C.IdEstudianteSolicitante,
+        ES.Nombre + ' ' + ES.Apellidos AS NombreEstudianteSolicitante,
+        ES.Email AS EmailEstudianteSolicitante,
+        U.Nombre AS Universidad,
+        C.MensajeSolicitud,
+        C.FechaSolicitud,
+        C.Estado
+    FROM 
+        Conexion C
+    INNER JOIN 
+        Estudiante ES ON C.IdEstudianteSolicitante = ES.IdEstudiante
+    INNER JOIN 
+        Universidad U ON ES.IdUniversidad = U.IdUniversidad
+    WHERE 
+        C.IdEstudianteReceptor = @IdEstudiante
+    ORDER BY 
+        C.FechaSolicitud DESC;
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[ConsultarNotificaciones]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -891,7 +946,7 @@ BEGIN
     END
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[ConsultarPostulaciones]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[ConsultarPostulaciones]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -922,7 +977,7 @@ BEGIN
         P.FechaPostulacion; 
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[ConsultarProyectos]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[ConsultarProyectos]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -946,7 +1001,7 @@ BEGIN
         P.Nombre; 
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[DatosEstudiante]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[DatosEstudiante]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -977,7 +1032,7 @@ BEGIN
         e.IdEstudiante = @IdEstudiante
 END
 GO
-/****** Object:  StoredProcedure [dbo].[DatosInstitucion]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[DatosInstitucion]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1007,7 +1062,7 @@ BEGIN
         i.IdInstitucion = @IdInstitucion
 END
 GO
-/****** Object:  StoredProcedure [dbo].[EliminarCategoriasProyecto]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[EliminarCategoriasProyecto]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1022,7 +1077,20 @@ BEGIN
 	WHERE IdProyecto = @IdProyecto;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[EliminarHabilidadesEstudiante]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[EliminarConexion]    Script Date: 12/15/2024 8:14:08 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[EliminarConexion]
+    @IdConexion BIGINT
+AS
+BEGIN
+    DELETE FROM Conexion
+    WHERE IdConexion = @IdConexion;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[EliminarHabilidadesEstudiante]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1035,7 +1103,7 @@ BEGIN
     WHERE IdEstudiante = @IdEstudiante;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[EliminarPostulacion]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[EliminarPostulacion]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1050,7 +1118,7 @@ BEGIN
 	WHERE IdPostulacion = @IdPostulacion
 END
 GO
-/****** Object:  StoredProcedure [dbo].[EliminarProyecto]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[EliminarProyecto]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1064,7 +1132,7 @@ BEGIN
 	WHERE IdProyecto = @IdProyecto
 END
 GO
-/****** Object:  StoredProcedure [dbo].[IngresoSistema]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[IngresoSistema]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1110,7 +1178,7 @@ BEGIN
     END
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[InsertarPostulacion]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[InsertarPostulacion]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1127,7 +1195,7 @@ BEGIN
 
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[ObtenerCategoriasProyecto]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[ObtenerCategoriasProyecto]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1143,7 +1211,7 @@ BEGIN
 	WHERE PC.IdProyecto = @IdProyecto
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ObtenerCategoriasUsadasEnInstitucion]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[ObtenerCategoriasUsadasEnInstitucion]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1161,7 +1229,7 @@ BEGIN
 	WHERE P.IdInstitucion = @IdInstitucion
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ObtenerConexionesBusqueda]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[ObtenerConexionesBusqueda]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1186,7 +1254,7 @@ BEGIN
         OR e.Carrera LIKE '%' + @Query + '%';
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[ObtenerEstudiantesAceptados]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[ObtenerEstudiantesAceptados]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1204,7 +1272,7 @@ BEGIN
 	WHERE p.Estado = 'Aceptado' AND p.IdProyecto = @IdProyecto
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[ObtenerEstudiantesPostulados]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[ObtenerEstudiantesPostulados]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1221,7 +1289,7 @@ BEGIN
   
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[ObtenerHabilidadesEstudiante]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[ObtenerHabilidadesEstudiante]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1236,7 +1304,7 @@ BEGIN
     WHERE EH.IdEstudiante = @IdEstudiante
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ObtenerHabilidadesParaEditar]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[ObtenerHabilidadesParaEditar]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1251,7 +1319,7 @@ BEGIN
     WHERE EH.IdEstudiante = @IdEstudiante;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ObtenerProyectoReciente]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[ObtenerProyectoReciente]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1278,7 +1346,7 @@ BEGIN
     
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ObtenerProyectosBusqueda]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[ObtenerProyectosBusqueda]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1301,7 +1369,7 @@ BEGIN
 	OR pr.Nombre LIKE '%' + @Query + '%';
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ObtenerProyectosEspecifico]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[ObtenerProyectosEspecifico]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1333,7 +1401,7 @@ BEGIN
 	WHERE IdProyecto = @IdProyecto
 END
 GO
-/****** Object:  StoredProcedure [dbo].[ObtenerProyectosInstitucion]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[ObtenerProyectosInstitucion]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1358,7 +1426,21 @@ BEGIN
 	WHERE IdInstitucion = @IdInstitucion
 END
 GO
-/****** Object:  StoredProcedure [dbo].[RegistrarCategoriaProyecto]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[RechazarSolicitud]    Script Date: 12/15/2024 8:14:08 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[RechazarSolicitud]
+    @IdConexion BIGINT
+AS
+BEGIN
+    UPDATE Conexion
+    SET Estado = 'Rechazada'
+    WHERE IdConexion = @IdConexion;
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[RegistrarCategoriaProyecto]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1386,7 +1468,7 @@ BEGIN
     END CATCH
 END
 GO
-/****** Object:  StoredProcedure [dbo].[RegistrarEstudiante]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[RegistrarEstudiante]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1417,7 +1499,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[RegistrarHabilidadEstudiante]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[RegistrarHabilidadEstudiante]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1437,7 +1519,7 @@ BEGIN
     );
 END
 GO
-/****** Object:  StoredProcedure [dbo].[RegistrarInstitucion]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[RegistrarInstitucion]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1467,7 +1549,7 @@ BEGIN
 			END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[RegistrarNotificacion]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[RegistrarNotificacion]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1485,7 +1567,7 @@ BEGIN
     VALUES (@IdEstudiante, @IdInstitucion, @IdPostulacion, @IdProyecto, GETDATE(), @Contenido, @TipoNotificacion);
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[RegistrarProyecto]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[RegistrarProyecto]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1524,7 +1606,25 @@ BEGIN
 		RETURN SCOPE_IDENTITY();
 END
 GO
-/****** Object:  StoredProcedure [dbo].[SugerenciasConexiones]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[SolicitarConexion]    Script Date: 12/15/2024 8:14:08 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SolicitarConexion]
+    @IdEstudianteSolicitante BIGINT,
+    @IdEstudianteReceptor BIGINT,
+    @MensajeSolicitud VARCHAR(500)
+AS
+BEGIN
+    INSERT INTO [dbo].[Conexion] 
+    ([IdEstudianteSolicitante], [IdEstudianteReceptor], [FechaSolicitud], [Estado], [MensajeSolicitud])
+    VALUES 
+    (@IdEstudianteSolicitante, @IdEstudianteReceptor, GETDATE(), 'Pendiente', @MensajeSolicitud);
+    
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[SugerenciasConexiones]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1544,7 +1644,7 @@ BEGIN
         OR u.Nombre LIKE '%' + @Query + '%';
 END;
 GO
-/****** Object:  StoredProcedure [dbo].[SugerenciasProyectos]    Script Date: 12/15/2024 7:44:06 AM ******/
+/****** Object:  StoredProcedure [dbo].[SugerenciasProyectos]    Script Date: 12/15/2024 8:14:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
