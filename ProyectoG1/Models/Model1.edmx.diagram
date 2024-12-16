@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="9068101eab3b4f6392a007ef7783b3cb" Name="Diagram1">
+      <Diagram DiagramId="a97eeca530134e86969e44348ea7847a" Name="Diagram1">
         <EntityTypeShape EntityType="EncuentraTCUModel.Auditoria" Width="1.5" PointX="8.25" PointY="14.25" IsExpanded="true" />
         <EntityTypeShape EntityType="EncuentraTCUModel.Categoria" Width="1.5" PointX="6" PointY="10.375" IsExpanded="true" />
         <EntityTypeShape EntityType="EncuentraTCUModel.Conexion" Width="1.5" PointX="5.25" PointY="19.375" IsExpanded="true" />

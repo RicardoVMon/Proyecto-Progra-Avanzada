@@ -10,7 +10,9 @@ namespace ProyectoG1.Models
         public long IdConexion { get; set; }
         public long IdEstudianteSolicitante { get; set; }
         public string NombreEstudianteSolicitante { get; set; }
+        public string NombreEstudiante { get; set; }
         public long IdEstudianteReceptor { get; set; }
+        public long IdEstudianteOtro { get; set; }
         public string NombreEstudianteReceptor { get; set; }
         public DateTime FechaSolicitud { get; set; }
         public string Estado { get; set; }
@@ -18,6 +20,7 @@ namespace ProyectoG1.Models
         public string Universidad { get; set; }
         public List<ConexionModel> ConexionesAceptadas { get; set; }
         public List<ConexionModel> SolicitudesPendientes { get; set; }
+        public List<ConexionModel> SolicitudesEnviadas { get; set; }
 
     }
 }

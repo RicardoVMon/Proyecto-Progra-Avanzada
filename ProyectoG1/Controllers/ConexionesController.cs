@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using ProyectoG1.Models;
 
 namespace ProyectoG1.Controllers
@@ -12,44 +13,73 @@ namespace ProyectoG1.Controllers
     public class ConexionesController : Controller
     {
         MetodosPublicos MP = new MetodosPublicos();
-        
+
         [HttpGet]
         public ActionResult GestionarConexiones()
         {
             using (var context = new EncuentraTCUEntities())
             {
                 long idEstudiante = long.Parse(Session["Id"].ToString());
-                var datos = context.ConsultarConexiones(idEstudiante).ToList();
+                var conexiones = new ConexionModel();
 
-                var conexiones = new ConexionModel
+                // Para conexiones aceptadas
+                var resultadoConexionesAceptadas = context.ObtenerConexionesAceptadas(idEstudiante).ToList();
+                var conexionesAceptadas = new List<ConexionModel>();
+                foreach (var conexionAceptada in resultadoConexionesAceptadas)
                 {
-                    ConexionesAceptadas = datos
-                        .Where(c => c.Estado == "Aceptada")
-                        .Select(c => new ConexionModel
-                        {
-                            IdConexion = c.IdConexion,
-                            IdEstudianteSolicitante = c.IdEstudianteSolicitante,
-                            NombreEstudianteSolicitante = c.NombreEstudianteSolicitante,
-                            Universidad = c.Universidad,
-                            MensajeSolicitud = c.MensajeSolicitud,
-                            FechaSolicitud = c.FechaSolicitud,
-                            Estado = c.Estado
-                        })
-                        .ToList(),
-                    SolicitudesPendientes = datos
-                        .Where(c => c.Estado == "Pendiente")
-                        .Select(c => new ConexionModel
-                        {
-                            IdConexion = c.IdConexion,
-                            IdEstudianteSolicitante = c.IdEstudianteSolicitante,
-                            NombreEstudianteSolicitante = c.NombreEstudianteSolicitante,
-                            Universidad = c.Universidad,
-                            MensajeSolicitud = c.MensajeSolicitud,
-                            FechaSolicitud = c.FechaSolicitud,
-                            Estado = c.Estado
-                        })
-                        .ToList()
-                };
+
+                    conexionesAceptadas.Add(new ConexionModel
+                    {
+                        IdConexion = conexionAceptada.IdConexion,
+                        IdEstudianteOtro = conexionAceptada.IdEstudianteOtro,
+                        NombreEstudiante = conexionAceptada.NombreEstudiante,
+                        FechaSolicitud = conexionAceptada.FechaSolicitud,
+                        Universidad = conexionAceptada.Universidad
+                    });
+
+                }
+                conexiones.ConexionesAceptadas = conexionesAceptadas;
+
+
+                // Para solicitudes de conexion pendientes
+                var resultadoSolicitudesPendientes = context.ObtenerSolicitudesPendientes(idEstudiante).ToList();
+                var solicitudesPendientes = new List<ConexionModel>();
+                foreach (var solicitudPendiente in resultadoSolicitudesPendientes)
+                {
+
+                    solicitudesPendientes.Add(new ConexionModel
+                    {
+                        IdConexion = solicitudPendiente.IdConexion,
+                        IdEstudianteSolicitante = solicitudPendiente.IdEstudianteSolicitante,
+                        NombreEstudianteSolicitante = solicitudPendiente.NombreEstudianteSolicitante,
+                        Universidad = solicitudPendiente.Universidad,
+                        MensajeSolicitud = solicitudPendiente.MensajeSolicitud,
+                        FechaSolicitud = solicitudPendiente.FechaSolicitud,
+                        Estado = solicitudPendiente.Estado
+                    });
+
+                }
+                conexiones.SolicitudesPendientes = solicitudesPendientes;
+
+                // Para solicitudes de conexion enviadas
+                var resultadoSolicitudesEnviadas = context.ObtenerSolicitudesEnviadas(idEstudiante).ToList();
+                var solicitudesEnviadas = new List<ConexionModel>();
+                foreach (var solicitudEnviada in resultadoSolicitudesEnviadas)
+                {
+
+                    solicitudesEnviadas.Add(new ConexionModel
+                    {
+                        IdConexion = solicitudEnviada.IdConexion,
+                        IdEstudianteReceptor = solicitudEnviada.IdEstudianteReceptor,
+                        NombreEstudianteReceptor = solicitudEnviada.NombreEstudianteReceptor,
+                        Universidad = solicitudEnviada.Universidad,
+                        MensajeSolicitud = solicitudEnviada.MensajeSolicitud,
+                        FechaSolicitud = solicitudEnviada.FechaSolicitud,
+                        Estado = solicitudEnviada.Estado
+                    });
+
+                }
+                conexiones.SolicitudesEnviadas = solicitudesEnviadas;
 
                 return View(conexiones);
             }

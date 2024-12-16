@@ -26,5 +26,8 @@ namespace ProyectoG1.Models
         public bool TieneContrasennaTemp { get; set; }
         public List<HabilidadModel> Habilidades { get; set; }
         public List<int> HabilidadesSeleccionadas { get; set; }
+        public List<long> IdConexiones { get; set; }
+        public List<long> IdConexionesEnviadas { get; set; }
+        public List<long> IdConexionesRecibidas { get; set; }
     }
 }

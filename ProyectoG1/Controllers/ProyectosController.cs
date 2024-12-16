@@ -105,21 +105,37 @@ namespace ProyectoG1.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult CrearProyecto(ProyectoModel model, HttpPostedFileBase ImagenProyecto)
+        public ActionResult CrearProyecto(ProyectoModel model, HttpPostedFileBase ImagenProyecto, long i, long e)
         {
             using (var context = new EncuentraTCUEntities())
             {
                 long IdCreador = long.Parse(Session["Id"].ToString());
                 bool creadoPorInstitucion = false;
+                long? idInstitucion = null;
+                long? idEstudiante = null;
 
-                if ((long)Session["Rol"] == 2)
+                // Verificar si viene el ID de la institución o el estudiante
+                if (Request.QueryString["i"] != null)
                 {
+                    idInstitucion = long.Parse(Request.QueryString["i"]);
                     creadoPorInstitucion = true;
                 }
 
+                if (Request.QueryString["e"] != null)
+                {
+                    idEstudiante = long.Parse(Request.QueryString["e"]);
+                    creadoPorInstitucion = false;
+                }
+
+                // Si ambos valores vienen, el proyecto es creado por un estudiante, pero se mantiene la institución asociada
+                if (idInstitucion.HasValue && idEstudiante.HasValue)
+                {
+                    creadoPorInstitucion = false; // Es creado por estudiante, pero con la institución asociada
+                }
+
                 var respuestaRegistroProyecto = context.RegistrarProyecto(
-                    creadoPorInstitucion ? (long?)IdCreador : null, 
-                    creadoPorInstitucion ? null : (long?)IdCreador, 
+                    idInstitucion,  // Puede ser nulo si es creado por estudiante
+                    idEstudiante,   // Puede ser nulo si es creado por institución
                     model.Nombre,
                     model.Descripcion,
                     model.Cupo,
@@ -128,16 +144,15 @@ namespace ProyectoG1.Controllers
                     model.Direccion,
                     model.CorreoAsociado,
                     model.IdProvincia
-                    );
+                );
 
                 if (respuestaRegistroProyecto > 0)
                 {
-
                     var IdNuevoProyecto = context.ObtenerProyectoReciente(IdCreador, model.Nombre, model.Descripcion, model.Cupo).FirstOrDefault();
 
                     if (ImagenProyecto != null)
                     {
-                        //System.IO.File.Delete(AppDomain.CurrentDomain.BaseDirectory + model.Imagen);
+                        // Guardar la imagen si se proporciona
                         string extension = Path.GetExtension(ImagenProyecto.FileName);
                         string rutaLocal = AppDomain.CurrentDomain.BaseDirectory + "Imagenes\\Proyectos\\" + IdNuevoProyecto + extension;
                         ImagenProyecto.SaveAs(rutaLocal);
@@ -145,13 +160,16 @@ namespace ProyectoG1.Controllers
                         context.ActualizarImagenProyecto(IdNuevoProyecto, model.Imagen);
                     }
 
+                    // Registrar las categorías asociadas al proyecto
                     foreach (var item in model.CategoriasSeleccionadas)
                     {
                         context.RegistrarCategoriaProyecto(IdNuevoProyecto, item);
                     }
 
+                    // Recargar categorías para la vista
                     ObtenerCategorias();
 
+                    // Redireccionar dependiendo de si el proyecto fue creado por una institución o estudiante
                     if (creadoPorInstitucion)
                     {
                         return RedirectToAction("GestionProyectos", "Proyectos");
@@ -161,11 +179,15 @@ namespace ProyectoG1.Controllers
                         return RedirectToAction("MisProyectos", "Proyectos");
                     }
                 }
+
+                // Si el registro falla, mostrar mensaje de error
                 ObtenerCategorias();
                 ViewBag.MensajeError = "Su información no se ha podido validar correctamente";
                 return View(model);
             }
         }
+
+
         [HttpGet]
         public ActionResult EliminarProyecto()
         {

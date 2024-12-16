@@ -11,9 +11,12 @@ namespace ProyectoG1.Models
 {
     using System;
     
-    public partial class ObtenerEstudiantesAceptados_Result
+    public partial class ObtenerConexionesAceptadas_Result
     {
-        public long IdEstudiante { get; set; }
+        public long IdConexion { get; set; }
         public string NombreEstudiante { get; set; }
+        public string Universidad { get; set; }
+        public System.DateTime FechaSolicitud { get; set; }
+        public long IdEstudianteOtro { get; set; }
     }
 }

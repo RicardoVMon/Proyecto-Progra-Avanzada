@@ -215,6 +215,9 @@
     <Compile Include="Models\ObtenerCategoriasProyecto_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ObtenerConexionesAceptadas_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ObtenerConexionesBusqueda_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -234,6 +237,12 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ObtenerProyectosInstitucion_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ObtenerSolicitudesEnviadas_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ObtenerSolicitudesPendientes_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Postulacion.cs">
@@ -331,6 +340,7 @@
     <Content Include="Styles\js\institucion.js" />
     <Content Include="Styles\js\conexiones.js" />
     <Content Include="Styles\js\validarDesconexion.js" />
+    <Content Include="Styles\js\validarRechazoConexion.js" />
     <Content Include="Styles\js\validarRetiroProyecto.js" />
     <Content Include="Styles\js\usuarios.js" />
     <Content Include="Styles\TemplateCorreoPostulacion.html" />

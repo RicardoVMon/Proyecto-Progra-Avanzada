@@ -30,6 +30,39 @@ namespace ProyectoG1.Controllers
                     });
                 }
 
+                // Obtener las conexiones aceptadas del estudiante del que se visita el perfil
+                var idConexiones = context.ObtenerIdsConexiones(IdEstudiante).ToList();
+                var listaIdConexiones = new List<long>();
+                foreach (var idConexion in idConexiones)
+                {
+                    if (idConexion.HasValue)
+                    {
+                        listaIdConexiones.Add(idConexion.Value);
+                    }
+                }
+
+                // Obtener conexiones enviadas del usuario
+                var idConexionesEnviadas = context.ObtenerIdsSolicitudesEnviadas(IdEstudiante).ToList();
+                var listaIdConexionesEnviadas = new List<long>();
+                foreach (var idConexion in idConexionesEnviadas)
+                {
+                    if (idConexion.HasValue)
+                    {
+                        listaIdConexionesEnviadas.Add(idConexion.Value);
+                    }
+                }
+
+                // Obtener conexiones pendientes del estudiante que visita el perfil
+                var idConexionesRecibidas = context.ObtenerIdsSolicitudesRecibidas(IdEstudiante).ToList();
+                var listaIdConexionesRecibidas = new List<long>();
+                foreach (var idConexion in idConexionesRecibidas)
+                {
+                    if (idConexion.HasValue)
+                    {
+                        listaIdConexionesRecibidas.Add(idConexion.Value);
+                    }
+                }
+
                 if (respuesta != null)
                 {
                     EstudianteModel model = new EstudianteModel
@@ -43,7 +76,10 @@ namespace ProyectoG1.Controllers
                         NombreRol = respuesta.NombreRol,
                         NombreGenero = respuesta.NombreGenero,
                         NombreUniversidad = respuesta.NombreUniversidad,
-                        Habilidades = listaHabilidades
+                        Habilidades = listaHabilidades,
+                        IdConexiones = listaIdConexiones,
+                        IdConexionesEnviadas = listaIdConexionesEnviadas,
+                        IdConexionesRecibidas = listaIdConexionesRecibidas
                     };
 
                     return View(model);

@@ -38,7 +38,11 @@
                             {
                                 <a class="btn btn-primary btn-sm" href="@Url.Action("EditarPerfilInstitucion", "Institucion")">Editar</a>
                             }
-                            
+                            else
+                            {
+                                <a class="btn btn-primary btn-sm" href="@Url.Action("CrearProyecto", "Proyectos", new { i = idQueryString, e = idSession })">Proponer Proyecto</a>
+                            }
+
                         </div>
                         <hr class="my-0" />
                         <div class="card-body">

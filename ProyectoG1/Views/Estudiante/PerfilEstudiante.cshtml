@@ -45,11 +45,28 @@
 
                         @if (idQueryString != idSession && rolSession == "1")
                         {
-                            <a class="btn btn-primary btn-sm" href="@Url.Action("EnviarSolicitud", "Conexiones", new { idEstudianteReceptor = idQueryString })">Conectar</a>
+                            if (Model.IdConexiones.Contains(int.Parse(idSession)))
+                            {
+                                <button class="btn btn-success btn-sm" disabled>Ya están conectados</button>
+                            }
+                            else if (Model.IdConexionesEnviadas.Contains(int.Parse(idSession)))
+                            {
+                                <a class="btn btn-warning btn-sm" href="@Url.Action("GestionarConexiones", "Conexiones")">Tienes una solicitud pendiente de este usuario</a>
+                            }
+                            else if (Model.IdConexionesRecibidas.Contains(int.Parse(idSession)))
+                            {
+                                <a class="btn btn-secondary btn-sm" href="@Url.Action("GestionarConexiones", "Conexiones")">Solicitud enviada</a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-primary btn-sm" href="@Url.Action("EnviarSolicitud", "Conexiones", new { idEstudianteReceptor = idQueryString })">Conectar</a>
+                            }
                         }
 
+
+
                         <!-- Editar, Mostrar solo en el propio perfil del estudiante actual -->
-                        @if (idQueryString == Session["Id"].ToString())
+                        @if (idQueryString == idSession && rolSession == "1")
                         {
                             <a class="btn btn-primary btn-sm" href="@Url.Action("EditarPerfilEstudiante","Estudiante")">Editar</a>
                         }
@@ -105,5 +122,4 @@
         </div>
 
     </div>
-
 </div>

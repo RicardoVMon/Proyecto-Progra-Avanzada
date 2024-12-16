@@ -50,6 +50,7 @@ namespace ProyectoG1.Controllers
                     postulaciones.Add(new PostulacionModel
                     {
                         IdPostulacion = postulacion.IdPostulacion,
+                        NombreProyecto = postulacion.NombreProyecto,
                         NombreEstudiante = postulacion.NombreEstudiante,
                         ApellidosEstudiante = postulacion.ApellidosEstudiante,
                         CarreraEstudiante = postulacion.CarreraEstudiante,
@@ -88,7 +89,16 @@ namespace ProyectoG1.Controllers
         {
             using (var context = new EncuentraTCUEntities())
             {
-                int resultado = context.ActualizarEstadoPostulacion(id, estado);
+                int resultado;
+
+                if (estado == "Rechazado")
+                {
+                    resultado = context.EliminarPostulacion(id);
+                }
+                else
+                {
+                    resultado = context.ActualizarEstadoPostulacion(id, estado);
+                }
 
                 if (resultado > 0)
                 {
