@@ -3,6 +3,8 @@
 @{
     var nombreTitleCase = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Model.Nombre.ToLower() + " " + Model.Apellidos.ToLower());
     string idQueryString = Request.QueryString["q"];
+    string idSession = Session["Id"].ToString();
+    string rolSession = Session["Rol"].ToString();
 }
 
 <div class="container-fluid p-0">
@@ -39,9 +41,12 @@
                     <div style="padding: 10px 20px;">
 
                         <!-- Mostrar solo en los perfiles de otros estudiantes -->
-                        <!-- hacer conexionessssssssss cuando este institucion gestion postulacion!!!!! -->
-                        <a class="btn btn-primary btn-sm" href="#">Conectar</a>
 
+
+                        @if (idQueryString != idSession && rolSession == "1")
+                        {
+                            <a class="btn btn-primary btn-sm" href="@Url.Action("EnviarSolicitud", "Conexiones", new { idEstudianteReceptor = idQueryString })">Conectar</a>
+                        }
 
                         <!-- Editar, Mostrar solo en el propio perfil del estudiante actual -->
                         @if (idQueryString == Session["Id"].ToString())

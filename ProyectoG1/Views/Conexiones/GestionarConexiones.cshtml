@@ -1,4 +1,4 @@
-﻿@model List<ProyectoG1.Models.PostulacionModel>
+﻿@model ProyectoG1.Models.ConexionModel
 
 <div class="row align-items-center mb-4">
     <div class="col-12 col-md-8">
@@ -27,6 +27,21 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach (var conexion in Model.ConexionesAceptadas)
+                            {
+                                <tr>
+                                    <td>@conexion.NombreEstudianteSolicitante</td>
+                                    <td>@conexion.Universidad</td>
+                                    <td>@conexion.FechaSolicitud.ToString("dd/MM/yyyy")</td>
+                                    <td>
+                                        <a href="@Url.Action("PerfilEstudiante", "Estudiante", new { q = conexion.IdEstudianteSolicitante })" class="btn btn-info btn-sm">Ver Perfil</a>
+
+                                        <a href="@Url.Action("EliminarConexion", "Conexiones", new { idConexion = conexion.IdConexion })" class="btn btn-danger btn-sm eliminar-conexion"
+                                        data-url="@Url.Action("EliminarConexion", "Conexiones", new { idConexion =  conexion.IdConexion })"
+                                        >Eliminar</a>
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -48,10 +63,37 @@
                             <tr>
                                 <th>Usuario</th>
                                 <th>Universidad</th>
+                                <th>Mensaje</th>
+                                <th>Fecha Solicitud</th>
+                                <th>Estado</th>
                                 <th>Opciones</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach (var conexion in Model.SolicitudesPendientes)
+                            {
+                                <tr>
+                                    <td>@conexion.NombreEstudianteSolicitante</td>
+                                    <td>@conexion.Universidad</td>
+                                    <td>@conexion.MensajeSolicitud</td>
+                                    <td>@conexion.FechaSolicitud.ToString("dd/MM/yyyy")</td>
+                                    <td>@conexion.Estado</td>
+                                    <td>
+                                        <a href="@Url.Action("PerfilEstudiante", "Estudiante", new { q = conexion.IdEstudianteSolicitante })" class="btn btn-info btn-sm">Ver Perfil</a>
+
+                                        <a href="@Url.Action("AceptarSolicitud", "Conexiones", new { idConexion = conexion.IdConexion })"
+                                            class="btn btn-success btn-sm aceptar-solicitud">
+                                            Aceptar
+                                        </a>
+
+                                        <a href="@Url.Action("RechazarSolicitud", "Conexiones", new { idConexion = conexion.IdConexion })"
+                                           class="btn btn-danger btn-sm rechazar-solicitud"
+                                           data-url="@Url.Action("RechazarSolicitud", "Conexiones", new { idConexion = conexion.IdConexion })">
+                                            Rechazar
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -83,6 +125,7 @@
 </div>
 
 <script src="~/Styles/js/conexiones.js"></script>
+<script src="~/Styles/js/validarDesconexion.js"></script>
 <script>
     $(document).ready(function () {
         $("#conexiones").DataTable({

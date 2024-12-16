@@ -133,6 +133,7 @@
     <Compile Include="Controllers\EstudianteController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InstitucionController.cs" />
+    <Compile Include="Controllers\NotificacionController.cs" />
     <Compile Include="Controllers\PostulacionController.cs" />
     <Compile Include="Controllers\ProyectosController.cs" />
     <Compile Include="Global.asax.cs">
@@ -145,6 +146,13 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Conexion.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ConexionModel.cs" />
+    <Compile Include="Models\ConsultarConexiones_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ConsultarNotificaciones_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ConsultarDetallesPostulacion_Result.cs">
@@ -200,6 +208,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Notificacion.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NotificacionModel.cs" />
     <Compile Include="Models\ObtenerCategoriasProyecto_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -318,6 +330,7 @@
     <Content Include="Styles\js\detallesProyecto.js" />
     <Content Include="Styles\js\institucion.js" />
     <Content Include="Styles\js\conexiones.js" />
+    <Content Include="Styles\js\validarDesconexion.js" />
     <Content Include="Styles\js\validarRetiroProyecto.js" />
     <Content Include="Styles\js\usuarios.js" />
     <Content Include="Styles\TemplateCorreoPostulacion.html" />
@@ -358,6 +371,8 @@
     <Content Include="Views\Proyectos\MisProyectos.cshtml" />
     <Content Include="Views\Conexiones\GestionarConexiones.cshtml" />
     <Content Include="Views\Conexiones\ResultadosBusqueda.cshtml" />
+    <Content Include="Views\Notificacion\Notificaciones.cshtml" />
+    <Content Include="Views\Conexiones\EnviarSolicitud.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
