@@ -50,7 +50,6 @@ namespace ProyectoG1.Controllers
                 var idSesion = Session["Id"];
 
                 // Llamar al método sp_RegistrarError
-                MetodosPublicos MP = new MetodosPublicos();
                 MP.sp_RegistrarError(ex.Message, "RecuperarContrasenna", idSesion);
 
                 // Retornar la vista de error
@@ -74,7 +73,9 @@ namespace ProyectoG1.Controllers
 
         private void EnviarCorreo(string destino, string asunto, string contenido)
         {
-            string cuenta = ConfigurationManager.AppSettings["CorreoNotificaciones"].ToString();
+            try
+            {
+                string cuenta = ConfigurationManager.AppSettings["CorreoNotificaciones"].ToString();
             string contrasenna = ConfigurationManager.AppSettings["ContrasennaNotificaciones"].ToString();
 
             MailMessage message = new MailMessage();
@@ -89,6 +90,13 @@ namespace ProyectoG1.Controllers
             client.Credentials = new System.Net.NetworkCredential(cuenta, contrasenna);
             client.EnableSsl = true;
             client.Send(message);
+        }
+            catch (Exception ex)
+            {
+                var idSesion = Session["Id"];
+                MP.sp_RegistrarError(ex.Message, "EnviarCorreo", idSesion);
+                throw;
+            }
         }
 
         private string GenerarContenidoCorreo(string nombre, string contrasenna, DateTime fechaVencimiento)
@@ -169,7 +177,6 @@ namespace ProyectoG1.Controllers
                 var idSesion = Session["Id"];
 
                 // Llamar al método sp_RegistrarError
-                MetodosPublicos MP = new MetodosPublicos();
                 MP.sp_RegistrarError(ex.Message, "Ingresar", idSesion);
 
                 return View("Error");
@@ -179,25 +186,44 @@ namespace ProyectoG1.Controllers
         [HttpGet]
         public ActionResult CierreSesion()
         {
-            Session.Clear();
-            return RedirectToAction("Ingresar", "Autenticacion");
+            try
+            {
+                    Session.Clear();
+                return RedirectToAction("Ingresar", "Autenticacion");
+        }
+            catch (Exception ex)
+            {
+                var idSesion = Session["Id"];
+                MP.sp_RegistrarError(ex.Message, "CierreSesion", idSesion);
+                return View("Error");
+            }
         }
 
 
         [HttpGet]
         public ActionResult RegistroEstudiante()
         {
-            ConsultarGeneros();
+            try
+            {
+                ConsultarGeneros();
             ConsultarUniversidades();
             return View();
+        }
+            catch (Exception ex)
+            {
+                var idSesion = Session["Id"];
+                MP.sp_RegistrarError(ex.Message, "RegistroEstudiante", idSesion);
+                return View("Error");
+            }
         }
 
         [HttpPost]
         public ActionResult RegistroEstudiante(EstudianteModel model)
         {
-            
-            // TitleCase para nombre y apellido
-            model.Nombre = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(model.Nombre.ToLower());
+            try
+            {
+                // TitleCase para nombre y apellido
+                model.Nombre = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(model.Nombre.ToLower());
             model.Apellidos = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(model.Apellidos.ToLower());
 
             using (var context = new EncuentraTCUEntities())
@@ -213,6 +239,13 @@ namespace ProyectoG1.Controllers
                 return View();
             }
         }
+            catch (Exception ex)
+            {
+                var idSesion = Session["Id"];
+                MP.sp_RegistrarError(ex.Message, "RegistroEstudiante", idSesion);
+                return View("Error");
+            }
+        }
         [HttpGet]
         public ActionResult RegistroInstitucion()
         {
@@ -223,7 +256,10 @@ namespace ProyectoG1.Controllers
         [HttpPost]
         public ActionResult RegistroInstitucion(InstitucionModel model)
         {
-            using (var context = new EncuentraTCUEntities())
+            try
+            {
+
+                using (var context = new EncuentraTCUEntities())
             {
                 var respuesta = context.RegistrarInstitucion(model.IdTipoInstitucion, model.Cedula, model.Email, model.Contrasenna, model.Nombre, model.Descripcion, model.Telefono, model.PaginaWeb);
 
@@ -233,6 +269,13 @@ namespace ProyectoG1.Controllers
                 ViewBag.Mensaje = "Su información no se ha podido registrar correctamente";
                 ConsultarTipoInstitucion();
                 return View();
+            }
+        }
+        catch (Exception ex)
+         {
+             var idSesion = Session["Id"];
+             MP.sp_RegistrarError(ex.Message, "RegistroInstitucion", idSesion);
+             return View("Error");
             }
         }
 
@@ -329,8 +372,10 @@ namespace ProyectoG1.Controllers
         [HttpPost]
         public ActionResult CambiarContrasennaTemp(LoginModel model)
         {
-            using (var context = new EncuentraTCUEntities())
+           try
             {
+                using (var context = new EncuentraTCUEntities())
+              {
                 if (model.TipoCedula == 1) // Estudiante
                 {
                     var estudiante = context.Estudiante.Where(x => x.Cedula == model.Cedula).FirstOrDefault();
@@ -349,11 +394,19 @@ namespace ProyectoG1.Controllers
             }
 
         }
+           catch (Exception ex)
+            {
+                var idSesion = Session["Id"];
+                MP.sp_RegistrarError(ex.Message, "CambiarContrasennaTemp", idSesion);
+                return View("Error");
+            }
+        }
 
         private ActionResult ProcesarCambiarContrasenna(EncuentraTCUEntities context, int tipoCedula, string cedula, string NuevaContrasenna, string ConfirmarContrasenna)
         {
-
-            if (NuevaContrasenna != ConfirmarContrasenna)
+            try
+            {
+                if (NuevaContrasenna != ConfirmarContrasenna)
             {
                 ViewBag.MensajePantalla = "Las contraseñas no coinciden.";
                 return View();
@@ -363,6 +416,13 @@ namespace ProyectoG1.Controllers
 
             return RedirectToAction("Ingresar", "Autenticacion");
 
+        }
+            catch (Exception ex)
+            {
+                var idSesion = Session["Id"];
+                MP.sp_RegistrarError(ex.Message, "ProcesarCambiarContrasenna", idSesion);
+                return View("Error");
+            }
         }
     }
 }

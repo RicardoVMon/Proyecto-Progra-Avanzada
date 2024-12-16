@@ -18,30 +18,47 @@ namespace ProyectoG1.Controllers
         [HttpGet]
         public ActionResult ListadoProyectosConPostulaciones()
         {
-            using (var context = new EncuentraTCUEntities())
+            try
             {
-                long idInstitucion = long.Parse(Session["Id"].ToString());
-                var datos = context.ConsultarProyectosConPostulaciones(idInstitucion).ToList();
-                var proyectos = new List<ProyectoModel>();
-                foreach (var proyecto in datos)
+
+                using (var context = new EncuentraTCUEntities())
                 {
-                    proyectos.Add(new ProyectoModel
+                    long idInstitucion = long.Parse(Session["Id"].ToString());
+                    var datos = context.ConsultarProyectosConPostulaciones(idInstitucion).ToList();
+                    var proyectos = new List<ProyectoModel>();
+                    foreach (var proyecto in datos)
                     {
-                        IdProyecto = proyecto.IdProyecto,
-                        Imagen = proyecto.Imagen,
-                        Nombre = proyecto.Nombre,
-                        Cupo = proyecto.Cupo,
-                        Postulaciones = proyecto.Postulaciones
-                    });
+                        proyectos.Add(new ProyectoModel
+                        {
+                            IdProyecto = proyecto.IdProyecto,
+                            Imagen = proyecto.Imagen,
+                            Nombre = proyecto.Nombre,
+                            Cupo = proyecto.Cupo,
+                            Postulaciones = proyecto.Postulaciones
+                        });
+                    }
+                    return View(proyectos);
                 }
-                return View(proyectos);
+            }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "ListadoProyectosConPostulaciones", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
             }
         }
 
-        [HttpGet]
+            [HttpGet]
         public ActionResult PostulacionesDeProyecto(long p)
         {
-            using (var context = new EncuentraTCUEntities())
+            try
+            {
+                using (var context = new EncuentraTCUEntities())
             {
                 var datos = context.ConsultarPostulacionesProyecto(p).ToList();
                 var postulaciones = new List<PostulacionModel>();
@@ -60,6 +77,18 @@ namespace ProyectoG1.Controllers
                     });
                 }
                 return View(postulaciones);
+            }
+        }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "PostulacionesDeProyecto", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
             }
         }
 
@@ -82,12 +111,14 @@ namespace ProyectoG1.Controllers
 
                 }, JsonRequestBehavior.AllowGet);
             }
-        }
+        }   
 
         [HttpPost]
         public ActionResult ActualizarEstadoPostulacion(long id, string estado)
         {
-            using (var context = new EncuentraTCUEntities())
+            try
+            {
+                using (var context = new EncuentraTCUEntities())
             {
                 int resultado = context.ActualizarEstadoPostulacion(id, estado);
 
@@ -101,52 +132,81 @@ namespace ProyectoG1.Controllers
                 }
             }
         }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "ActualizarEstadoPostulacion", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
+            }
+        }
 
         [HttpGet]
         public ActionResult PostularseProyecto(long p)
         {
-            using (var context = new EncuentraTCUEntities())
+            try
             {
-                long idEstudiante = long.Parse(Session["Id"].ToString());
-                var respuesta = context.InsertarPostulacion(idEstudiante, p);
-
-                if (respuesta == 1)
+                using (var context = new EncuentraTCUEntities())
                 {
-                    var estudiante = context.Estudiante.Where(x => x.IdEstudiante == idEstudiante).FirstOrDefault();
-                    var proyecto = context.Proyecto.Where(x => x.IdProyecto == p).FirstOrDefault();
-                    var institucion = context.Institucion.Where(x => x.IdInstitucion == proyecto.IdInstitucion).FirstOrDefault();
-                    var postulacion = context.Postulacion.Where(x => x.IdEstudiante == idEstudiante && x.IdProyecto == p).FirstOrDefault();
+                    long idEstudiante = long.Parse(Session["Id"].ToString());
+                    var respuesta = context.InsertarPostulacion(idEstudiante, p);
 
-                    if (estudiante != null && proyecto != null && institucion != null)
+                    if (respuesta == 1)
                     {
-                        //correo
-                        var contenidoCorreo = GenerarContenidoCorreoPostulacion(estudiante.Nombre,proyecto.Nombre,institucion.Nombre);
-                        EnviarCorreoPostulacion(institucion.Email,"Nueva postulación",contenidoCorreo);
+                        var estudiante = context.Estudiante.Where(x => x.IdEstudiante == idEstudiante).FirstOrDefault();
+                        var proyecto = context.Proyecto.Where(x => x.IdProyecto == p).FirstOrDefault();
+                        var institucion = context.Institucion.Where(x => x.IdInstitucion == proyecto.IdInstitucion).FirstOrDefault();
+                        var postulacion = context.Postulacion.Where(x => x.IdEstudiante == idEstudiante && x.IdProyecto == p).FirstOrDefault();
 
-                        //notificación
-                        var contenidoNotificacion = $"Tu proyecto {proyecto.Nombre} ha recibido una nueva postulación de parte de el/la estudiante {estudiante.Nombre}. Revisa en las postulaciones de tus proyectos para gestionar la postulación.";
-                        var resultadoNotificacion = GuardarNotificacion(idEstudiante, proyecto.IdInstitucion, postulacion.IdPostulacion, p, contenidoNotificacion, false);
-
-                        if (resultadoNotificacion <= 0)
+                        if (estudiante != null && proyecto != null && institucion != null)
                         {
-                            ViewBag.MensajeError = "No se pudo notificar a la Institucion de su postulación.";
+                            //correo
+                            var contenidoCorreo = GenerarContenidoCorreoPostulacion(estudiante.Nombre, proyecto.Nombre, institucion.Nombre);
+                            EnviarCorreoPostulacion(institucion.Email, "Nueva postulación", contenidoCorreo);
+
+                            //notificación
+                            var contenidoNotificacion = $"Tu proyecto {proyecto.Nombre} ha recibido una nueva postulación de parte de el/la estudiante {estudiante.Nombre}. Revisa en las postulaciones de tus proyectos para gestionar la postulación.";
+                            var resultadoNotificacion = GuardarNotificacion(idEstudiante, proyecto.IdInstitucion, postulacion.IdPostulacion, p, contenidoNotificacion, false);
+
+                            if (resultadoNotificacion <= 0)
+                            {
+                                ViewBag.MensajeError = "No se pudo notificar a la Institucion de su postulación.";
+                            }
+
                         }
-                    
+                        return RedirectToAction("BuscarPostulaciones", "Postulacion");
                     }
-                    return RedirectToAction("BuscarPostulaciones", "Postulacion");
+                    else
+                    {
+                        ViewBag.MensajeError = "No se ha podido postular correctamente, intente de nuevo";
+                        return View();
+                    }
                 }
-                else
-                {
-                    ViewBag.MensajeError = "No se ha podido postular correctamente, intente de nuevo";
-                    return View();
-                }
+            }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                
+                MP.sp_RegistrarError(ex.Message, "PostularseProyecto", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
             }
         }
 
         [HttpGet]
         public ActionResult BuscarPostulaciones()
         {
-            using (var context = new EncuentraTCUEntities())
+            try
+            { 
+                using (var context = new EncuentraTCUEntities())
             {
                 long idEstudiante = long.Parse(Session["Id"].ToString());
                 var datos = context.ConsultarPostulaciones(idEstudiante).ToList();
@@ -167,30 +227,61 @@ namespace ProyectoG1.Controllers
                 return View(postulaciones);
             }
         }
-
-        [HttpGet]
-        public ActionResult EliminarPostulacion(long t)
-        {
-            using (var context = new EncuentraTCUEntities())
+            catch (Exception ex)
             {
-                var respuesta = context.EliminarPostulacion(t);
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
 
-                if (respuesta > 0)
-                {
-                    return RedirectToAction("BuscarPostulaciones", "Postulacion");
-                }
-                else
-                {
-                    ViewBag.MensajeError = "No se ha podido eliminar la postulación, intente de nuevo";
-                    return View();
-                }
+                // Llamar al método sp_RegistrarError
+
+                MP.sp_RegistrarError(ex.Message, "BuscarPostulaciones", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
             }
         }
 
         [HttpGet]
+        public ActionResult EliminarPostulacion(long t)
+        {
+            try
+            {
+                using (var context = new EncuentraTCUEntities())
+                {
+                    var respuesta = context.EliminarPostulacion(t);
+
+                    if (respuesta > 0)
+                    {
+                        return RedirectToAction("BuscarPostulaciones", "Postulacion");
+                    }
+                    else
+                    {
+                        ViewBag.MensajeError = "No se ha podido eliminar la postulación, intente de nuevo";
+                        return View();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+
+                MP.sp_RegistrarError(ex.Message, "EliminarPostulacion", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
+            }
+        }
+    
+
+        [HttpGet]
         public ActionResult CancelarProceso(long t)
         {
-            using (var context = new EncuentraTCUEntities())
+            try
+            {
+                using (var context = new EncuentraTCUEntities())
             {
                 var respuesta = context.EliminarPostulacion(t);
 
@@ -203,6 +294,19 @@ namespace ProyectoG1.Controllers
                     ViewBag.MensajeError = "No se ha podido eliminar la postulación, intente de nuevo";
                     return View();
                 }
+            }
+        }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+
+                MP.sp_RegistrarError(ex.Message, "CancelarProceso", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
             }
         }
 

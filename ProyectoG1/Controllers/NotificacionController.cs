@@ -9,10 +9,14 @@ namespace ProyectoG1.Controllers
 {
     public class NotificacionController : Controller
     {
+        MetodosPublicos MP = new MetodosPublicos();
+
         [HttpGet]
         public ActionResult Notificaciones()
         {
-            long idUsuario = long.Parse(Session["Id"].ToString());
+            try
+            {
+                long idUsuario = long.Parse(Session["Id"].ToString());
             int tipoUsuario = int.Parse(Session["Rol"].ToString()); // 1 estudiante, 2 institución
 
             using (var context = new EncuentraTCUEntities())
@@ -28,6 +32,18 @@ namespace ProyectoG1.Controllers
                 }).ToList();
 
                 return View(notificaciones);
+            }
+            }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "Notificaciones", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
             }
         }
 

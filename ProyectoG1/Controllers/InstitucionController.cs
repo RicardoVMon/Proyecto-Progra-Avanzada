@@ -12,10 +12,13 @@ namespace ProyectoG1.Controllers
     public class InstitucionController : Controller
     {
         MetodosPublicos MP = new MetodosPublicos();
+
         [HttpGet]
         public ActionResult PerfilInstitucion(long q)
         {
-            var IdInstitucion = q;
+            try
+            {
+                var IdInstitucion = q;
             using (var context = new EncuentraTCUEntities())
             {
                 var datosInstitucion = context.DatosInstitucion(IdInstitucion).FirstOrDefault();
@@ -51,13 +54,27 @@ namespace ProyectoG1.Controllers
                 }
 
                 return View();
+             }
+            }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "PerfilInstitucion", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
             }
         }
 
         [HttpGet]
         public ActionResult EditarPerfilInstitucion()
         {
-            long idInstitucion = long.Parse(Session["Id"].ToString());
+            try
+            {
+                long idInstitucion = long.Parse(Session["Id"].ToString());
 
             using (var context = new EncuentraTCUEntities())
             {
@@ -84,12 +101,25 @@ namespace ProyectoG1.Controllers
                 return View();
             }
         }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "EditarPerfilInstitucionGET", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
+            }
+        }
 
         [HttpPost]
         public ActionResult EditarPerfilInstitucion(InstitucionModel model, HttpPostedFileBase ImagenInstitucion)
         {
-
-            using (var context = new EncuentraTCUEntities())
+            try
+            {
+                using (var context = new EncuentraTCUEntities())
             {
                 var idInstitucion = long.Parse(Session["Id"].ToString());
                 model.Imagen = Session["Imagen"].ToString();
@@ -119,6 +149,18 @@ namespace ProyectoG1.Controllers
                 ConsultarTipoInstitucion();
                 return View(model);
 
+            }
+        }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "EditarPerfilInstitucionPOST", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
             }
         }
 

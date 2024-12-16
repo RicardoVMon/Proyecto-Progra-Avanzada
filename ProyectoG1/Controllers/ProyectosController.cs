@@ -15,7 +15,9 @@ namespace ProyectoG1.Controllers
         [HttpGet]
         public ActionResult GestionProyectos()
         {
-            long IdInstitucion = long.Parse(Session["Id"].ToString());
+            try
+            {
+                long IdInstitucion = long.Parse(Session["Id"].ToString());
             using (var context = new EncuentraTCUEntities())
             {
                 var listaProyectosBD = context.ObtenerProyectosInstitucion(IdInstitucion).ToList();
@@ -66,11 +68,25 @@ namespace ProyectoG1.Controllers
 
             }
         }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "GestionProyectos", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
+            }
+        }
 
         [HttpGet]
         public ActionResult MisProyectos()
         {
-            long IdEstudiante = long.Parse(Session["Id"].ToString());
+            try
+            {
+                long IdEstudiante = long.Parse(Session["Id"].ToString());
             using (var context = new EncuentraTCUEntities())
             {
                 var listaProyectosBD = context.ObtenerProyectosEstudianteAceptado(IdEstudiante).ToList();
@@ -126,18 +142,46 @@ namespace ProyectoG1.Controllers
                 return View(proyectos);
             }
         }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "MisProyectos", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
+            }
+        }
 
         [HttpGet]
         public ActionResult CrearProyecto()
         {
-            ObtenerCategorias();
+            try
+            {
+                ObtenerCategorias();
             ObtenerProvincias();
             return View();
+        }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "CrearProyectoGET", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
+            }
         }
         [HttpPost]
         public ActionResult CrearProyecto(ProyectoModel model, HttpPostedFileBase ImagenProyecto)
         {
-            using (var context = new EncuentraTCUEntities())
+            try
+            {
+                using (var context = new EncuentraTCUEntities())
             {
                 long IdInstitucion = long.Parse(Session["Id"].ToString());
 
@@ -169,13 +213,27 @@ namespace ProyectoG1.Controllers
                 ViewBag.MensajeError = "Su información no se ha podido validar correctamente";
                 return View(model);
             }
+            }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "CrearProyectoPOST", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
+            }
         }
 
 
         [HttpGet]
         public ActionResult EliminarProyecto()
         {
-            using (var context = new EncuentraTCUEntities())
+            try
+            {
+                using (var context = new EncuentraTCUEntities())
             {
                 long IdProyecto = long.Parse(Request.QueryString["p"]);
                 string RutaImagen = Request.QueryString["i"].ToString();
@@ -190,10 +248,25 @@ namespace ProyectoG1.Controllers
                 return RedirectToAction("GestionProyectos", "Proyectos");
             }
         }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "EliminarProyecto", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
+            }
+        }
+
         [HttpGet]
         public ActionResult EditarProyecto()
         {
-            long IdProyecto = long.Parse(Request.QueryString["p"]);
+            try
+            {
+                long IdProyecto = long.Parse(Request.QueryString["p"]);
             using (var context = new EncuentraTCUEntities())
             {
                 var respuesta = context.ObtenerProyectosEspecifico(IdProyecto).FirstOrDefault();
@@ -224,10 +297,24 @@ namespace ProyectoG1.Controllers
                 return View();
             }
         }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "EditarProyectoGET", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
+            }
+        }
         [HttpPost]
         public ActionResult EditarProyecto(ProyectoModel model, HttpPostedFileBase ImagenProyecto)
         {
-            using (var context = new EncuentraTCUEntities())
+            try
+            {
+                using (var context = new EncuentraTCUEntities())
             {
 
                 if (ImagenProyecto != null)
@@ -256,10 +343,24 @@ namespace ProyectoG1.Controllers
                 return View(model);
             }
         }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "EditarProyectoPOST", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
+            }
+        }
         [HttpGet]
         public ActionResult DetallesProyecto()
         {
-            long IdProyecto = long.Parse(Request.QueryString["p"]);
+            try
+            {
+                long IdProyecto = long.Parse(Request.QueryString["p"]);
             using (var context = new EncuentraTCUEntities())
             {
                 var respuesta = context.ObtenerProyectosEspecifico(IdProyecto).FirstOrDefault();
@@ -314,11 +415,26 @@ namespace ProyectoG1.Controllers
                 return View();
             }
         }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "DetallesProyecto", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
+            }
+        }
+
 
         [HttpGet]
         public ActionResult BuscarProyecto()
         {
-            using (var context = new EncuentraTCUEntities())
+            try
+            {
+                using (var context = new EncuentraTCUEntities())
             {
                 var datos = context.ConsultarProyectos().ToList();
                 var proyectos = new List<ProyectoModel>();
@@ -351,12 +467,26 @@ namespace ProyectoG1.Controllers
                 }
                 return View(proyectos);
             }
+            }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "BuscarProyecto", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
+            }
         }
 
         [HttpGet]
         public ActionResult ResultadosBusqueda(string query)
         {
-            using (var context = new EncuentraTCUEntities())
+            try
+            {
+                using (var context = new EncuentraTCUEntities())
             {
                 var listaProyectosBD = context.ObtenerProyectosBusqueda(query).ToList();
                 var proyectos = new List<ProyectoModel>();
@@ -406,6 +536,18 @@ namespace ProyectoG1.Controllers
 
                 return View(proyectos);
 
+                }
+            }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "ResultadosBusqueda", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
             }
         }
         public void ObtenerCategorias()
@@ -484,10 +626,24 @@ namespace ProyectoG1.Controllers
         [HttpGet]
         public ActionResult SugerenciasProyectos(string query)
         {
-            using (var context = new EncuentraTCUEntities())
+            try
+            {
+                using (var context = new EncuentraTCUEntities())
             {
                 var resultados = context.SugerenciasProyectos(query).ToList();
                 return Json(resultados, JsonRequestBehavior.AllowGet);
+            }
+            }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "SugerenciasProyectos", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
             }
         }
     }
