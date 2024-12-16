@@ -79,6 +79,7 @@ namespace ProyectoG1.Controllers
                     proyectos.Add(new ProyectoModel
                     {
                         IdEstudiante = proyecto.IdEstudiante,
+                        IdProyecto = proyecto.IdProyecto,
                         Nombre = proyecto.Nombre,
                         Descripcion = proyecto.Descripcion,
                         Cupo = proyecto.Cupo,
@@ -150,7 +151,15 @@ namespace ProyectoG1.Controllers
                     }
 
                     ObtenerCategorias();
-                    return RedirectToAction("MisProyectos", "Proyectos");
+
+                    if (creadoPorInstitucion)
+                    {
+                        return RedirectToAction("GestionProyectos", "Proyectos");
+                    }
+                    else
+                    {
+                        return RedirectToAction("MisProyectos", "Proyectos");
+                    }
                 }
                 ObtenerCategorias();
                 ViewBag.MensajeError = "Su información no se ha podido validar correctamente";
@@ -162,14 +171,27 @@ namespace ProyectoG1.Controllers
         {
             using (var context = new EncuentraTCUEntities())
             {
+
+                bool creadoPorInstitucion = false;
+                if ((long)Session["Rol"] == 2)
+                {
+                    creadoPorInstitucion = true;
+                }
+
                 long IdProyecto = long.Parse(Request.QueryString["p"]);
                 string RutaImagen = Request.QueryString["i"].ToString();
                 System.IO.File.Delete(AppDomain.CurrentDomain.BaseDirectory + RutaImagen);
                 var respuestaProyecto = context.EliminarProyecto(IdProyecto);
-                var respuestaCategorias = context.EliminarCategoriasProyecto(IdProyecto);
-                if (respuestaProyecto > 0 && respuestaCategorias > 0)
+                if (respuestaProyecto > 0)
                 {
-                    return RedirectToAction("GestionProyectos", "Proyectos");
+                    if (creadoPorInstitucion)
+                    {
+                        return RedirectToAction("GestionProyectos", "Proyectos");
+                    }
+                    else
+                    {
+                        return RedirectToAction("MisProyectos", "Proyectos");
+                    }
                 }
                 ViewBag.MensajeError = "El proyecto no se ha podido eliminar correctamente";
                 return RedirectToAction("GestionProyectos", "Proyectos");
@@ -214,6 +236,11 @@ namespace ProyectoG1.Controllers
         {
             using (var context = new EncuentraTCUEntities())
             {
+                bool creadoPorInstitucion = false;
+                if ((long)Session["Rol"] == 2)
+                {
+                    creadoPorInstitucion = true;
+                }
 
                 if (ImagenProyecto != null)
                 {
@@ -228,13 +255,22 @@ namespace ProyectoG1.Controllers
 
                 if (respuesta > 0)
                 {
-                    
+
                     context.EliminarCategoriasProyecto(model.IdProyecto);
                     foreach (var item in model.CategoriasSeleccionadas)
                     {
                         context.RegistrarCategoriaProyecto(model.IdProyecto, item);
                     }
-                    return RedirectToAction("GestionProyectos", "Proyectos");
+
+
+                    if (creadoPorInstitucion)
+                    {
+                        return RedirectToAction("GestionProyectos", "Proyectos");
+                    }
+                    else
+                    {
+                        return RedirectToAction("MisProyectos", "Proyectos");
+                    }
                 }
                 ViewBag.MensajeError = "Error al actualizar la información";
                 ObtenerCategoriasProyecto(model.IdProyecto);

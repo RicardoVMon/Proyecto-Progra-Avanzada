@@ -9,7 +9,7 @@ namespace ProyectoG1.Models
     {
         public long IdProyecto { get; set; }
         public long? IdInstitucion { get; set; }
-        public long IdProvincia { get; set; }
+        public long? IdProvincia { get; set; }
         public long? IdEstudiante { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
@@ -27,6 +27,7 @@ namespace ProyectoG1.Models
         public string NombreInstitucion { get; set; }
         public string NombreProvincia { get; set; }
         public int? Postulaciones { get; set; }
+        public string NombreEstudiante { get; set; }
 
     }
 }

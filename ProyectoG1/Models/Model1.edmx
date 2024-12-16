@@ -1384,6 +1384,7 @@
         </ComplexType>
         <ComplexType Name="ObtenerProyectosEspecifico_Result">
           <Property Type="Int64" Name="IdProyecto" Nullable="false" />
+          <Property Type="Int64" Name="IdEstudiante" Nullable="true" />
           <Property Type="Int64" Name="IdInstitucion" Nullable="true" />
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="8000" />
@@ -1394,9 +1395,10 @@
           <Property Type="String" Name="Contacto" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="Direccion" Nullable="true" MaxLength="1000" />
           <Property Type="String" Name="CorreoAsociado" Nullable="true" MaxLength="50" />
-          <Property Type="Int64" Name="IdProvincia" Nullable="false" />
-          <Property Type="String" Name="NombreProvincia" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="NombreInstitucion" Nullable="false" MaxLength="100" />
+          <Property Type="Int64" Name="IdProvincia" Nullable="true" />
+          <Property Type="String" Name="NombreProvincia" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="NombreInstitucion" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="NombreEstudiante" Nullable="true" MaxLength="201" />
         </ComplexType>
         <ComplexType Name="ObtenerProyectosEstudiante_Result">
           <Property Type="Int64" Name="IdProyecto" Nullable="false" />
@@ -1785,6 +1787,7 @@
             <ResultMapping>
               <ComplexTypeMapping TypeName="EncuentraTCUModel.ObtenerProyectosEspecifico_Result">
                 <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+                <ScalarProperty Name="IdEstudiante" ColumnName="IdEstudiante" />
                 <ScalarProperty Name="IdInstitucion" ColumnName="IdInstitucion" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
@@ -1798,6 +1801,7 @@
                 <ScalarProperty Name="IdProvincia" ColumnName="IdProvincia" />
                 <ScalarProperty Name="NombreProvincia" ColumnName="NombreProvincia" />
                 <ScalarProperty Name="NombreInstitucion" ColumnName="NombreInstitucion" />
+                <ScalarProperty Name="NombreEstudiante" ColumnName="NombreEstudiante" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
