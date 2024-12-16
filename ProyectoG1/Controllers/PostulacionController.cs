@@ -218,7 +218,7 @@ namespace ProyectoG1.Controllers
             client.Send(message);
         }
 
-        private int GuardarNotificacion(long idEstudiante, long idInstitucion, long idPostulacion, long idProyecto, string contenido, bool tipoNotificacion)
+        private int GuardarNotificacion(long idEstudiante, long? idInstitucion, long idPostulacion, long idProyecto, string contenido, bool tipoNotificacion)
         {
             using (var context = new EncuentraTCUEntities())
             {

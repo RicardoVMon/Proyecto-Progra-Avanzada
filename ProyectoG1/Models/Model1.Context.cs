@@ -42,6 +42,15 @@ namespace ProyectoG1.Models
         public virtual DbSet<TipoInstitucion> TipoInstitucion { get; set; }
         public virtual DbSet<Universidad> Universidad { get; set; }
     
+        public virtual int AceptarSolicitud(Nullable<long> idConexion)
+        {
+            var idConexionParameter = idConexion.HasValue ?
+                new ObjectParameter("IdConexion", idConexion) :
+                new ObjectParameter("IdConexion", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AceptarSolicitud", idConexionParameter);
+        }
+    
         public virtual int ActualizarContrasenna(string cedula, Nullable<int> tipoCedula, string contrasennaTemp, Nullable<bool> tieneContrasennaTemp, Nullable<System.DateTime> fechaVencimientoTemp)
         {
             var cedulaParameter = cedula != null ?
@@ -252,6 +261,15 @@ namespace ProyectoG1.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarConexiones_Result>("ConsultarConexiones", idEstudianteParameter);
         }
     
+        public virtual ObjectResult<ConsultarDetallesPostulacion_Result> ConsultarDetallesPostulacion(Nullable<long> idPostulacion)
+        {
+            var idPostulacionParameter = idPostulacion.HasValue ?
+                new ObjectParameter("IdPostulacion", idPostulacion) :
+                new ObjectParameter("IdPostulacion", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarDetallesPostulacion_Result>("ConsultarDetallesPostulacion", idPostulacionParameter);
+        }
+    
         public virtual ObjectResult<ConsultarNotificaciones_Result> ConsultarNotificaciones(Nullable<long> idUsuario, Nullable<int> tipoUsuario)
         {
             var idUsuarioParameter = idUsuario.HasValue ?
@@ -263,15 +281,6 @@ namespace ProyectoG1.Models
                 new ObjectParameter("TipoUsuario", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarNotificaciones_Result>("ConsultarNotificaciones", idUsuarioParameter, tipoUsuarioParameter);
-        }
-    
-        public virtual ObjectResult<ConsultarDetallesPostulacion_Result> ConsultarDetallesPostulacion(Nullable<long> idPostulacion)
-        {
-            var idPostulacionParameter = idPostulacion.HasValue ?
-                new ObjectParameter("IdPostulacion", idPostulacion) :
-                new ObjectParameter("IdPostulacion", typeof(long));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ConsultarDetallesPostulacion_Result>("ConsultarDetallesPostulacion", idPostulacionParameter);
         }
     
         public virtual ObjectResult<ConsultarPostulaciones_Result> ConsultarPostulaciones(Nullable<long> idEstudiante)
@@ -331,6 +340,15 @@ namespace ProyectoG1.Models
                 new ObjectParameter("IdProyecto", typeof(long));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("EliminarCategoriasProyecto", idProyectoParameter);
+        }
+    
+        public virtual int EliminarConexion(Nullable<long> idConexion)
+        {
+            var idConexionParameter = idConexion.HasValue ?
+                new ObjectParameter("IdConexion", idConexion) :
+                new ObjectParameter("IdConexion", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("EliminarConexion", idConexionParameter);
         }
     
         public virtual int EliminarHabilidadesEstudiante(Nullable<long> idEstudiante)
@@ -510,6 +528,15 @@ namespace ProyectoG1.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerProyectosInstitucion_Result>("ObtenerProyectosInstitucion", idInstitucionParameter);
         }
     
+        public virtual int RechazarSolicitud(Nullable<long> idConexion)
+        {
+            var idConexionParameter = idConexion.HasValue ?
+                new ObjectParameter("IdConexion", idConexion) :
+                new ObjectParameter("IdConexion", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RechazarSolicitud", idConexionParameter);
+        }
+    
         public virtual int RegistrarCategoriaProyecto(Nullable<long> idProyecto, Nullable<long> idCategoria)
         {
             var idProyectoParameter = idProyecto.HasValue ?
@@ -643,7 +670,7 @@ namespace ProyectoG1.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegistrarNotificacion", idEstudianteParameter, idInstitucionParameter, idPostulacionParameter, idProyectoParameter, contenidoParameter, tipoNotificacionParameter);
         }
     
-        public virtual int RegistrarProyecto(Nullable<long> idInstitucion, string nombre, string descripcion, Nullable<int> cupo, Nullable<bool> creadoPorInstitucion, string contacto, string direccion, string correoAsociado, Nullable<long> idProvincia)
+        public virtual int RegistrarProyecto(Nullable<long> idInstitucion, Nullable<long> idEstudiante, string nombre, string descripcion, Nullable<int> cupo, Nullable<bool> creadoPorInstitucion, string contacto, string direccion, string correoAsociado, Nullable<long> idProvincia)
         {
             var idInstitucionParameter = idInstitucion.HasValue ?
                 new ObjectParameter("IdInstitucion", idInstitucion) :
@@ -705,23 +732,6 @@ namespace ProyectoG1.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SolicitarConexion", idEstudianteSolicitanteParameter, idEstudianteReceptorParameter, mensajeSolicitudParameter);
         }
     
-        public virtual int SolicitarConexion(Nullable<long> idEstudianteSolicitante, Nullable<long> idEstudianteReceptor, string mensajeSolicitud)
-        {
-            var idEstudianteSolicitanteParameter = idEstudianteSolicitante.HasValue ?
-                new ObjectParameter("IdEstudianteSolicitante", idEstudianteSolicitante) :
-                new ObjectParameter("IdEstudianteSolicitante", typeof(long));
-    
-            var idEstudianteReceptorParameter = idEstudianteReceptor.HasValue ?
-                new ObjectParameter("IdEstudianteReceptor", idEstudianteReceptor) :
-                new ObjectParameter("IdEstudianteReceptor", typeof(long));
-    
-            var mensajeSolicitudParameter = mensajeSolicitud != null ?
-                new ObjectParameter("MensajeSolicitud", mensajeSolicitud) :
-                new ObjectParameter("MensajeSolicitud", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SolicitarConexion", idEstudianteSolicitanteParameter, idEstudianteReceptorParameter, mensajeSolicitudParameter);
-        }
-    
         public virtual ObjectResult<string> SugerenciasConexiones(string query)
         {
             var queryParameter = query != null ?
@@ -738,33 +748,6 @@ namespace ProyectoG1.Models
                 new ObjectParameter("Query", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("SugerenciasProyectos", queryParameter);
-        }
-    
-        public virtual int AceptarSolicitud(Nullable<long> idConexion)
-        {
-            var idConexionParameter = idConexion.HasValue ?
-                new ObjectParameter("IdConexion", idConexion) :
-                new ObjectParameter("IdConexion", typeof(long));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AceptarSolicitud", idConexionParameter);
-        }
-    
-        public virtual int EliminarConexion(Nullable<long> idConexion)
-        {
-            var idConexionParameter = idConexion.HasValue ?
-                new ObjectParameter("IdConexion", idConexion) :
-                new ObjectParameter("IdConexion", typeof(long));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("EliminarConexion", idConexionParameter);
-        }
-    
-        public virtual int RechazarSolicitud(Nullable<long> idConexion)
-        {
-            var idConexionParameter = idConexion.HasValue ?
-                new ObjectParameter("IdConexion", idConexion) :
-                new ObjectParameter("IdConexion", typeof(long));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RechazarSolicitud", idConexionParameter);
         }
     }
 }
