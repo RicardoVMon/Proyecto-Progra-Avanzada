@@ -54,48 +54,48 @@ namespace ProyectoG1.Controllers
             }
         }
 
-        [HttpGet]
-        public ActionResult MisProyectos()
-        {
-            long IdEstudiante = long.Parse(Session["Id"].ToString());
-            using (var context = new EncuentraTCUEntities())
-            {
-                var listaProyectosBD = context.ObtenerProyectosEstudiante(IdEstudiante).ToList();
-                var proyectos = new List<ProyectoModel>();
-                foreach (var proyecto in listaProyectosBD)
-                {
+        //[HttpGet]
+        //public ActionResult MisProyectos()
+        //{
+        //    long IdEstudiante = long.Parse(Session["Id"].ToString());
+        //    using (var context = new EncuentraTCUEntities())
+        //    {
+        //        var listaProyectosBD = context.ObtenerProyectosEstudiante(IdEstudiante).ToList();
+        //        var proyectos = new List<ProyectoModel>();
+        //        foreach (var proyecto in listaProyectosBD)
+        //        {
 
-                    var listaCategoriasBD = context.ObtenerCategoriasProyecto(proyecto.IdProyecto);
-                    var categorias = new List<CategoriaModel>();
-                    foreach (var categoria in listaCategoriasBD)
-                    {
-                        categorias.Add(new CategoriaModel
-                        {
-                            IdCategoria = categoria.IdCategoria,
-                            Nombre = categoria.Nombre
-                        });
-                    }
+        //            var listaCategoriasBD = context.ObtenerCategoriasProyecto(proyecto.IdProyecto);
+        //            var categorias = new List<CategoriaModel>();
+        //            foreach (var categoria in listaCategoriasBD)
+        //            {
+        //                categorias.Add(new CategoriaModel
+        //                {
+        //                    IdCategoria = categoria.IdCategoria,
+        //                    Nombre = categoria.Nombre
+        //                });
+        //            }
 
-                    proyectos.Add(new ProyectoModel
-                    {
-                        IdEstudiante = proyecto.IdEstudiante,
-                        IdProyecto = proyecto.IdProyecto,
-                        Nombre = proyecto.Nombre,
-                        Descripcion = proyecto.Descripcion,
-                        Cupo = proyecto.Cupo,
-                        Estado = proyecto.Estado,
-                        CreadoPor = proyecto.CreadoPor,
-                        Imagen = proyecto.Imagen,
-                        Categorias = categorias,
-                        NombreProvincia = proyecto.NombreProvincia
+        //            proyectos.Add(new ProyectoModel
+        //            {
+        //                IdEstudiante = proyecto.IdEstudiante,
+        //                IdProyecto = proyecto.IdProyecto,
+        //                Nombre = proyecto.Nombre,
+        //                Descripcion = proyecto.Descripcion,
+        //                Cupo = proyecto.Cupo,
+        //                Estado = proyecto.Estado,
+        //                CreadoPor = proyecto.CreadoPor,
+        //                Imagen = proyecto.Imagen,
+        //                Categorias = categorias,
+        //                NombreProvincia = proyecto.NombreProvincia
 
-                    });
-                }
+        //            });
+        //        }
 
-                return View(proyectos);
+        //        return View(proyectos);
 
-            }
-        }
+        //    }
+        //}
 
         [HttpGet]
         public ActionResult CrearProyecto()
@@ -105,54 +105,22 @@ namespace ProyectoG1.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult CrearProyecto(ProyectoModel model, HttpPostedFileBase ImagenProyecto, long i, long e)
+        public ActionResult CrearProyecto(ProyectoModel model, HttpPostedFileBase ImagenProyecto)
         {
             using (var context = new EncuentraTCUEntities())
             {
-                long IdCreador = long.Parse(Session["Id"].ToString());
-                bool creadoPorInstitucion = false;
-                long? idInstitucion = null;
-                long? idEstudiante = null;
+                long IdInstitucion = long.Parse(Session["Id"].ToString());
 
-                // Verificar si viene el ID de la institución o el estudiante
-                if (Request.QueryString["i"] != null)
-                {
-                    idInstitucion = long.Parse(Request.QueryString["i"]);
-                    creadoPorInstitucion = true;
-                }
-
-                if (Request.QueryString["e"] != null)
-                {
-                    idEstudiante = long.Parse(Request.QueryString["e"]);
-                    creadoPorInstitucion = false;
-                }
-
-                // Si ambos valores vienen, el proyecto es creado por un estudiante, pero se mantiene la institución asociada
-                if (idInstitucion.HasValue && idEstudiante.HasValue)
-                {
-                    creadoPorInstitucion = false; // Es creado por estudiante, pero con la institución asociada
-                }
-
-                var respuestaRegistroProyecto = context.RegistrarProyecto(
-                    idInstitucion,  // Puede ser nulo si es creado por estudiante
-                    idEstudiante,   // Puede ser nulo si es creado por institución
-                    model.Nombre,
-                    model.Descripcion,
-                    model.Cupo,
-                    creadoPorInstitucion,
-                    model.Contacto,
-                    model.Direccion,
-                    model.CorreoAsociado,
-                    model.IdProvincia
-                );
+                var respuestaRegistroProyecto = context.RegistrarProyecto(IdInstitucion, model.Nombre, model.Descripcion, model.Cupo, true, model.Contacto, model.Direccion, model.CorreoAsociado, model.IdProvincia);
 
                 if (respuestaRegistroProyecto > 0)
                 {
-                    var IdNuevoProyecto = context.ObtenerProyectoReciente(IdCreador, model.Nombre, model.Descripcion, model.Cupo).FirstOrDefault();
+
+                    var IdNuevoProyecto = context.ObtenerProyectoReciente(IdInstitucion, model.Nombre, model.Descripcion, model.Cupo).FirstOrDefault();
 
                     if (ImagenProyecto != null)
                     {
-                        // Guardar la imagen si se proporciona
+                        //System.IO.File.Delete(AppDomain.CurrentDomain.BaseDirectory + model.Imagen);
                         string extension = Path.GetExtension(ImagenProyecto.FileName);
                         string rutaLocal = AppDomain.CurrentDomain.BaseDirectory + "Imagenes\\Proyectos\\" + IdNuevoProyecto + extension;
                         ImagenProyecto.SaveAs(rutaLocal);
@@ -160,27 +128,13 @@ namespace ProyectoG1.Controllers
                         context.ActualizarImagenProyecto(IdNuevoProyecto, model.Imagen);
                     }
 
-                    // Registrar las categorías asociadas al proyecto
                     foreach (var item in model.CategoriasSeleccionadas)
                     {
                         context.RegistrarCategoriaProyecto(IdNuevoProyecto, item);
                     }
-
-                    // Recargar categorías para la vista
                     ObtenerCategorias();
-
-                    // Redireccionar dependiendo de si el proyecto fue creado por una institución o estudiante
-                    if (creadoPorInstitucion)
-                    {
-                        return RedirectToAction("GestionProyectos", "Proyectos");
-                    }
-                    else
-                    {
-                        return RedirectToAction("MisProyectos", "Proyectos");
-                    }
+                    return RedirectToAction("GestionProyectos", "Proyectos");
                 }
-
-                // Si el registro falla, mostrar mensaje de error
                 ObtenerCategorias();
                 ViewBag.MensajeError = "Su información no se ha podido validar correctamente";
                 return View(model);
@@ -193,27 +147,14 @@ namespace ProyectoG1.Controllers
         {
             using (var context = new EncuentraTCUEntities())
             {
-
-                bool creadoPorInstitucion = false;
-                if ((long)Session["Rol"] == 2)
-                {
-                    creadoPorInstitucion = true;
-                }
-
                 long IdProyecto = long.Parse(Request.QueryString["p"]);
                 string RutaImagen = Request.QueryString["i"].ToString();
                 System.IO.File.Delete(AppDomain.CurrentDomain.BaseDirectory + RutaImagen);
                 var respuestaProyecto = context.EliminarProyecto(IdProyecto);
-                if (respuestaProyecto > 0)
+                var respuestaCategorias = context.EliminarCategoriasProyecto(IdProyecto);
+                if (respuestaProyecto > 0 && respuestaCategorias > 0)
                 {
-                    if (creadoPorInstitucion)
-                    {
-                        return RedirectToAction("GestionProyectos", "Proyectos");
-                    }
-                    else
-                    {
-                        return RedirectToAction("MisProyectos", "Proyectos");
-                    }
+                    return RedirectToAction("GestionProyectos", "Proyectos");
                 }
                 ViewBag.MensajeError = "El proyecto no se ha podido eliminar correctamente";
                 return RedirectToAction("GestionProyectos", "Proyectos");
@@ -226,7 +167,7 @@ namespace ProyectoG1.Controllers
             using (var context = new EncuentraTCUEntities())
             {
                 var respuesta = context.ObtenerProyectosEspecifico(IdProyecto).FirstOrDefault();
-                
+
                 if (respuesta != null)
                 {
                     ProyectoModel model = new ProyectoModel
@@ -258,11 +199,6 @@ namespace ProyectoG1.Controllers
         {
             using (var context = new EncuentraTCUEntities())
             {
-                bool creadoPorInstitucion = false;
-                if ((long)Session["Rol"] == 2)
-                {
-                    creadoPorInstitucion = true;
-                }
 
                 if (ImagenProyecto != null)
                 {
@@ -283,16 +219,7 @@ namespace ProyectoG1.Controllers
                     {
                         context.RegistrarCategoriaProyecto(model.IdProyecto, item);
                     }
-
-
-                    if (creadoPorInstitucion)
-                    {
-                        return RedirectToAction("GestionProyectos", "Proyectos");
-                    }
-                    else
-                    {
-                        return RedirectToAction("MisProyectos", "Proyectos");
-                    }
+                    return RedirectToAction("GestionProyectos", "Proyectos");
                 }
                 ViewBag.MensajeError = "Error al actualizar la información";
                 ObtenerCategoriasProyecto(model.IdProyecto);
@@ -337,7 +264,7 @@ namespace ProyectoG1.Controllers
                     }
                     var listaEstudiantesAceptados = context.ObtenerEstudiantesAceptados(IdProyecto).ToList();
                     var estudiantesAceptados = new List<EstudianteModel>();
-                    
+
                     foreach (var estudiante in listaEstudiantesAceptados)
                     {
                         estudiantesAceptados.Add(new EstudianteModel
@@ -348,7 +275,7 @@ namespace ProyectoG1.Controllers
                     }
                     var listaEstudiantesPostuladosBD = context.ObtenerEstudiantesPostulados(IdProyecto);
                     var estudiantesPostulados = listaEstudiantesPostuladosBD.Select(idEstudiante => (long)idEstudiante).ToList();
-                    
+
                     model.IdUsuariosPostulados = estudiantesPostulados;
                     model.Categorias = categorias;
                     model.EstudiantesAceptados = estudiantesAceptados;

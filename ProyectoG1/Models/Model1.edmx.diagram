@@ -4,21 +4,21 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="a97eeca530134e86969e44348ea7847a" Name="Diagram1">
-        <EntityTypeShape EntityType="EncuentraTCUModel.Auditoria" Width="1.5" PointX="8.25" PointY="14.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="EncuentraTCUModel.Categoria" Width="1.5" PointX="6" PointY="10.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="EncuentraTCUModel.Conexion" Width="1.5" PointX="5.25" PointY="19.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="EncuentraTCUModel.Estudiante" Width="1.5" PointX="3" PointY="12.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="EncuentraTCUModel.Genero" Width="1.5" PointX="0.75" PointY="11.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="EncuentraTCUModel.Habilidad" Width="1.5" PointX="5.25" PointY="22.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="EncuentraTCUModel.Institucion" Width="1.5" PointX="6" PointY="13.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="EncuentraTCUModel.Notificacion" Width="1.5" PointX="11.25" PointY="13.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="EncuentraTCUModel.Postulacion" Width="1.5" PointX="8.25" PointY="10.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="EncuentraTCUModel.Provincia" Width="1.5" PointX="6" PointY="25.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="EncuentraTCUModel.Proyecto" Width="1.5" PointX="8.25" PointY="18.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="EncuentraTCUModel.Rol" Width="1.5" PointX="0.75" PointY="14.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="EncuentraTCUModel.TipoInstitucion" Width="1.5" PointX="3.75" PointY="9.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="EncuentraTCUModel.Universidad" Width="1.5" PointX="0.75" PointY="17.875" IsExpanded="true" />
+      <Diagram DiagramId="40b6e5bc99bc433baf987fc99cfae5e6" Name="Diagram1">
+        <EntityTypeShape EntityType="EncuentraTCUModel.Auditoria" Width="1.5" PointX="8.25" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="EncuentraTCUModel.Categoria" Width="1.5" PointX="6" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EncuentraTCUModel.Conexion" Width="1.5" PointX="5.25" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EncuentraTCUModel.Estudiante" Width="1.5" PointX="3" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EncuentraTCUModel.Genero" Width="1.5" PointX="0.75" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EncuentraTCUModel.Habilidad" Width="1.5" PointX="5.25" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EncuentraTCUModel.Institucion" Width="1.5" PointX="6" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="EncuentraTCUModel.Notificacion" Width="1.5" PointX="11.25" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="EncuentraTCUModel.Postulacion" Width="1.5" PointX="8.25" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="EncuentraTCUModel.Provincia" Width="1.5" PointX="6" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EncuentraTCUModel.Proyecto" Width="1.5" PointX="8.25" PointY="15.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EncuentraTCUModel.Rol" Width="1.5" PointX="0.75" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EncuentraTCUModel.TipoInstitucion" Width="1.5" PointX="3.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EncuentraTCUModel.Universidad" Width="1.5" PointX="0.75" PointY="14.875" IsExpanded="true" />
         <AssociationConnector Association="EncuentraTCUModel.FK_Auditoria_Estudiante" ManuallyRouted="false" />
         <AssociationConnector Association="EncuentraTCUModel.FK_Auditoria_Institucion" ManuallyRouted="false" />
         <AssociationConnector Association="EncuentraTCUModel.FK_Conexion_EstudianteReceptor" ManuallyRouted="false" />
@@ -28,7 +28,6 @@
         <AssociationConnector Association="EncuentraTCUModel.FK_Estudiante_Universidad" ManuallyRouted="false" />
         <AssociationConnector Association="EncuentraTCUModel.FK_Notificacion_Estudiante" ManuallyRouted="false" />
         <AssociationConnector Association="EncuentraTCUModel.FK_Postulacion_Estudiante" ManuallyRouted="false" />
-        <AssociationConnector Association="EncuentraTCUModel.FK_Proyecto_Estudiante" ManuallyRouted="false" />
         <AssociationConnector Association="EncuentraTCUModel.FK_Institucion_Rol" ManuallyRouted="false" />
         <AssociationConnector Association="EncuentraTCUModel.FK_Institucion_TipoInstitucion" ManuallyRouted="false" />
         <AssociationConnector Association="EncuentraTCUModel.FK_Notificacion_Institucion" ManuallyRouted="false" />

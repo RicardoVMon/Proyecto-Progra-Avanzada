@@ -14,8 +14,7 @@ namespace ProyectoG1.Models
     public partial class ObtenerProyectosEspecifico_Result
     {
         public long IdProyecto { get; set; }
-        public Nullable<long> IdEstudiante { get; set; }
-        public Nullable<long> IdInstitucion { get; set; }
+        public long IdInstitucion { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public int Cupo { get; set; }
@@ -25,9 +24,8 @@ namespace ProyectoG1.Models
         public string Contacto { get; set; }
         public string Direccion { get; set; }
         public string CorreoAsociado { get; set; }
-        public Nullable<long> IdProvincia { get; set; }
+        public long IdProvincia { get; set; }
         public string NombreProvincia { get; set; }
         public string NombreInstitucion { get; set; }
-        public string NombreEstudiante { get; set; }
     }
 }

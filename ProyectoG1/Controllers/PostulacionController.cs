@@ -89,16 +89,7 @@ namespace ProyectoG1.Controllers
         {
             using (var context = new EncuentraTCUEntities())
             {
-                int resultado;
-
-                if (estado == "Rechazado")
-                {
-                    resultado = context.EliminarPostulacion(id);
-                }
-                else
-                {
-                    resultado = context.ActualizarEstadoPostulacion(id, estado);
-                }
+                int resultado = context.ActualizarEstadoPostulacion(id, estado);
 
                 if (resultado > 0)
                 {
