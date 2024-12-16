@@ -124,6 +124,24 @@ namespace ProyectoG1.Controllers
 
                 if (resultado > 0)
                 {
+                    var postulacion = context.Postulacion.Where(x => x.IdPostulacion == id).FirstOrDefault();
+                    var estudiante = context.Estudiante.Where(x => x.IdEstudiante == postulacion.IdEstudiante).FirstOrDefault();
+                    var proyecto = context.Proyecto.Where(x => x.IdProyecto == postulacion.IdProyecto).FirstOrDefault();
+                    var institucion = context.Institucion.Where(x => x.IdInstitucion == proyecto.IdInstitucion).FirstOrDefault();
+
+                    //correo
+                    var contenidoCorreo = GenerarContenidoCorreoEstado(estudiante.Nombre, proyecto.Nombre, estado, institucion.Nombre);
+                    EnviarCorreoPostulacion(estudiante.Email, "Resultado postulación", contenidoCorreo);
+
+                    //noti
+                    var contenidoNotificacion = $"Tu postulación al proyecto {proyecto.Nombre} ha sido {estado.ToLower()} por la institución {institucion.Nombre}.";
+                    var resultadoNotificacion = GuardarNotificacion(estudiante.IdEstudiante, proyecto.IdInstitucion, postulacion.IdPostulacion, proyecto.IdProyecto, contenidoNotificacion, true);
+
+                    if (resultadoNotificacion <= 0)
+                    {
+                        ViewBag.MensajeError = "No se pudo notificar a la estudiante el resultado de la postulación.";
+                    }
+
                     return Json(new { success = true });
                 }
                 else
@@ -162,42 +180,26 @@ namespace ProyectoG1.Controllers
                         var institucion = context.Institucion.Where(x => x.IdInstitucion == proyecto.IdInstitucion).FirstOrDefault();
                         var postulacion = context.Postulacion.Where(x => x.IdEstudiante == idEstudiante && x.IdProyecto == p).FirstOrDefault();
 
-                        if (estudiante != null && proyecto != null && institucion != null)
-                        {
-                            //correo
-                            var contenidoCorreo = GenerarContenidoCorreoPostulacion(estudiante.Nombre, proyecto.Nombre, institucion.Nombre);
-                            EnviarCorreoPostulacion(institucion.Email, "Nueva postulación", contenidoCorreo);
+                    //correo
+                    var contenidoCorreo = GenerarContenidoCorreoPostulacion(estudiante.Nombre,proyecto.Nombre,institucion.Nombre);
+                    EnviarCorreoPostulacion(institucion.Email,"Nueva postulación",contenidoCorreo);
 
-                            //notificación
-                            var contenidoNotificacion = $"Tu proyecto {proyecto.Nombre} ha recibido una nueva postulación de parte de el/la estudiante {estudiante.Nombre}. Revisa en las postulaciones de tus proyectos para gestionar la postulación.";
-                            var resultadoNotificacion = GuardarNotificacion(idEstudiante, proyecto.IdInstitucion, postulacion.IdPostulacion, p, contenidoNotificacion, false);
+                    //noti
+                    var contenidoNotificacion = $"Tu proyecto {proyecto.Nombre} ha recibido una nueva postulación de parte de el/la estudiante {estudiante.Nombre}. Revisa en las postulaciones de tus proyectos para gestionar la postulación.";
+                    var resultadoNotificacion = GuardarNotificacion(idEstudiante, proyecto.IdInstitucion, postulacion.IdPostulacion, p, contenidoNotificacion, false);
 
-                            if (resultadoNotificacion <= 0)
-                            {
-                                ViewBag.MensajeError = "No se pudo notificar a la Institucion de su postulación.";
-                            }
-
-                        }
-                        return RedirectToAction("BuscarPostulaciones", "Postulacion");
-                    }
-                    else
+                    if (resultadoNotificacion <= 0)
                     {
-                        ViewBag.MensajeError = "No se ha podido postular correctamente, intente de nuevo";
-                        return View();
+                        ViewBag.MensajeError = "No se pudo notificar a la Institucion de su postulación.";
                     }
+                    
+                    return RedirectToAction("BuscarPostulaciones", "Postulacion");
                 }
-            }
-            catch (Exception ex)
-            {
-                // Obtener el valor de Session["Id"] y verificar si es válido
-                var idSesion = Session["Id"];
-
-                // Llamar al método sp_RegistrarError
-                
-                MP.sp_RegistrarError(ex.Message, "PostularseProyecto", idSesion);
-
-                // Retornar la vista de error
-                return View("Error");
+                else
+                {
+                    ViewBag.MensajeError = "No se ha podido postular correctamente, intente de nuevo";
+                    return View();
+                }
             }
         }
 
@@ -322,6 +324,30 @@ namespace ProyectoG1.Controllers
             return contenido;
         }
 
+        public string GenerarContenidoCorreoEstado(string nombreEstudiante, string nombreProyecto, string estado, string nombreInstitucion)
+        {
+            string ruta = string.Empty;
+
+            if (estado == "Aceptado")
+            {
+                ruta = AppDomain.CurrentDomain.BaseDirectory + "\\Styles\\TemplateCorreoEstudianteAceptado.html";
+            }
+            else if (estado == "Rechazado")
+            {
+                ruta = AppDomain.CurrentDomain.BaseDirectory + "\\Styles\\TemplateCorreoEstudianteRechazado.html";
+            }
+            
+            string contenido;
+
+            contenido = System.IO.File.ReadAllText(ruta);
+
+            contenido = contenido.Replace("@@NombreEstudiante", nombreEstudiante);
+            contenido = contenido.Replace("@@NombreProyecto", nombreProyecto);
+            contenido = contenido.Replace("@@NombreInstitucion", nombreInstitucion);
+            
+            return contenido;
+
+        }
 
         private void EnviarCorreoPostulacion(string destino, string asunto, string contenido)
         {

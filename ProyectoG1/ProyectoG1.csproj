@@ -344,6 +344,8 @@
     <Content Include="Styles\js\validarRechazoConexion.js" />
     <Content Include="Styles\js\validarRetiroProyecto.js" />
     <Content Include="Styles\js\usuarios.js" />
+    <Content Include="Styles\TemplateCorreoEstudianteAceptado.html" />
+    <Content Include="Styles\TemplateCorreoEstudianteRechazado.html" />
     <Content Include="Styles\TemplateCorreoPostulacion.html" />
     <Content Include="Styles\TemplateRecuperarContra.html" />
     <Content Include="Web.config" />
