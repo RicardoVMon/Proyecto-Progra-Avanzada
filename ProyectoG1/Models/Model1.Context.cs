@@ -564,6 +564,15 @@ namespace ProyectoG1.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ObtenerProyectosEstudiante", idEstudianteParameter);
         }
     
+        public virtual ObjectResult<ObtenerProyectosEstudianteAceptado_Result> ObtenerProyectosEstudianteAceptado(Nullable<long> idEstudiante)
+        {
+            var idEstudianteParameter = idEstudiante.HasValue ?
+                new ObjectParameter("IdEstudiante", idEstudiante) :
+                new ObjectParameter("IdEstudiante", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerProyectosEstudianteAceptado_Result>("ObtenerProyectosEstudianteAceptado", idEstudianteParameter);
+        }
+    
         public virtual ObjectResult<ObtenerProyectosInstitucion_Result> ObtenerProyectosInstitucion(Nullable<long> idInstitucion)
         {
             var idInstitucionParameter = idInstitucion.HasValue ?

@@ -589,6 +589,9 @@
         <Function Name="ObtenerProyectosEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
         </Function>
+        <Function Name="ObtenerProyectosEstudianteAceptado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="ObtenerProyectosInstitucion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
         </Function>
@@ -1420,6 +1423,9 @@
           <FunctionImport Name="ObtenerProyectosEstudiante">
             <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
           </FunctionImport>
+          <FunctionImport Name="ObtenerProyectosEstudianteAceptado" ReturnType="Collection(EncuentraTCUModel.ObtenerProyectosEstudianteAceptado_Result)">
+            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+          </FunctionImport>
           <FunctionImport Name="ObtenerProyectosInstitucion" ReturnType="Collection(EncuentraTCUModel.ObtenerProyectosInstitucion_Result)">
             <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
           </FunctionImport>
@@ -1648,6 +1654,17 @@
           <Property Type="Int64" Name="IdProvincia" Nullable="false" />
           <Property Type="String" Name="NombreProvincia" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="NombreInstitucion" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="ObtenerProyectosEstudianteAceptado_Result">
+          <Property Type="Int64" Name="IdProyecto" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="8000" />
+          <Property Type="Int32" Name="Cupo" Nullable="false" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="CreadoPor" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Imagen" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="NombreProvincia" Nullable="false" MaxLength="100" />
+          <Property Type="Int64" Name="IdPostulacion" Nullable="false" />
         </ComplexType>
         <ComplexType Name="ObtenerProyectosInstitucion_Result">
           <Property Type="Int64" Name="IdProyecto" Nullable="false" />
@@ -2115,6 +2132,21 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="ObtenerProyectosEstudiante" FunctionName="EncuentraTCUModel.Store.ObtenerProyectosEstudiante" />
+          <FunctionImportMapping FunctionImportName="ObtenerProyectosEstudianteAceptado" FunctionName="EncuentraTCUModel.Store.ObtenerProyectosEstudianteAceptado">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ObtenerProyectosEstudianteAceptado_Result">
+                <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Cupo" ColumnName="Cupo" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="CreadoPor" ColumnName="CreadoPor" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="NombreProvincia" ColumnName="NombreProvincia" />
+                <ScalarProperty Name="IdPostulacion" ColumnName="IdPostulacion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="ObtenerProyectosInstitucion" FunctionName="EncuentraTCUModel.Store.ObtenerProyectosInstitucion">
             <ResultMapping>
               <ComplexTypeMapping TypeName="EncuentraTCUModel.ObtenerProyectosInstitucion_Result">

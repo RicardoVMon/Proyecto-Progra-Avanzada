@@ -34,6 +34,18 @@ namespace ProyectoG1.Controllers
                         });
                     }
 
+                    var listaEstudiantesAceptados = context.ObtenerEstudiantesAceptados(proyecto.IdProyecto).ToList();
+                    var estudiantesAceptados = new List<EstudianteModel>();
+
+                    foreach (var estudiante in listaEstudiantesAceptados)
+                    {
+                        estudiantesAceptados.Add(new EstudianteModel
+                        {
+                            IdEstudiante = estudiante.IdEstudiante,
+                            Nombre = estudiante.NombreEstudiante
+                        });
+                    }
+
                     proyectos.Add(new ProyectoModel
                     {
                         IdProyecto = proyecto.IdProyecto,
@@ -44,7 +56,8 @@ namespace ProyectoG1.Controllers
                         CreadoPor = proyecto.CreadoPor,
                         Imagen = proyecto.Imagen,
                         Categorias = categorias,
-                        NombreProvincia = proyecto.NombreProvincia
+                        NombreProvincia = proyecto.NombreProvincia,
+                        EstudiantesAceptados = estudiantesAceptados
 
                     });
                 }
@@ -54,48 +67,65 @@ namespace ProyectoG1.Controllers
             }
         }
 
-        //[HttpGet]
-        //public ActionResult MisProyectos()
-        //{
-        //    long IdEstudiante = long.Parse(Session["Id"].ToString());
-        //    using (var context = new EncuentraTCUEntities())
-        //    {
-        //        var listaProyectosBD = context.ObtenerProyectosEstudiante(IdEstudiante).ToList();
-        //        var proyectos = new List<ProyectoModel>();
-        //        foreach (var proyecto in listaProyectosBD)
-        //        {
+        [HttpGet]
+        public ActionResult MisProyectos()
+        {
+            long IdEstudiante = long.Parse(Session["Id"].ToString());
+            using (var context = new EncuentraTCUEntities())
+            {
+                var listaProyectosBD = context.ObtenerProyectosEstudianteAceptado(IdEstudiante).ToList();
+                var proyectos = new List<ProyectoModel>();
+                foreach (var proyecto in listaProyectosBD)
+                {
 
-        //            var listaCategoriasBD = context.ObtenerCategoriasProyecto(proyecto.IdProyecto);
-        //            var categorias = new List<CategoriaModel>();
-        //            foreach (var categoria in listaCategoriasBD)
-        //            {
-        //                categorias.Add(new CategoriaModel
-        //                {
-        //                    IdCategoria = categoria.IdCategoria,
-        //                    Nombre = categoria.Nombre
-        //                });
-        //            }
+                    var listaCategoriasBD = context.ObtenerCategoriasProyecto(proyecto.IdProyecto);
+                    var categorias = new List<CategoriaModel>();
+                    foreach (var categoria in listaCategoriasBD)
+                    {
+                        categorias.Add(new CategoriaModel
+                        {
+                            IdCategoria = categoria.IdCategoria,
+                            Nombre = categoria.Nombre
+                        });
+                    }
 
-        //            proyectos.Add(new ProyectoModel
-        //            {
-        //                IdEstudiante = proyecto.IdEstudiante,
-        //                IdProyecto = proyecto.IdProyecto,
-        //                Nombre = proyecto.Nombre,
-        //                Descripcion = proyecto.Descripcion,
-        //                Cupo = proyecto.Cupo,
-        //                Estado = proyecto.Estado,
-        //                CreadoPor = proyecto.CreadoPor,
-        //                Imagen = proyecto.Imagen,
-        //                Categorias = categorias,
-        //                NombreProvincia = proyecto.NombreProvincia
+                    var listaEstudiantesAceptados = context.ObtenerEstudiantesAceptados(proyecto.IdProyecto).ToList();
+                    var estudiantesAceptados = new List<EstudianteModel>();
 
-        //            });
-        //        }
+                    foreach (var estudiante in listaEstudiantesAceptados)
+                    {
+                        estudiantesAceptados.Add(new EstudianteModel
+                        {
+                            IdEstudiante = estudiante.IdEstudiante,
+                            Nombre = estudiante.NombreEstudiante
+                        });
+                    }
 
-        //        return View(proyectos);
+                    proyectos.Add(new ProyectoModel
+                    {
+                        IdProyecto = proyecto.IdProyecto,
+                        IdPostulacion = proyecto.IdPostulacion,
+                        Nombre = proyecto.Nombre,
+                        Descripcion = proyecto.Descripcion,
+                        Cupo = proyecto.Cupo,
+                        Estado = proyecto.Estado,
+                        CreadoPor = proyecto.CreadoPor,
+                        Imagen = proyecto.Imagen,
+                        Categorias = categorias,
+                        NombreProvincia = proyecto.NombreProvincia,
+                        EstudiantesAceptados = estudiantesAceptados
 
-        //    }
-        //}
+                    });
+
+                    
+
+                }
+
+                
+
+                return View(proyectos);
+            }
+        }
 
         [HttpGet]
         public ActionResult CrearProyecto()
@@ -344,6 +374,18 @@ namespace ProyectoG1.Controllers
                         });
                     }
 
+                    var listaEstudiantesAceptados = context.ObtenerEstudiantesAceptados(proyecto.IdProyecto).ToList();
+                    var estudiantesAceptados = new List<EstudianteModel>();
+
+                    foreach (var estudiante in listaEstudiantesAceptados)
+                    {
+                        estudiantesAceptados.Add(new EstudianteModel
+                        {
+                            IdEstudiante = estudiante.IdEstudiante,
+                            Nombre = estudiante.NombreEstudiante
+                        });
+                    }
+
                     proyectos.Add(new ProyectoModel
                     {
                         IdInstitucion = proyecto.IdInstitucion,
@@ -356,7 +398,8 @@ namespace ProyectoG1.Controllers
                         CreadoPor = proyecto.CreadoPor,
                         Imagen = proyecto.Imagen,
                         Categorias = categorias,
-                        NombreProvincia = proyecto.NombreProvincia
+                        NombreProvincia = proyecto.NombreProvincia,
+                        EstudiantesAceptados = estudiantesAceptados
 
                     });
                 }
@@ -365,7 +408,6 @@ namespace ProyectoG1.Controllers
 
             }
         }
-
         public void ObtenerCategorias()
         {
             using (var context = new EncuentraTCUEntities())

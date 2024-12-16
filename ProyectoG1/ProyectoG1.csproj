@@ -233,6 +233,9 @@
     <Compile Include="Models\ObtenerProyectosEspecifico_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ObtenerProyectosEstudianteAceptado_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ObtenerProyectosInstitucion_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -336,6 +339,7 @@
     <Content Include="Styles\js\detallesProyecto.js" />
     <Content Include="Styles\js\institucion.js" />
     <Content Include="Styles\js\conexiones.js" />
+    <Content Include="Styles\js\validarCancelarProceso.js" />
     <Content Include="Styles\js\validarDesconexion.js" />
     <Content Include="Styles\js\validarRechazoConexion.js" />
     <Content Include="Styles\js\validarRetiroProyecto.js" />
@@ -375,11 +379,11 @@
     <Content Include="Views\Postulacion\BuscarPostulaciones.cshtml" />
     <Content Include="Views\Autenticacion\CambiarContrasennaTemp.cshtml" />
     <Content Include="Views\Proyectos\ResultadosBusqueda.cshtml" />
-    <Content Include="Views\Proyectos\MisProyectos.cshtml" />
     <Content Include="Views\Conexiones\GestionarConexiones.cshtml" />
     <Content Include="Views\Conexiones\ResultadosBusqueda.cshtml" />
     <Content Include="Views\Notificacion\Notificaciones.cshtml" />
     <Content Include="Views\Conexiones\EnviarSolicitud.cshtml" />
+    <Content Include="Views\Proyectos\MisProyectos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

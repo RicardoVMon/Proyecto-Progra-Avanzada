@@ -175,9 +175,28 @@ namespace ProyectoG1.Controllers
             {
                 var respuesta = context.EliminarPostulacion(t);
 
-                if (respuesta == 1)
+                if (respuesta > 0)
                 {
                     return RedirectToAction("BuscarPostulaciones", "Postulacion");
+                }
+                else
+                {
+                    ViewBag.MensajeError = "No se ha podido eliminar la postulación, intente de nuevo";
+                    return View();
+                }
+            }
+        }
+
+        [HttpGet]
+        public ActionResult CancelarProceso(long t)
+        {
+            using (var context = new EncuentraTCUEntities())
+            {
+                var respuesta = context.EliminarPostulacion(t);
+
+                if (respuesta > 0)
+                {
+                    return RedirectToAction("MisProyectos", "Proyectos");
                 }
                 else
                 {

@@ -28,6 +28,7 @@ namespace ProyectoG1.Models
         public string NombreProvincia { get; set; }
         public int? Postulaciones { get; set; }
         public string NombreEstudiante { get; set; }
+        public long IdPostulacion { get; set; }
 
     }
 }
