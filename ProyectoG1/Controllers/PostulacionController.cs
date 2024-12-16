@@ -48,7 +48,6 @@ namespace ProyectoG1.Controllers
 
                         //notificación
                         var contenidoNotificacion = $"Tu proyecto {proyecto.Nombre} ha recibido una nueva postulación de parte de el/la estudiante {estudiante.Nombre}. Revisa en las postulaciones de tus proyectos para gestionar la postulación.";
-                        //GuardarNotificacion(idEstudiante, proyecto.IdInstitucion, respuesta, p, contenidoNotificacion, false);
                         var resultadoNotificacion = GuardarNotificacion(idEstudiante, proyecto.IdInstitucion, postulacion.IdPostulacion, p, contenidoNotificacion, false);
 
                         if (resultadoNotificacion <= 0)

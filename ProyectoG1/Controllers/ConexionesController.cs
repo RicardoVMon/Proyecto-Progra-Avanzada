@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -11,11 +12,51 @@ namespace ProyectoG1.Controllers
     public class ConexionesController : Controller
     {
         MetodosPublicos MP = new MetodosPublicos();
+        
         [HttpGet]
         public ActionResult GestionarConexiones()
         {
-            return View();
+            using (var context = new EncuentraTCUEntities())
+            {
+                long idEstudiante = long.Parse(Session["Id"].ToString());
+                var datos = context.ConsultarConexiones(idEstudiante).ToList();
+
+                var conexiones = new ConexionModel
+                {
+                    ConexionesAceptadas = datos
+                        .Where(c => c.Estado == "Aceptada")
+                        .Select(c => new ConexionModel
+                        {
+                            IdConexion = c.IdConexion,
+                            IdEstudianteSolicitante = c.IdEstudianteSolicitante,
+                            NombreEstudianteSolicitante = c.NombreEstudianteSolicitante,
+                            Universidad = c.Universidad,
+                            MensajeSolicitud = c.MensajeSolicitud,
+                            FechaSolicitud = c.FechaSolicitud,
+                            Estado = c.Estado
+                        })
+                        .ToList(),
+                    SolicitudesPendientes = datos
+                        .Where(c => c.Estado == "Pendiente")
+                        .Select(c => new ConexionModel
+                        {
+                            IdConexion = c.IdConexion,
+                            IdEstudianteSolicitante = c.IdEstudianteSolicitante,
+                            NombreEstudianteSolicitante = c.NombreEstudianteSolicitante,
+                            Universidad = c.Universidad,
+                            MensajeSolicitud = c.MensajeSolicitud,
+                            FechaSolicitud = c.FechaSolicitud,
+                            Estado = c.Estado
+                        })
+                        .ToList()
+                };
+
+                return View(conexiones);
+            }
         }
+
+
+
         [HttpGet]
         public ActionResult ResultadosBusqueda(string query)
         {
@@ -52,5 +93,104 @@ namespace ProyectoG1.Controllers
                 return Json(resultados, JsonRequestBehavior.AllowGet);
             }
         }
+
+        [HttpGet]
+        public ActionResult EnviarSolicitud(long idEstudianteReceptor)
+        {
+            using (var context = new EncuentraTCUEntities())
+            {
+                var estudianteReceptor = context.Estudiante
+                    .Where(e => e.IdEstudiante == idEstudianteReceptor)
+                    .FirstOrDefault();
+
+                var model = new ConexionModel
+                {
+                    IdEstudianteReceptor = estudianteReceptor.IdEstudiante,
+                    NombreEstudianteReceptor = estudianteReceptor.Nombre,
+                    Universidad = estudianteReceptor.Universidad.Nombre
+                };
+
+                return View(model);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EnviarSolicitud(ConexionModel model)
+        {
+            long idEstudianteSolicitante = long.Parse(Session["Id"].ToString());
+
+            using (var context = new EncuentraTCUEntities())
+            {
+                var respuesta = context.SolicitarConexion(idEstudianteSolicitante, model.IdEstudianteReceptor, model.MensajeSolicitud);
+
+                if (respuesta == 1)
+                {
+                    return RedirectToAction("GestionarConexiones", "Conexiones");
+                }
+                else
+                {
+                    ViewBag.MensajeError = "No se logró enviar la solicitud de conexión.";
+                    return View();
+                }
+            }
+        }
+
+        [HttpGet]
+        public ActionResult AceptarSolicitud(long idConexion)
+        {
+            using (var context = new EncuentraTCUEntities())
+            {
+                var respuesta = context.AceptarSolicitud(idConexion);
+
+                if (respuesta > 0)
+                {
+                    return RedirectToAction("GestionarConexiones", "Conexiones");
+                }
+                else
+                {
+                    ViewBag.MensajeError = "No se logró aceptar la solicitud.";
+                    return RedirectToAction("GestionarConexiones", "Conexiones");
+                }
+            }
+        }
+
+        [HttpGet]
+        public ActionResult RechazarSolicitud(long idConexion)
+        {
+            using (var context = new EncuentraTCUEntities())
+            {
+                var respuesta = context.RechazarSolicitud(idConexion);
+
+                if (respuesta > 0)
+                {
+                    return RedirectToAction("GestionarConexiones", "Conexiones");
+                }
+                else
+                {
+                    ViewBag.MensajeError = "No se logró rechazar la solicitud.";
+                    return RedirectToAction("GestionarConexiones", "Conexiones");
+                }
+            }
+        }
+
+        [HttpGet]
+        public ActionResult EliminarConexion(long idConexion)
+        {
+            using (var context = new EncuentraTCUEntities())
+            {
+                var respuesta = context.EliminarConexion(idConexion);
+
+                if (respuesta > 0)
+                {
+                    return RedirectToAction("GestionarConexiones", "Conexiones");
+                }
+                else
+                {
+                    ViewBag.MensajeError = "No se logró eliminar la conexión.";
+                    return RedirectToAction("GestionarConexiones", "Conexiones");
+                }
+            }
+        }
+
     }
 }
