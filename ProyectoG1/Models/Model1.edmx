@@ -574,6 +574,13 @@
         <Function Name="ObtenerIdsSolicitudesRecibidas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdUsuario" Type="bigint" Mode="In" />
         </Function>
+        <Function Name="ObtenerInfoParaNotiEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idPostulacion" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerInfoParaNotiInstitucion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idEstudiante" Type="bigint" Mode="In" />
+          <Parameter Name="idProyecto" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="ObtenerProyectoReciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
           <Parameter Name="Nombre" Type="varchar" Mode="In" />
@@ -1411,6 +1418,13 @@
           <FunctionImport Name="ObtenerIdsSolicitudesRecibidas" ReturnType="Collection(Int64)">
           <Parameter Name="IdUsuario" Mode="In" Type="Int64" />
           </FunctionImport>
+          <FunctionImport Name="ObtenerInfoParaNotiEstudiante" ReturnType="Collection(EncuentraTCUModel.ObtenerInfoParaNotiEstudiante_Result)">
+            <Parameter Name="idPostulacion" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerInfoParaNotiInstitucion" ReturnType="Collection(EncuentraTCUModel.ObtenerInfoParaNotiInstitucion_Result)">
+            <Parameter Name="idEstudiante" Mode="In" Type="Int64" />
+            <Parameter Name="idProyecto" Mode="In" Type="Int64" />
+          </FunctionImport>
           <FunctionImport Name="ObtenerProyectoReciente" ReturnType="Collection(Int64)">
             <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
             <Parameter Name="Nombre" Mode="In" Type="String" />
@@ -1490,6 +1504,13 @@
             <Parameter Name="IdEstudianteSolicitante" Mode="In" Type="Int64" />
             <Parameter Name="IdEstudianteReceptor" Mode="In" Type="Int64" />
             <Parameter Name="MensajeSolicitud" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_RegistrarError">
+            <Parameter Name="Mensaje" Mode="In" Type="String" />
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="Origen" Mode="In" Type="String" />
+            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+            <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="SugerenciasConexiones" ReturnType="Collection(String)">
           <Parameter Name="Query" Mode="In" Type="String" />
@@ -1629,6 +1650,25 @@
         <ComplexType Name="ObtenerHabilidadesParaEditar_Result">
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
           <Property Type="Int64" Name="IdHabilidad" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="ObtenerInfoParaNotiEstudiante_Result">
+          <Property Type="String" Name="NombreEstudiante" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="NombreProyecto" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="estado" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="NombreInstitucion" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="EmailEstudiante" Nullable="false" MaxLength="50" />
+          <Property Type="Int64" Name="IdEstudiante" Nullable="false" />
+          <Property Type="Int64" Name="IdInstitucion" Nullable="false" />
+          <Property Type="Int64" Name="IdPostulacion" Nullable="false" />
+          <Property Type="Int64" Name="IdProyecto" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="ObtenerInfoParaNotiInstitucion_Result">
+          <Property Type="String" Name="NombreEstudiante" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="NombreProyecto" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="NombreInstitucion" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="EmailInstitucion" Nullable="false" MaxLength="50" />
+          <Property Type="Int64" Name="IdInstitucion" Nullable="false" />
+          <Property Type="Int64" Name="IdPostulacion" Nullable="false" />
         </ComplexType>
         <ComplexType Name="ObtenerProyectosBusqueda_Result">
           <Property Type="Int64" Name="IdProyecto" Nullable="false" />
@@ -2097,6 +2137,33 @@
           <FunctionImportMapping FunctionImportName="ObtenerIdsSolicitudesEnviadas" FunctionName="EncuentraTCUModel.Store.ObtenerIdsSolicitudesEnviadas" />
           <FunctionImportMapping FunctionImportName="ObtenerIdsSolicitudesPendientes" FunctionName="EncuentraTCUModel.Store.ObtenerIdsSolicitudesPendientes" />
           <FunctionImportMapping FunctionImportName="ObtenerIdsSolicitudesRecibidas" FunctionName="EncuentraTCUModel.Store.ObtenerIdsSolicitudesRecibidas" />
+          <FunctionImportMapping FunctionImportName="ObtenerInfoParaNotiEstudiante" FunctionName="EncuentraTCUModel.Store.ObtenerInfoParaNotiEstudiante">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ObtenerInfoParaNotiEstudiante_Result">
+                <ScalarProperty Name="NombreEstudiante" ColumnName="NombreEstudiante" />
+                <ScalarProperty Name="NombreProyecto" ColumnName="NombreProyecto" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="NombreInstitucion" ColumnName="NombreInstitucion" />
+                <ScalarProperty Name="EmailEstudiante" ColumnName="EmailEstudiante" />
+                <ScalarProperty Name="IdEstudiante" ColumnName="IdEstudiante" />
+                <ScalarProperty Name="IdInstitucion" ColumnName="IdInstitucion" />
+                <ScalarProperty Name="IdPostulacion" ColumnName="IdPostulacion" />
+                <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ObtenerInfoParaNotiInstitucion" FunctionName="EncuentraTCUModel.Store.ObtenerInfoParaNotiInstitucion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ObtenerInfoParaNotiInstitucion_Result">
+                <ScalarProperty Name="NombreEstudiante" ColumnName="NombreEstudiante" />
+                <ScalarProperty Name="NombreProyecto" ColumnName="NombreProyecto" />
+                <ScalarProperty Name="NombreInstitucion" ColumnName="NombreInstitucion" />
+                <ScalarProperty Name="EmailInstitucion" ColumnName="EmailInstitucion" />
+                <ScalarProperty Name="IdInstitucion" ColumnName="IdInstitucion" />
+                <ScalarProperty Name="IdPostulacion" ColumnName="IdPostulacion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="ObtenerProyectoReciente" FunctionName="EncuentraTCUModel.Store.ObtenerProyectoReciente" />
           <FunctionImportMapping FunctionImportName="ObtenerProyectosBusqueda" FunctionName="EncuentraTCUModel.Store.ObtenerProyectosBusqueda">
             <ResultMapping>
@@ -2202,6 +2269,7 @@
           <FunctionImportMapping FunctionImportName="RegistrarNotificacion" FunctionName="EncuentraTCUModel.Store.RegistrarNotificacion" />
           <FunctionImportMapping FunctionImportName="RegistrarProyecto" FunctionName="EncuentraTCUModel.Store.RegistrarProyecto" />
           <FunctionImportMapping FunctionImportName="SolicitarConexion" FunctionName="EncuentraTCUModel.Store.SolicitarConexion" />
+          <FunctionImportMapping FunctionImportName="sp_RegistrarError" FunctionName="EncuentraTCUModel.Store.sp_RegistrarError" />
           <FunctionImportMapping FunctionImportName="SugerenciasConexiones" FunctionName="EncuentraTCUModel.Store.SugerenciasConexiones" />
           <FunctionImportMapping FunctionImportName="SugerenciasProyectos" FunctionName="EncuentraTCUModel.Store.SugerenciasProyectos" />
           <FunctionImportMapping FunctionImportName="sp_RegistrarError" FunctionName="EncuentraTCUModel.Store.sp_RegistrarError" />

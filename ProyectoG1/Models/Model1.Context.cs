@@ -516,6 +516,28 @@ namespace ProyectoG1.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<long>>("ObtenerIdsSolicitudesRecibidas", idUsuarioParameter);
         }
     
+        public virtual ObjectResult<ObtenerInfoParaNotiEstudiante_Result> ObtenerInfoParaNotiEstudiante(Nullable<long> idPostulacion)
+        {
+            var idPostulacionParameter = idPostulacion.HasValue ?
+                new ObjectParameter("idPostulacion", idPostulacion) :
+                new ObjectParameter("idPostulacion", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerInfoParaNotiEstudiante_Result>("ObtenerInfoParaNotiEstudiante", idPostulacionParameter);
+        }
+    
+        public virtual ObjectResult<ObtenerInfoParaNotiInstitucion_Result> ObtenerInfoParaNotiInstitucion(Nullable<long> idEstudiante, Nullable<long> idProyecto)
+        {
+            var idEstudianteParameter = idEstudiante.HasValue ?
+                new ObjectParameter("idEstudiante", idEstudiante) :
+                new ObjectParameter("idEstudiante", typeof(long));
+    
+            var idProyectoParameter = idProyecto.HasValue ?
+                new ObjectParameter("idProyecto", idProyecto) :
+                new ObjectParameter("idProyecto", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerInfoParaNotiInstitucion_Result>("ObtenerInfoParaNotiInstitucion", idEstudianteParameter, idProyectoParameter);
+        }
+    
         public virtual ObjectResult<Nullable<long>> ObtenerProyectoReciente(Nullable<long> idInstitucion, string nombre, string descripcion, Nullable<int> cupo)
         {
             var idInstitucionParameter = idInstitucion.HasValue ?
@@ -789,6 +811,31 @@ namespace ProyectoG1.Models
                 new ObjectParameter("MensajeSolicitud", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SolicitarConexion", idEstudianteSolicitanteParameter, idEstudianteReceptorParameter, mensajeSolicitudParameter);
+        }
+    
+        public virtual int sp_RegistrarError(string mensaje, Nullable<System.DateTime> fecha, string origen, Nullable<long> idEstudiante, Nullable<long> idInstitucion)
+        {
+            var mensajeParameter = mensaje != null ?
+                new ObjectParameter("Mensaje", mensaje) :
+                new ObjectParameter("Mensaje", typeof(string));
+    
+            var fechaParameter = fecha.HasValue ?
+                new ObjectParameter("Fecha", fecha) :
+                new ObjectParameter("Fecha", typeof(System.DateTime));
+    
+            var origenParameter = origen != null ?
+                new ObjectParameter("Origen", origen) :
+                new ObjectParameter("Origen", typeof(string));
+    
+            var idEstudianteParameter = idEstudiante.HasValue ?
+                new ObjectParameter("IdEstudiante", idEstudiante) :
+                new ObjectParameter("IdEstudiante", typeof(long));
+    
+            var idInstitucionParameter = idInstitucion.HasValue ?
+                new ObjectParameter("IdInstitucion", idInstitucion) :
+                new ObjectParameter("IdInstitucion", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_RegistrarError", mensajeParameter, fechaParameter, origenParameter, idEstudianteParameter, idInstitucionParameter);
         }
     
         public virtual ObjectResult<string> SugerenciasConexiones(string query)
