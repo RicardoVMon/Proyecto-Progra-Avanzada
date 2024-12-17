@@ -1,0 +1,162 @@
+﻿@model ProyectoG1.Models.EstudianteModel
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+
+<style>
+    .select2-container--default .select2-selection--multiple {
+        padding: 0.50rem 0.50rem; /* Matches Bootstrap input padding */
+        height: auto; /* Ensures it adjusts for content */
+    }
+</style>
+
+@if (ViewBag.MensajeError != null)
+{
+    <div class="alert alert-danger text-center" role="alert">
+        @ViewBag.MensajeError
+    </div>
+}
+@if (ViewBag.MensajeExito != null)
+{
+    <div class="alert alert-success text-center" role="alert">
+        @ViewBag.MensajeExito
+    </div>
+}
+
+<div>
+    <div class="row">
+        <!-- Biografía Del Perfil -->
+        <div class="col-12">
+            <div class="row">
+                <div class="display-5 mb-2">Edición de Perfil</div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+
+                            @if (ViewBag.MensajeError != null)
+                            {
+                                <div class="alert alert-danger text-center" role="alert">
+                                    @ViewBag.MensajeError
+                                </div>
+                            }
+
+                            @using (Html.BeginForm("EditarPerfilEstudiante", "Estudiante", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                            {
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h6 class="card-title mb-2 text-muted">Información General</h6>
+                                        <div class="row mb-3">
+                                            <div class="col-8">
+
+                                                @Html.HiddenFor(m => m.IdEstudiante)
+
+
+                                                <div class="form-group form-floating">
+                                                    @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control", @placeholder = "Nombre", @required = "true", @readonly = "true", @name = "nombre", @id = "nombre" })
+                                                    <label class="form-label">Nombre</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="form-group form-floating">
+                                                    @Html.TextBoxFor(m => m.Apellidos, new { @class = "form-control", @placeholder = "Apellidos", @required = "true", @readonly = "true", @name = "apellidos", @id = "apellidos" })
+                                                    <label class="form-label">Apellidos</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <h6 class="card-title mb-2 text-muted">Contacto</h6>
+                                        <div class="row mb-3">
+                                            <div class="col-4">
+                                                <div class="form-group form-floating">
+                                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Nombre", @required = "true", @name = "nombre", @id = "nombre" })
+                                                    <label class="form-label">Email</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="form-group form-floating">
+                                                    @Html.DropDownListFor(m => m.IdUniversidad, ViewBag.Universidades as List<SelectListItem>, new { @class = "form-control" })
+                                                    <label class="form-label">Estudiante en</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="form-group form-floating">
+                                                    @Html.TextBoxFor(m => m.Carrera, new { @class = "form-control", @placeholder = "Carrera", @required = "true" })
+                                                    <label class="form-label">Carrera en</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <h6 class="card-title mb-2 text-muted">Acerca De</h6>
+                                        <div class="row ">
+                                            <div class="col-12">
+                                                <div class="form-group form-floating">
+                                                    @Html.TextAreaFor(m => m.Descripcion, new { @class = "form-control", @placeholder = "Nombre", @required = "true", @name = "nombre", @id = "nombre", @style = "height: 100px;" })
+                                                    <label class="form-label">Biografía Del Perfil</label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="habilidades" class="form-label h6 text-muted">Habilidades</label>
+                                                @Html.ListBoxFor(
+                                                    m => m.HabilidadesSeleccionadas,
+                                                    ViewBag.Habilidades as List<SelectListItem>,
+                                                    new { @class = "form-control mul-select", @multiple = "multiple", @required = "true" }
+                                                )
+                                            </div>
+                                        </div>
+
+                                        <button type="submit" id="btnRegistrar" name="btnRegistrar" class="btn btn-primary btn-lg mt-3 w-100" style="background-color:#1F283E; border-color: #1F283E;">
+                                            Guardar Cambios
+                                        </button>
+
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="d-flex justify-content-center mt-5">
+                                            <div class="row">
+                                                <div class="col-12 text-center mb-3">
+                                                    <img src="@Model.Imagen" class="rounded-circle" alt="Imagen de perfil" width="150" height="150">
+                                                </div>
+                                                <div class="col-12 text-center">
+                                                    <h3 class="card-title">Foto de Perfil</h3>
+                                                </div>
+                                                <div class="col-8 d-flex justify-content-center mx-auto">
+                                                    <input type="file" id="ImagenEstudiante" name="ImagenEstudiante" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(".mul-select").select2({
+            placeholder: "Selecciona tus habilidades que desees mostrar en tu perfil (máximo 6)", // Placeholder in Spanish
+            tags: false, // Disable creating new tags
+            maximumSelectionLength: 6, // Limit to 6 selections
+            language: {
+                maximumSelected: function (args) {
+                    return "Solo puedes seleccionar hasta " + args.maximum + " habilidades.";
+                },
+                noResults: function () {
+                    return "No se encontraron resultados.";
+                }
+            }
+        });
+    });
+</script>

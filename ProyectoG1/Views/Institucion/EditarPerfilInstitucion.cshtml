@@ -1,0 +1,117 @@
+﻿@model ProyectoG1.Models.InstitucionModel
+
+    @if (ViewBag.MensajeError != null)
+    {
+        <div class="alert alert-danger text-center" role="alert">
+            @ViewBag.MensajeError
+        </div>
+    }
+    @if (ViewBag.MensajeExito != null)
+    {
+        <div class="alert alert-success text-center" role="alert">
+            @ViewBag.MensajeExito
+        </div>
+    }
+
+    <div>
+        <div class="row">
+            <!-- Biografía Del Perfil -->
+            <div class="col-12">
+                <div class="row">
+                    <div class="display-5 mb-2">Edición de Perfil</div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+
+                                @if (ViewBag.MensajeError != null)
+                                {
+                                    <div class="alert alert-danger text-center" role="alert">
+                                        @ViewBag.MensajeError
+                                    </div>
+                                }
+
+                                @using (Html.BeginForm("EditarPerfilInstitucion", "Institucion", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                                {
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <h6 class="card-title mb-2 text-muted">Información General</h6>
+                                            <div class="row mb-3">
+                                                <div class="col-8">
+                                                    <div class="form-group form-floating">
+                                                        @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control", @placeholder = "Nombre", @required = "true", @readonly = "true", @name = "nombre", @id = "nombre" })
+                                                        <label class="form-label">Nombre</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="form-group form-floating">
+                                                        @Html.DropDownListFor(m => m.IdTipoInstitucion, ViewBag.TipoInstituciones as List<SelectListItem>, new { @class = "form-control" })
+                                                        <label class="form-label">Tipo de Institución</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <h6 class="card-title mb-2 text-muted">Contacto</h6>
+                                            <div class="row mb-3">
+                                                <div class="col-4">
+                                                    <div class="form-group form-floating">
+                                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Nombre", @required = "true", @name = "nombre", @id = "nombre" })
+                                                        <label class="form-label">Email</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="form-group form-floating">
+                                                        @Html.TextBoxFor(m => m.Telefono, new { @class = "form-control", @placeholder = "Nombre", @required = "true", @name = "nombre", @id = "nombre" })
+                                                        <label class="form-label">Teléfono</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="form-group form-floating">
+                                                        @Html.TextBoxFor(m => m.PaginaWeb, new { @class = "form-control", @placeholder = "Nombre", @name = "nombre", @id = "nombre" })
+                                                        <label class="form-label">Página Web</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <h6 class="card-title mb-2 text-muted">Acerca De</h6>
+                                            <div class="row ">
+                                                <div class="col-12">
+                                                    <div class="form-group form-floating">
+                                                        @Html.TextAreaFor(m => m.Descripcion, new { @class = "form-control", @placeholder = "Nombre", @required = "true", @name = "nombre", @id = "nombre", @style = "height: 100px;" })
+                                                        <label class="form-label">Actividades</label>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <button type="submit" id="btnRegistrar" name="btnRegistrar" class="btn btn-primary btn-lg mt-3 w-100" style="background-color:#1F283E; border-color: #1F283E;">
+                                                Guardar Cambios
+                                            </button>
+
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="d-flex justify-content-center mt-5">
+                                                <div class="row">
+                                                    <div class="col-12 text-center mb-3">
+                                                        <img src="@Model.Imagen" class="rounded-circle" alt="Imagen de perfil" width="150" height="150">
+                                                    </div>
+                                                    <div class="col-12 text-center">
+                                                        <h3 class="card-title">Foto de Perfil</h3>
+                                                    </div>
+                                                    <div class="col-8 d-flex justify-content-center mx-auto">
+                                                        <input type="file" id="ImagenInstitucion" name="ImagenInstitucion" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

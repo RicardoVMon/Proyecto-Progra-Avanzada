@@ -1,0 +1,39 @@
+﻿@model ProyectoG1.Models.ConexionModel
+
+<div class="row align-items-center mb-4">
+    <div class="col-12 col-md-8">
+        <h1 class="display-5">Enviar Solicitud de Conexión</h1>
+        <p class="text-muted">Envía una solicitud para conectar con el/la estudiante.</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 col-md-6 mb-4">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary">
+                <h5 class="card-title mb-0 text-white">
+                    <i class="fas fa-user-friends"></i> Solicitar Conexión
+                </h5>
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm("EnviarSolicitud", "Conexiones", FormMethod.Post))
+                {
+                    @Html.HiddenFor(model => model.IdEstudianteReceptor)
+
+                    <div class="form-group">
+                        <label for="NombreEstudianteReceptor">Estudiante</label>
+                        <input type="text" class="form-control" id="NombreEstudianteReceptor" value="@Model.NombreEstudianteReceptor" readonly />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="MensajeSolicitud">Mensaje</label>
+                        @Html.TextAreaFor(x => x.MensajeSolicitud, new { @class = "form-control", @placeholder = "Nombre", @required = "true", @name = "nombre", @id = "nombre", @style = "height: 100px;" })
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mt-3">Enviar Solicitud</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

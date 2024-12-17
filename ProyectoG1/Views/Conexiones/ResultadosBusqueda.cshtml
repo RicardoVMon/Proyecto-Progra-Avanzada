@@ -1,0 +1,35 @@
+﻿@model List<ProyectoG1.Models.EstudianteModel>
+
+<div>
+    <div class="row">
+        <!-- Proyectos -->
+        <div class="col-12">
+            <div class="row align-items-center mb-3">
+                <div class="col-12 col-md-8">
+                    <h1 class="display-5">Resultados Encontrados Para: @Request.QueryString["query"]</h1>
+                    <p class="text-muted">Seleccione un estudiante para ver su información.</p>
+                </div>
+            </div>
+            <div class="row">
+
+                @foreach (var estudiante in Model)
+                {
+                    <div class="col-3 mb-4">
+                        <div class="card card-hover">
+                            <img class="card-img-top" src="@estudiante.Imagen" alt="Imagen de Ignasio Miranda">
+                            <div class="card-body">
+                                <h4 class="card-title">@estudiante.Nombre</h4>
+                                <h4 class="card-subtitle">@estudiante.NombreUniversidad</h4>
+                                <p class="card-text mb-2">@estudiante.Carrera</p>
+                                <a href="@Url.Action("PerfilEstudiante", "Estudiante", new { q = @estudiante.IdEstudiante })" class="btn btn-primary">Perfil</a>
+                                
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="~/Styles/css/EstilosConexiones.css">

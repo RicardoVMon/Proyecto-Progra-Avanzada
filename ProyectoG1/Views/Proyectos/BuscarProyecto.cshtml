@@ -1,0 +1,25 @@
+﻿@model List<ProyectoG1.Models.ProyectoModel>
+
+<div class="d-flex flex-column justify-content-center align-items-center h-75">
+    <div class="col-12 col-md-8 text-center">
+        <h1 class="display-5">Búsqueda de Proyectos</h1>
+        <p class="text-muted">Ingresa palabras clave para buscar proyectos que te interesen.</p>
+        @using (Html.BeginForm("ResultadosBusqueda", "Proyectos", FormMethod.Get))
+        {
+            <div class="input-group mb-3">
+                @Html.TextBox("query", null, new { @class = "form-control", placeholder = "Tecnología, Salud, Heredia, Cruz roja, Proyecto de gestión de inventario...", aria_label = "Buscar proyectos", id = "barraBusqueda", required = "required", autocomplete = "off" })
+                <button class="btn btn-primary" type="submit">Buscar</button>
+            </div>
+            <div class="dropdown w-100" id="dropdownSugerencias" style="position: relative;">
+                <ul class="dropdown-menu w-100" style="display: none;" id="listaSugerencias">
+                    <li class="dropdown-item">Tecnología</li>
+                    <li class="dropdown-item">Salud</li>
+                    <li class="dropdown-item">Proyecto</li>
+                </ul>
+            </div>
+            <a href="@Url.Action("ResultadosBusqueda", "Proyectos", new {query = " "})" class="btn btn-primary btn-sm">Ver todos los proyectos</a>
+        }
+    </div>
+</div>
+
+<script src="~/Styles/js/busqueda.js"></script>

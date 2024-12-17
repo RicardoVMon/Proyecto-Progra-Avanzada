@@ -1,0 +1,65 @@
+﻿@model List<ProyectoG1.Models.ProyectoModel>
+
+<div>
+    <div class="row">
+        <!-- Proyectos -->
+        <div class="col-12">
+            <div class="row align-items-center mb-3">
+                <div class="col-12 col-md-8">
+                    <h1 class="display-5">Proyectos con postulaciones</h1>
+                    <p class="text-muted">Los siguientes proyectos presentan postulaciones pendientes, selecciona uno para gestionarlas!</p>
+                </div>
+                <hr />  
+            </div>
+
+            <div class="row g-3">
+                <div class="row">
+                    <div class="col-12">
+                        <table id="example" class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Imagen Proyecto</th>
+                                    <th>Título</th>
+                                    <th>Cupo</th>
+                                    <th>Postulaciones</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var proyecto in Model)
+                                {
+                                    <tr>
+                                        <td><img src="@proyecto.Imagen" alt="Imagen de Proyecto" style="width: 100px; height: auto;"></td>
+                                        <td>@proyecto.Nombre</td>
+                                        <td>@proyecto.Cupo</td>
+                                        <td>@proyecto.Postulaciones</td>
+                                        <td><a href="@Url.Action("PostulacionesDeProyecto", "Postulacion", new { p = proyecto.IdProyecto })" ) class="btn btn-primary w-100">Gestionar</a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Imagen Proyecto</th>
+                                    <th>Título</th>
+                                    <th>Cupo</th>
+                                    <th>Postulaciones</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#example").DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.1.8/i18n/es-ES.json',
+            },
+        });
+    });
+</script>

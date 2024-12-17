@@ -1,0 +1,220 @@
+﻿@model ProyectoG1.Models.ConexionModel
+
+<div class="row align-items-center mb-4">
+    <div class="col-12 col-md-8">
+        <h1 class="display-5">Tus Conexiones</h1>
+        <p class="text-muted">¿Quieres conectar con gente para tus proyectos? Puedes gestionar tus conexiones aquí.</p>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-12 col-md-12 mb-4">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary">
+                <h5 class="card-title mb-0 text-white">
+                    <i class="fas fa-user-friends"></i> Tus Conexiones
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="conexiones" class="table table-bordered align-middle">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Usuario</th>
+                                <th>Universidad</th>
+                                <th>Conectados desde</th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var conexion in Model.ConexionesAceptadas)
+                            {
+                                <tr>
+                                    <td>@conexion.NombreEstudiante</td>
+                                    <td>@conexion.Universidad</td> 
+                                    <td>@conexion.FechaSolicitud.ToString("dd/MM/yyyy")</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <a class="btn btn-secondary" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </a>
+
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="@Url.Action("PerfilEstudiante", "Estudiante", new { q = conexion.IdEstudianteOtro })">Ver Perfil</a></li>
+                                                <li><a class="dropdown-item eliminar-conexion" href="@Url.Action("EliminarConexion", "Conexiones", new { idConexion = conexion.IdConexion })" data-url="@Url.Action("EliminarConexion", "Conexiones", new { idConexion = conexion.IdConexion })">Eliminar</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-6 mb-4">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-success">
+                <h5 class="card-title mb-0 text-white">
+                    <i class="fas fa-envelope"></i> Solicitudes de Conexión
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="solicitudes" class="table table-bordered align-middle">
+                        <thead class="table-success">
+                            <tr>
+                                <th>Usuario</th>
+                                <th>Universidad</th>
+                                <th>Mensaje</th>
+                                <th>Fecha Solicitud</th>
+                                <th>Estado</th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var conexion in Model.SolicitudesPendientes)
+                            {
+                                <tr>
+                                    <td>@conexion.NombreEstudianteSolicitante</td>
+                                    <td>@conexion.Universidad</td>
+                                    <td>@conexion.MensajeSolicitud</td>
+                                    <td>@conexion.FechaSolicitud.ToString("dd/MM/yyyy")</td>
+                                    <td>@conexion.Estado</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <a class="btn btn-secondary" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </a>
+
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="@Url.Action("PerfilEstudiante", "Estudiante", new { q = conexion.IdEstudianteSolicitante })">Ver Perfil</a></li>
+                                                <li><a class="dropdown-item" href="@Url.Action("AceptarSolicitud", "Conexiones", new { idConexion = conexion.IdConexion })">Aceptar Solicitud</a></li>
+                                                <li><a class="dropdown-item rechazar-solicitud" href="@Url.Action("RechazarSolicitud", "Conexiones", new { idConexion = conexion.IdConexion })" data-url="@Url.Action("RechazarSolicitud", "Conexiones", new { idConexion = conexion.IdConexion })">Rechazar</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-6 mb-4">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-info">
+                <h5 class="card-title mb-0 text-white">
+                    <i class="fas fa-envelope"></i> Solicitudes Enviadas
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="solicitudesEnviadas" class="table table-bordered align-middle">
+                        <thead class="table-info">
+                            <tr>
+                                <th>Usuario</th>
+                                <th>Universidad</th>
+                                <th>Mensaje</th>
+                                <th>Fecha Solicitud</th>
+                                <th>Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var conexion in Model.SolicitudesEnviadas)
+                            {
+                                <tr>
+                                    <td>@conexion.NombreEstudianteReceptor</td>
+                                    <td>@conexion.Universidad</td>
+                                    <td>@conexion.MensajeSolicitud</td>
+                                    <td>@conexion.FechaSolicitud.ToString("dd/MM/yyyy")</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <a class="btn btn-secondary" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </a>
+
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="@Url.Action("PerfilEstudiante", "Estudiante", new { q = conexion.IdEstudianteReceptor })">Ver Perfil</a></li>
+                                                <li><a class="dropdown-item rechazar-solicitud" href="@Url.Action("RechazarSolicitud", "Conexiones", new { idConexion = conexion.IdConexion })" data-url="@Url.Action("RechazarSolicitud", "Conexiones", new { idConexion = conexion.IdConexion })">Eliminar solicitud</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="col-12 my-5">
+        <div class="d-flex flex-column justify-content-center align-items-start h-100">
+            <div class="col-12 text-center">
+                @using (Html.BeginForm("ResultadosBusqueda", "Conexiones", FormMethod.Get))
+                {
+                    <h1 class="display-5">¿Buscas a alguien?</h1>
+                    <p class="text-muted">Ingresa el nombre del usuario, carrera o universidad de la persona con la que te interesa conectar.</p>
+                    <div class="input-group mb-3">
+                        @Html.TextBox("query", null, new { @class = "form-control", placeholder = "Busca personas para conectar!", aria_label = "Buscar proyectos", id = "barraBusqueda", required = "required", autocomplete = "off" })
+                        <button class="btn btn-primary" type="submit">Buscar</button>
+                    </div>
+                    <div class="dropdown w-100" id="dropdownSugerencias" style="position: relative;">
+                        <ul class="dropdown-menu w-100" style="display: none;" id="listaSugerencias">
+                            <li class="dropdown-item">Universidad Fidélitas</li>
+                            <li class="dropdown-item">Ingeniería en sistemas</li>
+                            <li class="dropdown-item">Arquitectura</li>
+                        </ul>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Styles/js/conexiones.js"></script>
+<script src="~/Styles/js/validarDesconexion.js"></script>
+<script src="~/Styles/js/validarRechazoConexion.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#conexiones").DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.1.8/i18n/es-ES.json',
+            },
+            pageLength: 5,
+            order: [[3, 'desc']],
+            columnDefs: [
+                { targets: 3, className: 'text-center' }
+            ]
+        });
+
+        $("#solicitudes").DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.1.8/i18n/es-ES.json',
+            },
+            pageLength: 5,
+            order: [[3, 'desc']],
+            columnDefs: [
+                { targets: 5, className: 'text-center' }
+            ]
+        });
+        $("#solicitudesEnviadas").DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.1.8/i18n/es-ES.json',
+            },
+            pageLength: 5,
+            order: [[3, 'desc']],
+            columnDefs: [
+                { targets: 4, className: 'text-center' }
+            ]
+        });
+    });
+</script>
