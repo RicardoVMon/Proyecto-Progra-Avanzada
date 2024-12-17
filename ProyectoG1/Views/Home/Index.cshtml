@@ -124,7 +124,7 @@ else if (rolSession == "2")
                     <div class="card-body text-center align-content-center">
                         <h5 class="card-title">Proyectos Activos</h5>
                         <p class="display-4 text-primary fw-bold">@Model.ProyectoActivos</p>
-                        <a href="@Url.Action("VerProyectos", "Proyectos")" class="btn btn-outline-primary btn-sm">Ver Proyectos</a>
+                        <a href="@Url.Action("GestionProyectos", "Proyectos")" class="btn btn-outline-primary btn-sm">Ver Proyectos</a>
                     </div>
                 </div>
             </div>
@@ -135,7 +135,7 @@ else if (rolSession == "2")
                     <div class="card-body text-center align-content-center">
                         <h5 class="card-title">Postulaciones Pendientes</h5>
                         <p class="display-4 text-warning fw-bold">@Model.PostulacionesPendientes</p>
-                        <a href="@Url.Action("PostulacionesPendientes", "Proyectos")" class="btn btn-outline-warning btn-sm">Revisar Postulaciones</a>
+                        <a href="@Url.Action("ListadoProyectosConPostulaciones", "Postulacion")" class="btn btn-outline-warning btn-sm">Revisar Postulaciones</a>
                     </div>
                 </div>
             </div>
@@ -146,7 +146,7 @@ else if (rolSession == "2")
                     <div class="card-body text-center align-content-center">
                         <h5 class="card-title">Notificaciones</h5>
                         <p class="display-4 text-danger fw-bold">@Model.Notificaciones</p>
-                        <a href="@Url.Action("Notificaciones", "Institucion")" class="btn btn-outline-danger btn-sm">Ver Notificaciones</a>
+                        <a href="@Url.Action("Notificaciones", "Notificacion")" class="btn btn-outline-danger btn-sm">Ver Notificaciones</a>
                     </div>
                 </div>
             </div>
@@ -157,7 +157,7 @@ else if (rolSession == "2")
                     <div class="card-body text-center align-content-center">
                         <h5 class="card-title">Usuarios Aceptados</h5>
                         <p class="display-4 text-success fw-bold">@Model.UsuarioAceptados</p>
-                        <a href="@Url.Action("UsuariosAceptados", "Proyectos")" class="btn btn-outline-success btn-sm">Ver Usuarios</a>
+                        <a href="@Url.Action("ListadoProyectosConPostulaciones", "Postulacion")" class="btn btn-outline-success btn-sm">Ver Usuarios</a>
                     </div>
                 </div>
             </div>
@@ -168,7 +168,7 @@ else if (rolSession == "2")
                     <div class="card-body text-center align-content-center">
                         <h5 class="card-title">Proyectos Llenos</h5>
                         <p class="display-4 text-secondary fw-bold">@Model.ProyectosLlenos</p>
-                        <a href="@Url.Action("ProyectosFinalizados", "Proyectos")" class="btn btn-outline-secondary btn-sm">Ver Historial</a>
+                        <a href="@Url.Action("GestionProyectos", "Proyectos")" class="btn btn-outline-secondary btn-sm">Ver Historial</a>
                     </div>
                 </div>
             </div>

@@ -107,9 +107,8 @@ namespace ProyectoG1.Controllers
             homeModel.Notificaciones = resultadoNotificaciones.HasValue ? resultadoNotificaciones.Value : 0;
 
             // Obtener el conteo de postulaciones pendientes
-            var resultadoPostulaciones = context.ObtenerCantidadPostulacionesPendientesInstitucion(IdInstitucion);
-            var conteoPostulaciones = resultadoPostulaciones.Count();
-            homeModel.PostulacionesPendientes = conteoPostulaciones;
+            var resultadoPostulaciones = context.ObtenerCantidadPostulacionesPendientesInstitucion(IdInstitucion).FirstOrDefault();
+            homeModel.PostulacionesPendientes = resultadoPostulaciones.HasValue ? resultadoPostulaciones.Value : 0;
 
             // Obtener el conteo de usuarios aceptados
             var resultadoUsuarios = context.ObtenerCantidadPostulacionesAceptadasInstitucion(IdInstitucion).FirstOrDefault();
