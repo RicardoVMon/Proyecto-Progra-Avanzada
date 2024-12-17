@@ -1,0 +1,2292 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="EncuentraTCUModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Auditoria">
+          <Key>
+            <PropertyRef Name="IdAuditoria" />
+          </Key>
+          <Property Name="IdAuditoria" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Mensaje" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="Origen" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="IdEstudiante" Type="bigint" />
+          <Property Name="IdInstitucion" Type="bigint" />
+        </EntityType>
+        <EntityType Name="Categoria">
+          <Key>
+            <PropertyRef Name="IdCategoria" />
+          </Key>
+          <Property Name="IdCategoria" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Conexion">
+          <Key>
+            <PropertyRef Name="IdConexion" />
+          </Key>
+          <Property Name="IdConexion" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdEstudianteSolicitante" Type="bigint" Nullable="false" />
+          <Property Name="IdEstudianteReceptor" Type="bigint" Nullable="false" />
+          <Property Name="FechaSolicitud" Type="datetime" Nullable="false" />
+          <Property Name="Estado" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="MensajeSolicitud" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Estudiante">
+          <Key>
+            <PropertyRef Name="IdEstudiante" />
+          </Key>
+          <Property Name="IdEstudiante" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cedula" Type="varchar" MaxLength="9" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Contrasenna" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Apellidos" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="Carrera" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Imagen" Type="varchar" MaxLength="255" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+          <Property Name="IdRol" Type="bigint" Nullable="false" />
+          <Property Name="IdGenero" Type="bigint" Nullable="false" />
+          <Property Name="IdUniversidad" Type="bigint" Nullable="false" />
+          <Property Name="TieneContrasennaTemp" Type="bit" Nullable="false" />
+          <Property Name="FechaVencimientoTemp" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EstudianteHabilidad">
+          <Key>
+            <PropertyRef Name="IdEstudiante" />
+            <PropertyRef Name="IdHabilidad" />
+          </Key>
+          <Property Name="IdEstudiante" Type="bigint" Nullable="false" />
+          <Property Name="IdHabilidad" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Genero">
+          <Key>
+            <PropertyRef Name="IdGenero" />
+          </Key>
+          <Property Name="IdGenero" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Habilidad">
+          <Key>
+            <PropertyRef Name="IdHabilidad" />
+          </Key>
+          <Property Name="IdHabilidad" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Institucion">
+          <Key>
+            <PropertyRef Name="IdInstitucion" />
+          </Key>
+          <Property Name="IdInstitucion" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cedula" Type="varchar" MaxLength="11" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Contrasenna" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="Telefono" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="PaginaWeb" Type="varchar" MaxLength="100" />
+          <Property Name="Activo" Type="bit" Nullable="false" />
+          <Property Name="Imagen" Type="varchar" MaxLength="255" />
+          <Property Name="IdRol" Type="bigint" Nullable="false" />
+          <Property Name="IdTipoInstitucion" Type="bigint" Nullable="false" />
+          <Property Name="TieneContrasennaTemp" Type="bit" Nullable="false" />
+          <Property Name="FechaVencimientoTemp" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Notificacion">
+          <Key>
+            <PropertyRef Name="IdNotificacion" />
+          </Key>
+          <Property Name="IdNotificacion" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdEstudiante" Type="bigint" Nullable="false" />
+          <Property Name="IdInstitucion" Type="bigint" Nullable="false" />
+          <Property Name="IdPostulacion" Type="bigint" Nullable="false" />
+          <Property Name="IdProyecto" Type="bigint" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="Contenido" Type="varchar" MaxLength="8000" Nullable="false" />
+          <Property Name="TipoNotificacion" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Postulacion">
+          <Key>
+            <PropertyRef Name="IdPostulacion" />
+          </Key>
+          <Property Name="IdPostulacion" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdEstudiante" Type="bigint" Nullable="false" />
+          <Property Name="IdProyecto" Type="bigint" Nullable="false" />
+          <Property Name="FechaPostulacion" Type="datetime" Nullable="false" />
+          <Property Name="Estado" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="ConfirmacionEstudiante" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Provincia">
+          <Key>
+            <PropertyRef Name="IdProvincia" />
+          </Key>
+          <Property Name="IdProvincia" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Proyecto">
+          <Key>
+            <PropertyRef Name="IdProyecto" />
+          </Key>
+          <Property Name="IdProyecto" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdInstitucion" Type="bigint" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="8000" Nullable="false" />
+          <Property Name="Cupo" Type="int" Nullable="false" />
+          <Property Name="Estado" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="CreadoPor" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Imagen" Type="varchar" MaxLength="255" />
+          <Property Name="Contacto" Type="varchar" MaxLength="10" />
+          <Property Name="Direccion" Type="varchar" MaxLength="1000" />
+          <Property Name="CorreoAsociado" Type="varchar" MaxLength="50" />
+          <Property Name="IdProvincia" Type="bigint" />
+        </EntityType>
+        <EntityType Name="ProyectoCategoria">
+          <Key>
+            <PropertyRef Name="IdProyecto" />
+            <PropertyRef Name="IdCategoria" />
+          </Key>
+          <Property Name="IdProyecto" Type="bigint" Nullable="false" />
+          <Property Name="IdCategoria" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="IdRol" />
+          </Key>
+          <Property Name="IdRol" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreRol" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TipoInstitucion">
+          <Key>
+            <PropertyRef Name="IdTipoInstitucion" />
+          </Key>
+          <Property Name="IdTipoInstitucion" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Universidad">
+          <Key>
+            <PropertyRef Name="IdUniversidad" />
+          </Key>
+          <Property Name="IdUniversidad" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Estudiant__IdEst__6383C8BA">
+          <End Role="Estudiante" Type="Self.Estudiante" Multiplicity="1" />
+          <End Role="EstudianteHabilidad" Type="Self.EstudianteHabilidad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estudiante">
+              <PropertyRef Name="IdEstudiante" />
+            </Principal>
+            <Dependent Role="EstudianteHabilidad">
+              <PropertyRef Name="IdEstudiante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Estudiant__IdHab__6477ECF3">
+          <End Role="Habilidad" Type="Self.Habilidad" Multiplicity="1" />
+          <End Role="EstudianteHabilidad" Type="Self.EstudianteHabilidad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Habilidad">
+              <PropertyRef Name="IdHabilidad" />
+            </Principal>
+            <Dependent Role="EstudianteHabilidad">
+              <PropertyRef Name="IdHabilidad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProyectoC__IdCat__6EF57B66">
+          <End Role="Categoria" Type="Self.Categoria" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ProyectoCategoria" Type="Self.ProyectoCategoria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categoria">
+              <PropertyRef Name="IdCategoria" />
+            </Principal>
+            <Dependent Role="ProyectoCategoria">
+              <PropertyRef Name="IdCategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProyectoC__IdPro__6FE99F9F">
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ProyectoCategoria" Type="Self.ProyectoCategoria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyecto">
+              <PropertyRef Name="IdProyecto" />
+            </Principal>
+            <Dependent Role="ProyectoCategoria">
+              <PropertyRef Name="IdProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Auditoria_Estudiante">
+          <End Role="Estudiante" Type="Self.Estudiante" Multiplicity="0..1" />
+          <End Role="Auditoria" Type="Self.Auditoria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estudiante">
+              <PropertyRef Name="IdEstudiante" />
+            </Principal>
+            <Dependent Role="Auditoria">
+              <PropertyRef Name="IdEstudiante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Auditoria_Institucion">
+          <End Role="Institucion" Type="Self.Institucion" Multiplicity="0..1" />
+          <End Role="Auditoria" Type="Self.Auditoria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Institucion">
+              <PropertyRef Name="IdInstitucion" />
+            </Principal>
+            <Dependent Role="Auditoria">
+              <PropertyRef Name="IdInstitucion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Conexion_EstudianteReceptor">
+          <End Role="Estudiante" Type="Self.Estudiante" Multiplicity="1" />
+          <End Role="Conexion" Type="Self.Conexion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estudiante">
+              <PropertyRef Name="IdEstudiante" />
+            </Principal>
+            <Dependent Role="Conexion">
+              <PropertyRef Name="IdEstudianteReceptor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Conexion_EstudianteSolicitante">
+          <End Role="Estudiante" Type="Self.Estudiante" Multiplicity="1" />
+          <End Role="Conexion" Type="Self.Conexion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estudiante">
+              <PropertyRef Name="IdEstudiante" />
+            </Principal>
+            <Dependent Role="Conexion">
+              <PropertyRef Name="IdEstudianteSolicitante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Estudiante_Genero">
+          <End Role="Genero" Type="Self.Genero" Multiplicity="1" />
+          <End Role="Estudiante" Type="Self.Estudiante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genero">
+              <PropertyRef Name="IdGenero" />
+            </Principal>
+            <Dependent Role="Estudiante">
+              <PropertyRef Name="IdGenero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Estudiante_Rol">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+          <End Role="Estudiante" Type="Self.Estudiante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="IdRol" />
+            </Principal>
+            <Dependent Role="Estudiante">
+              <PropertyRef Name="IdRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Estudiante_Universidad">
+          <End Role="Universidad" Type="Self.Universidad" Multiplicity="1" />
+          <End Role="Estudiante" Type="Self.Estudiante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Universidad">
+              <PropertyRef Name="IdUniversidad" />
+            </Principal>
+            <Dependent Role="Estudiante">
+              <PropertyRef Name="IdUniversidad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Institucion_Rol">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+          <End Role="Institucion" Type="Self.Institucion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="IdRol" />
+            </Principal>
+            <Dependent Role="Institucion">
+              <PropertyRef Name="IdRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Institucion_TipoInstitucion">
+          <End Role="TipoInstitucion" Type="Self.TipoInstitucion" Multiplicity="1" />
+          <End Role="Institucion" Type="Self.Institucion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoInstitucion">
+              <PropertyRef Name="IdTipoInstitucion" />
+            </Principal>
+            <Dependent Role="Institucion">
+              <PropertyRef Name="IdTipoInstitucion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notificacion_Estudiante">
+          <End Role="Estudiante" Type="Self.Estudiante" Multiplicity="1" />
+          <End Role="Notificacion" Type="Self.Notificacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estudiante">
+              <PropertyRef Name="IdEstudiante" />
+            </Principal>
+            <Dependent Role="Notificacion">
+              <PropertyRef Name="IdEstudiante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notificacion_Institucion">
+          <End Role="Institucion" Type="Self.Institucion" Multiplicity="1" />
+          <End Role="Notificacion" Type="Self.Notificacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Institucion">
+              <PropertyRef Name="IdInstitucion" />
+            </Principal>
+            <Dependent Role="Notificacion">
+              <PropertyRef Name="IdInstitucion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notificacion_Postulacion">
+          <End Role="Postulacion" Type="Self.Postulacion" Multiplicity="1" />
+          <End Role="Notificacion" Type="Self.Notificacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Postulacion">
+              <PropertyRef Name="IdPostulacion" />
+            </Principal>
+            <Dependent Role="Notificacion">
+              <PropertyRef Name="IdPostulacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notificacion_Proyecto">
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1" />
+          <End Role="Notificacion" Type="Self.Notificacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyecto">
+              <PropertyRef Name="IdProyecto" />
+            </Principal>
+            <Dependent Role="Notificacion">
+              <PropertyRef Name="IdProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Postulacion_Estudiante">
+          <End Role="Estudiante" Type="Self.Estudiante" Multiplicity="1" />
+          <End Role="Postulacion" Type="Self.Postulacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estudiante">
+              <PropertyRef Name="IdEstudiante" />
+            </Principal>
+            <Dependent Role="Postulacion">
+              <PropertyRef Name="IdEstudiante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Postulacion_Proyecto">
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1" />
+          <End Role="Postulacion" Type="Self.Postulacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyecto">
+              <PropertyRef Name="IdProyecto" />
+            </Principal>
+            <Dependent Role="Postulacion">
+              <PropertyRef Name="IdProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proyecto_Institucion">
+          <End Role="Institucion" Type="Self.Institucion" Multiplicity="1" />
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Institucion">
+              <PropertyRef Name="IdInstitucion" />
+            </Principal>
+            <Dependent Role="Proyecto">
+              <PropertyRef Name="IdInstitucion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proyecto_Provincia">
+          <End Role="Provincia" Type="Self.Provincia" Multiplicity="0..1" />
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provincia">
+              <PropertyRef Name="IdProvincia" />
+            </Principal>
+            <Dependent Role="Proyecto">
+              <PropertyRef Name="IdProvincia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="AceptarSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdConexion" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ActualizarContrasenna" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Cedula" Type="varchar" Mode="In" />
+          <Parameter Name="TipoCedula" Type="int" Mode="In" />
+          <Parameter Name="ContrasennaTemp" Type="varchar" Mode="In" />
+          <Parameter Name="TieneContrasennaTemp" Type="bit" Mode="In" />
+          <Parameter Name="FechaVencimientoTemp" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="ActualizarEstadoPostulacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdPostulacion" Type="bigint" Mode="In" />
+          <Parameter Name="NuevoEstado" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ActualizarImagenEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
+          <Parameter Name="Imagen" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ActualizarImagenInstitucion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
+          <Parameter Name="Imagen" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ActualizarImagenProyecto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
+          <Parameter Name="Imagen" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ActualizarPerfilEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
+          <Parameter Name="IdUniversidad" Type="bigint" Mode="In" />
+          <Parameter Name="Carrera" Type="varchar" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+          <Parameter Name="Imagen" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ActualizarPerfilInstitucion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Telefono" Type="varchar" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+          <Parameter Name="PaginaWeb" Type="varchar" Mode="In" />
+          <Parameter Name="Imagen" Type="varchar" Mode="In" />
+          <Parameter Name="IdTipoInstitucion" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ActualizarProyecto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+          <Parameter Name="Cupo" Type="int" Mode="In" />
+          <Parameter Name="Imagen" Type="varchar" Mode="In" />
+          <Parameter Name="Contacto" Type="varchar" Mode="In" />
+          <Parameter Name="Direccion" Type="varchar" Mode="In" />
+          <Parameter Name="CorreoAsociado" Type="varchar" Mode="In" />
+          <Parameter Name="IdProvincia" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="CambiarContrasennaTemp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Cedula" Type="varchar" Mode="In" />
+          <Parameter Name="TipoCedula" Type="int" Mode="In" />
+          <Parameter Name="NuevaContrasenna" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ConsultarConexiones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ConsultarDetallesPostulacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdPostulacion" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ConsultarNotificaciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdUsuario" Type="bigint" Mode="In" />
+          <Parameter Name="TipoUsuario" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ConsultarPostulaciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ConsultarPostulacionesProyecto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ConsultarProyectos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ConsultarProyectosConPostulaciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="DatosEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="DatosInstitucion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="EliminarCategoriasProyecto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="EliminarConexion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdConexion" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="EliminarHabilidadesEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="EliminarPostulacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdPostulacion" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="EliminarProyecto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="IngresoSistema" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Cedula" Type="varchar" Mode="In" />
+          <Parameter Name="Contrasenna" Type="varchar" Mode="In" />
+          <Parameter Name="TipoCedula" Type="int" Mode="In" />
+        </Function>
+        <Function Name="InsertarPostulacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
+          <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerCategoriasProyecto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerCategoriasUsadasEnInstitucion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerConexionesAceptadas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudianteSolicitante" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerConexionesBusqueda" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Query" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ObtenerEstudiantesAceptados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerEstudiantesPostulados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerHabilidadesEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerHabilidadesParaEditar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerIdsConexiones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdUsuario" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerIdsSolicitudesEnviadas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdUsuario" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerIdsSolicitudesPendientes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdUsuario" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerIdsSolicitudesRecibidas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdUsuario" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerInfoParaNotiEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idPostulacion" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerInfoParaNotiInstitucion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idEstudiante" Type="bigint" Mode="In" />
+          <Parameter Name="idProyecto" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerProyectoReciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+          <Parameter Name="Cupo" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ObtenerProyectosBusqueda" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Query" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ObtenerProyectosEspecifico" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerProyectosEstudianteAceptado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerProyectosInstitucion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerSolicitudesEnviadas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudianteSolicitante" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="ObtenerSolicitudesPendientes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudianteReceptor" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="RechazarSolicitud" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdConexion" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="RegistrarCategoriaProyecto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
+          <Parameter Name="IdCategoria" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="RegistrarEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdGenero" Type="bigint" Mode="In" />
+          <Parameter Name="IdUniversidad" Type="bigint" Mode="In" />
+          <Parameter Name="Cedula" Type="varchar" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="Contrasenna" Type="varchar" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Apellidos" Type="varchar" Mode="In" />
+          <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+          <Parameter Name="Carrera" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="RegistrarHabilidadEstudiante" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
+          <Parameter Name="IdHabilidad" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="RegistrarInstitucion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdTipoInstitucion" Type="bigint" Mode="In" />
+          <Parameter Name="Cedula" Type="varchar" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="Contrasenna" Type="varchar" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+          <Parameter Name="Telefono" Type="varchar" Mode="In" />
+          <Parameter Name="PaginaWeb" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="RegistrarNotificacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
+          <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
+          <Parameter Name="IdPostulacion" Type="bigint" Mode="In" />
+          <Parameter Name="IdProyecto" Type="bigint" Mode="In" />
+          <Parameter Name="Contenido" Type="varchar" Mode="In" />
+          <Parameter Name="TipoNotificacion" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="RegistrarProyecto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+          <Parameter Name="Cupo" Type="int" Mode="In" />
+          <Parameter Name="CreadoPorInstitucion" Type="bit" Mode="In" />
+          <Parameter Name="Contacto" Type="varchar" Mode="In" />
+          <Parameter Name="Direccion" Type="varchar" Mode="In" />
+          <Parameter Name="CorreoAsociado" Type="varchar" Mode="In" />
+          <Parameter Name="IdProvincia" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="SolicitarConexion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdEstudianteSolicitante" Type="bigint" Mode="In" />
+          <Parameter Name="IdEstudianteReceptor" Type="bigint" Mode="In" />
+          <Parameter Name="MensajeSolicitud" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_RegistrarError" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Mensaje" Type="varchar" Mode="In" />
+          <Parameter Name="Fecha" Type="datetime" Mode="In" />
+          <Parameter Name="Origen" Type="varchar" Mode="In" />
+          <Parameter Name="IdEstudiante" Type="bigint" Mode="In" />
+          <Parameter Name="IdInstitucion" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="SugerenciasConexiones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Query" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SugerenciasProyectos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Query" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="EncuentraTCUModelStoreContainer">
+          <EntitySet Name="Auditoria" EntityType="Self.Auditoria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Categoria" EntityType="Self.Categoria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Conexion" EntityType="Self.Conexion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Estudiante" EntityType="Self.Estudiante" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EstudianteHabilidad" EntityType="Self.EstudianteHabilidad" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Genero" EntityType="Self.Genero" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Habilidad" EntityType="Self.Habilidad" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Institucion" EntityType="Self.Institucion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notificacion" EntityType="Self.Notificacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Postulacion" EntityType="Self.Postulacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Provincia" EntityType="Self.Provincia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Proyecto" EntityType="Self.Proyecto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProyectoCategoria" EntityType="Self.ProyectoCategoria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoInstitucion" EntityType="Self.TipoInstitucion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Universidad" EntityType="Self.Universidad" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Estudiant__IdEst__6383C8BA" Association="Self.FK__Estudiant__IdEst__6383C8BA">
+            <End Role="Estudiante" EntitySet="Estudiante" />
+            <End Role="EstudianteHabilidad" EntitySet="EstudianteHabilidad" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Estudiant__IdHab__6477ECF3" Association="Self.FK__Estudiant__IdHab__6477ECF3">
+            <End Role="Habilidad" EntitySet="Habilidad" />
+            <End Role="EstudianteHabilidad" EntitySet="EstudianteHabilidad" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProyectoC__IdCat__6EF57B66" Association="Self.FK__ProyectoC__IdCat__6EF57B66">
+            <End Role="Categoria" EntitySet="Categoria" />
+            <End Role="ProyectoCategoria" EntitySet="ProyectoCategoria" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProyectoC__IdPro__6FE99F9F" Association="Self.FK__ProyectoC__IdPro__6FE99F9F">
+            <End Role="Proyecto" EntitySet="Proyecto" />
+            <End Role="ProyectoCategoria" EntitySet="ProyectoCategoria" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Auditoria_Estudiante" Association="Self.FK_Auditoria_Estudiante">
+            <End Role="Estudiante" EntitySet="Estudiante" />
+            <End Role="Auditoria" EntitySet="Auditoria" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Auditoria_Institucion" Association="Self.FK_Auditoria_Institucion">
+            <End Role="Institucion" EntitySet="Institucion" />
+            <End Role="Auditoria" EntitySet="Auditoria" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Conexion_EstudianteReceptor" Association="Self.FK_Conexion_EstudianteReceptor">
+            <End Role="Estudiante" EntitySet="Estudiante" />
+            <End Role="Conexion" EntitySet="Conexion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Conexion_EstudianteSolicitante" Association="Self.FK_Conexion_EstudianteSolicitante">
+            <End Role="Estudiante" EntitySet="Estudiante" />
+            <End Role="Conexion" EntitySet="Conexion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Estudiante_Genero" Association="Self.FK_Estudiante_Genero">
+            <End Role="Genero" EntitySet="Genero" />
+            <End Role="Estudiante" EntitySet="Estudiante" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Estudiante_Rol" Association="Self.FK_Estudiante_Rol">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Estudiante" EntitySet="Estudiante" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Estudiante_Universidad" Association="Self.FK_Estudiante_Universidad">
+            <End Role="Universidad" EntitySet="Universidad" />
+            <End Role="Estudiante" EntitySet="Estudiante" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Institucion_Rol" Association="Self.FK_Institucion_Rol">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Institucion" EntitySet="Institucion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Institucion_TipoInstitucion" Association="Self.FK_Institucion_TipoInstitucion">
+            <End Role="TipoInstitucion" EntitySet="TipoInstitucion" />
+            <End Role="Institucion" EntitySet="Institucion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notificacion_Estudiante" Association="Self.FK_Notificacion_Estudiante">
+            <End Role="Estudiante" EntitySet="Estudiante" />
+            <End Role="Notificacion" EntitySet="Notificacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notificacion_Institucion" Association="Self.FK_Notificacion_Institucion">
+            <End Role="Institucion" EntitySet="Institucion" />
+            <End Role="Notificacion" EntitySet="Notificacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notificacion_Postulacion" Association="Self.FK_Notificacion_Postulacion">
+            <End Role="Postulacion" EntitySet="Postulacion" />
+            <End Role="Notificacion" EntitySet="Notificacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notificacion_Proyecto" Association="Self.FK_Notificacion_Proyecto">
+            <End Role="Proyecto" EntitySet="Proyecto" />
+            <End Role="Notificacion" EntitySet="Notificacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Postulacion_Estudiante" Association="Self.FK_Postulacion_Estudiante">
+            <End Role="Estudiante" EntitySet="Estudiante" />
+            <End Role="Postulacion" EntitySet="Postulacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Postulacion_Proyecto" Association="Self.FK_Postulacion_Proyecto">
+            <End Role="Proyecto" EntitySet="Proyecto" />
+            <End Role="Postulacion" EntitySet="Postulacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proyecto_Institucion" Association="Self.FK_Proyecto_Institucion">
+            <End Role="Institucion" EntitySet="Institucion" />
+            <End Role="Proyecto" EntitySet="Proyecto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proyecto_Provincia" Association="Self.FK_Proyecto_Provincia">
+            <End Role="Provincia" EntitySet="Provincia" />
+            <End Role="Proyecto" EntitySet="Proyecto" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EncuentraTCUModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Auditoria">
+          <Key>
+            <PropertyRef Name="IdAuditoria" />
+          </Key>
+          <Property Name="IdAuditoria" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Mensaje" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Origen" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IdEstudiante" Type="Int64" />
+          <Property Name="IdInstitucion" Type="Int64" />
+          <NavigationProperty Name="Estudiante" Relationship="Self.FK_Auditoria_Estudiante" FromRole="Auditoria" ToRole="Estudiante" />
+          <NavigationProperty Name="Institucion" Relationship="Self.FK_Auditoria_Institucion" FromRole="Auditoria" ToRole="Institucion" />
+        </EntityType>
+        <EntityType Name="Categoria">
+          <Key>
+            <PropertyRef Name="IdCategoria" />
+          </Key>
+          <Property Name="IdCategoria" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Proyecto" Relationship="Self.ProyectoCategoria" FromRole="Categoria" ToRole="Proyecto" />
+        </EntityType>
+        <EntityType Name="Conexion">
+          <Key>
+            <PropertyRef Name="IdConexion" />
+          </Key>
+          <Property Name="IdConexion" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdEstudianteSolicitante" Type="Int64" Nullable="false" />
+          <Property Name="IdEstudianteReceptor" Type="Int64" Nullable="false" />
+          <Property Name="FechaSolicitud" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MensajeSolicitud" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Estudiante" Relationship="Self.FK_Conexion_EstudianteReceptor" FromRole="Conexion" ToRole="Estudiante" />
+          <NavigationProperty Name="Estudiante1" Relationship="Self.FK_Conexion_EstudianteSolicitante" FromRole="Conexion" ToRole="Estudiante" />
+        </EntityType>
+        <EntityType Name="Estudiante">
+          <Key>
+            <PropertyRef Name="IdEstudiante" />
+          </Key>
+          <Property Name="IdEstudiante" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cedula" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Contrasenna" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Apellidos" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Carrera" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Imagen" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <Property Name="IdRol" Type="Int64" Nullable="false" />
+          <Property Name="IdGenero" Type="Int64" Nullable="false" />
+          <Property Name="IdUniversidad" Type="Int64" Nullable="false" />
+          <Property Name="TieneContrasennaTemp" Type="Boolean" Nullable="false" />
+          <Property Name="FechaVencimientoTemp" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Auditoria" Relationship="Self.FK_Auditoria_Estudiante" FromRole="Estudiante" ToRole="Auditoria" />
+          <NavigationProperty Name="Conexion" Relationship="Self.FK_Conexion_EstudianteReceptor" FromRole="Estudiante" ToRole="Conexion" />
+          <NavigationProperty Name="Conexion1" Relationship="Self.FK_Conexion_EstudianteSolicitante" FromRole="Estudiante" ToRole="Conexion" />
+          <NavigationProperty Name="Genero" Relationship="Self.FK_Estudiante_Genero" FromRole="Estudiante" ToRole="Genero" />
+          <NavigationProperty Name="Rol" Relationship="Self.FK_Estudiante_Rol" FromRole="Estudiante" ToRole="Rol" />
+          <NavigationProperty Name="Universidad" Relationship="Self.FK_Estudiante_Universidad" FromRole="Estudiante" ToRole="Universidad" />
+          <NavigationProperty Name="Notificacion" Relationship="Self.FK_Notificacion_Estudiante" FromRole="Estudiante" ToRole="Notificacion" />
+          <NavigationProperty Name="Postulacion" Relationship="Self.FK_Postulacion_Estudiante" FromRole="Estudiante" ToRole="Postulacion" />
+          <NavigationProperty Name="Habilidad" Relationship="Self.EstudianteHabilidad" FromRole="Estudiante" ToRole="Habilidad" />
+        </EntityType>
+        <EntityType Name="Genero">
+          <Key>
+            <PropertyRef Name="IdGenero" />
+          </Key>
+          <Property Name="IdGenero" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Estudiante" Relationship="Self.FK_Estudiante_Genero" FromRole="Genero" ToRole="Estudiante" />
+        </EntityType>
+        <EntityType Name="Habilidad">
+          <Key>
+            <PropertyRef Name="IdHabilidad" />
+          </Key>
+          <Property Name="IdHabilidad" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Estudiante" Relationship="Self.EstudianteHabilidad" FromRole="Habilidad" ToRole="Estudiante" />
+        </EntityType>
+        <EntityType Name="Institucion">
+          <Key>
+            <PropertyRef Name="IdInstitucion" />
+          </Key>
+          <Property Name="IdInstitucion" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cedula" Type="String" MaxLength="11" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Contrasenna" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telefono" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PaginaWeb" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Activo" Type="Boolean" Nullable="false" />
+          <Property Name="Imagen" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IdRol" Type="Int64" Nullable="false" />
+          <Property Name="IdTipoInstitucion" Type="Int64" Nullable="false" />
+          <Property Name="TieneContrasennaTemp" Type="Boolean" Nullable="false" />
+          <Property Name="FechaVencimientoTemp" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Auditoria" Relationship="Self.FK_Auditoria_Institucion" FromRole="Institucion" ToRole="Auditoria" />
+          <NavigationProperty Name="Rol" Relationship="Self.FK_Institucion_Rol" FromRole="Institucion" ToRole="Rol" />
+          <NavigationProperty Name="TipoInstitucion" Relationship="Self.FK_Institucion_TipoInstitucion" FromRole="Institucion" ToRole="TipoInstitucion" />
+          <NavigationProperty Name="Notificacion" Relationship="Self.FK_Notificacion_Institucion" FromRole="Institucion" ToRole="Notificacion" />
+          <NavigationProperty Name="Proyecto" Relationship="Self.FK_Proyecto_Institucion" FromRole="Institucion" ToRole="Proyecto" />
+        </EntityType>
+        <EntityType Name="Notificacion">
+          <Key>
+            <PropertyRef Name="IdNotificacion" />
+          </Key>
+          <Property Name="IdNotificacion" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdEstudiante" Type="Int64" Nullable="false" />
+          <Property Name="IdInstitucion" Type="Int64" Nullable="false" />
+          <Property Name="IdPostulacion" Type="Int64" Nullable="false" />
+          <Property Name="IdProyecto" Type="Int64" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Contenido" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TipoNotificacion" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Estudiante" Relationship="Self.FK_Notificacion_Estudiante" FromRole="Notificacion" ToRole="Estudiante" />
+          <NavigationProperty Name="Institucion" Relationship="Self.FK_Notificacion_Institucion" FromRole="Notificacion" ToRole="Institucion" />
+          <NavigationProperty Name="Postulacion" Relationship="Self.FK_Notificacion_Postulacion" FromRole="Notificacion" ToRole="Postulacion" />
+          <NavigationProperty Name="Proyecto" Relationship="Self.FK_Notificacion_Proyecto" FromRole="Notificacion" ToRole="Proyecto" />
+        </EntityType>
+        <EntityType Name="Postulacion">
+          <Key>
+            <PropertyRef Name="IdPostulacion" />
+          </Key>
+          <Property Name="IdPostulacion" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdEstudiante" Type="Int64" Nullable="false" />
+          <Property Name="IdProyecto" Type="Int64" Nullable="false" />
+          <Property Name="FechaPostulacion" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ConfirmacionEstudiante" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Estudiante" Relationship="Self.FK_Postulacion_Estudiante" FromRole="Postulacion" ToRole="Estudiante" />
+          <NavigationProperty Name="Notificacion" Relationship="Self.FK_Notificacion_Postulacion" FromRole="Postulacion" ToRole="Notificacion" />
+          <NavigationProperty Name="Proyecto" Relationship="Self.FK_Postulacion_Proyecto" FromRole="Postulacion" ToRole="Proyecto" />
+        </EntityType>
+        <EntityType Name="Provincia">
+          <Key>
+            <PropertyRef Name="IdProvincia" />
+          </Key>
+          <Property Name="IdProvincia" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Proyecto" Relationship="Self.FK_Proyecto_Provincia" FromRole="Provincia" ToRole="Proyecto" />
+        </EntityType>
+        <EntityType Name="Proyecto">
+          <Key>
+            <PropertyRef Name="IdProyecto" />
+          </Key>
+          <Property Name="IdProyecto" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdInstitucion" Type="Int64" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Cupo" Type="Int32" Nullable="false" />
+          <Property Name="Estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CreadoPor" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Imagen" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Contacto" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="CorreoAsociado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IdProvincia" Type="Int64" />
+          <NavigationProperty Name="Institucion" Relationship="Self.FK_Proyecto_Institucion" FromRole="Proyecto" ToRole="Institucion" />
+          <NavigationProperty Name="Notificacion" Relationship="Self.FK_Notificacion_Proyecto" FromRole="Proyecto" ToRole="Notificacion" />
+          <NavigationProperty Name="Postulacion" Relationship="Self.FK_Postulacion_Proyecto" FromRole="Proyecto" ToRole="Postulacion" />
+          <NavigationProperty Name="Provincia" Relationship="Self.FK_Proyecto_Provincia" FromRole="Proyecto" ToRole="Provincia" />
+          <NavigationProperty Name="Categoria" Relationship="Self.ProyectoCategoria" FromRole="Proyecto" ToRole="Categoria" />
+        </EntityType>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="IdRol" />
+          </Key>
+          <Property Name="IdRol" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreRol" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Estudiante" Relationship="Self.FK_Estudiante_Rol" FromRole="Rol" ToRole="Estudiante" />
+          <NavigationProperty Name="Institucion" Relationship="Self.FK_Institucion_Rol" FromRole="Rol" ToRole="Institucion" />
+        </EntityType>
+        <EntityType Name="TipoInstitucion">
+          <Key>
+            <PropertyRef Name="IdTipoInstitucion" />
+          </Key>
+          <Property Name="IdTipoInstitucion" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Institucion" Relationship="Self.FK_Institucion_TipoInstitucion" FromRole="TipoInstitucion" ToRole="Institucion" />
+        </EntityType>
+        <EntityType Name="Universidad">
+          <Key>
+            <PropertyRef Name="IdUniversidad" />
+          </Key>
+          <Property Name="IdUniversidad" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Estudiante" Relationship="Self.FK_Estudiante_Universidad" FromRole="Universidad" ToRole="Estudiante" />
+        </EntityType>
+        <Association Name="FK_Auditoria_Estudiante">
+          <End Role="Estudiante" Type="Self.Estudiante" Multiplicity="0..1" />
+          <End Role="Auditoria" Type="Self.Auditoria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estudiante">
+              <PropertyRef Name="IdEstudiante" />
+            </Principal>
+            <Dependent Role="Auditoria">
+              <PropertyRef Name="IdEstudiante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Auditoria_Institucion">
+          <End Role="Institucion" Type="Self.Institucion" Multiplicity="0..1" />
+          <End Role="Auditoria" Type="Self.Auditoria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Institucion">
+              <PropertyRef Name="IdInstitucion" />
+            </Principal>
+            <Dependent Role="Auditoria">
+              <PropertyRef Name="IdInstitucion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Conexion_EstudianteReceptor">
+          <End Role="Estudiante" Type="Self.Estudiante" Multiplicity="1" />
+          <End Role="Conexion" Type="Self.Conexion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estudiante">
+              <PropertyRef Name="IdEstudiante" />
+            </Principal>
+            <Dependent Role="Conexion">
+              <PropertyRef Name="IdEstudianteReceptor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Conexion_EstudianteSolicitante">
+          <End Role="Estudiante" Type="Self.Estudiante" Multiplicity="1" />
+          <End Role="Conexion" Type="Self.Conexion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estudiante">
+              <PropertyRef Name="IdEstudiante" />
+            </Principal>
+            <Dependent Role="Conexion">
+              <PropertyRef Name="IdEstudianteSolicitante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Estudiante_Genero">
+          <End Role="Genero" Type="Self.Genero" Multiplicity="1" />
+          <End Role="Estudiante" Type="Self.Estudiante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genero">
+              <PropertyRef Name="IdGenero" />
+            </Principal>
+            <Dependent Role="Estudiante">
+              <PropertyRef Name="IdGenero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Estudiante_Rol">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+          <End Role="Estudiante" Type="Self.Estudiante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="IdRol" />
+            </Principal>
+            <Dependent Role="Estudiante">
+              <PropertyRef Name="IdRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Estudiante_Universidad">
+          <End Role="Universidad" Type="Self.Universidad" Multiplicity="1" />
+          <End Role="Estudiante" Type="Self.Estudiante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Universidad">
+              <PropertyRef Name="IdUniversidad" />
+            </Principal>
+            <Dependent Role="Estudiante">
+              <PropertyRef Name="IdUniversidad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notificacion_Estudiante">
+          <End Role="Estudiante" Type="Self.Estudiante" Multiplicity="1" />
+          <End Role="Notificacion" Type="Self.Notificacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estudiante">
+              <PropertyRef Name="IdEstudiante" />
+            </Principal>
+            <Dependent Role="Notificacion">
+              <PropertyRef Name="IdEstudiante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Postulacion_Estudiante">
+          <End Role="Estudiante" Type="Self.Estudiante" Multiplicity="1" />
+          <End Role="Postulacion" Type="Self.Postulacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estudiante">
+              <PropertyRef Name="IdEstudiante" />
+            </Principal>
+            <Dependent Role="Postulacion">
+              <PropertyRef Name="IdEstudiante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Institucion_Rol">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+          <End Role="Institucion" Type="Self.Institucion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="IdRol" />
+            </Principal>
+            <Dependent Role="Institucion">
+              <PropertyRef Name="IdRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Institucion_TipoInstitucion">
+          <End Role="TipoInstitucion" Type="Self.TipoInstitucion" Multiplicity="1" />
+          <End Role="Institucion" Type="Self.Institucion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoInstitucion">
+              <PropertyRef Name="IdTipoInstitucion" />
+            </Principal>
+            <Dependent Role="Institucion">
+              <PropertyRef Name="IdTipoInstitucion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notificacion_Institucion">
+          <End Role="Institucion" Type="Self.Institucion" Multiplicity="1" />
+          <End Role="Notificacion" Type="Self.Notificacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Institucion">
+              <PropertyRef Name="IdInstitucion" />
+            </Principal>
+            <Dependent Role="Notificacion">
+              <PropertyRef Name="IdInstitucion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proyecto_Institucion">
+          <End Role="Institucion" Type="Self.Institucion" Multiplicity="1" />
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Institucion">
+              <PropertyRef Name="IdInstitucion" />
+            </Principal>
+            <Dependent Role="Proyecto">
+              <PropertyRef Name="IdInstitucion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notificacion_Postulacion">
+          <End Role="Postulacion" Type="Self.Postulacion" Multiplicity="1" />
+          <End Role="Notificacion" Type="Self.Notificacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Postulacion">
+              <PropertyRef Name="IdPostulacion" />
+            </Principal>
+            <Dependent Role="Notificacion">
+              <PropertyRef Name="IdPostulacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notificacion_Proyecto">
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1" />
+          <End Role="Notificacion" Type="Self.Notificacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyecto">
+              <PropertyRef Name="IdProyecto" />
+            </Principal>
+            <Dependent Role="Notificacion">
+              <PropertyRef Name="IdProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Postulacion_Proyecto">
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="1" />
+          <End Role="Postulacion" Type="Self.Postulacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyecto">
+              <PropertyRef Name="IdProyecto" />
+            </Principal>
+            <Dependent Role="Postulacion">
+              <PropertyRef Name="IdProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Proyecto_Provincia">
+          <End Role="Provincia" Type="Self.Provincia" Multiplicity="0..1" />
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provincia">
+              <PropertyRef Name="IdProvincia" />
+            </Principal>
+            <Dependent Role="Proyecto">
+              <PropertyRef Name="IdProvincia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EstudianteHabilidad">
+          <End Role="Estudiante" Type="Self.Estudiante" Multiplicity="*" />
+          <End Role="Habilidad" Type="Self.Habilidad" Multiplicity="*" />
+        </Association>
+        <Association Name="ProyectoCategoria">
+          <End Role="Categoria" Type="Self.Categoria" Multiplicity="*" />
+          <End Role="Proyecto" Type="Self.Proyecto" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="EncuentraTCUEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Auditoria" EntityType="Self.Auditoria" />
+          <EntitySet Name="Categoria" EntityType="Self.Categoria" />
+          <EntitySet Name="Conexion" EntityType="Self.Conexion" />
+          <EntitySet Name="Estudiante" EntityType="Self.Estudiante" />
+          <EntitySet Name="Genero" EntityType="Self.Genero" />
+          <EntitySet Name="Habilidad" EntityType="Self.Habilidad" />
+          <EntitySet Name="Institucion" EntityType="Self.Institucion" />
+          <EntitySet Name="Notificacion" EntityType="Self.Notificacion" />
+          <EntitySet Name="Postulacion" EntityType="Self.Postulacion" />
+          <EntitySet Name="Provincia" EntityType="Self.Provincia" />
+          <EntitySet Name="Proyecto" EntityType="Self.Proyecto" />
+          <EntitySet Name="Rol" EntityType="Self.Rol" />
+          <EntitySet Name="TipoInstitucion" EntityType="Self.TipoInstitucion" />
+          <EntitySet Name="Universidad" EntityType="Self.Universidad" />
+          <AssociationSet Name="FK_Auditoria_Estudiante" Association="Self.FK_Auditoria_Estudiante">
+            <End Role="Estudiante" EntitySet="Estudiante" />
+            <End Role="Auditoria" EntitySet="Auditoria" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Auditoria_Institucion" Association="Self.FK_Auditoria_Institucion">
+            <End Role="Institucion" EntitySet="Institucion" />
+            <End Role="Auditoria" EntitySet="Auditoria" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Conexion_EstudianteReceptor" Association="Self.FK_Conexion_EstudianteReceptor">
+            <End Role="Estudiante" EntitySet="Estudiante" />
+            <End Role="Conexion" EntitySet="Conexion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Conexion_EstudianteSolicitante" Association="Self.FK_Conexion_EstudianteSolicitante">
+            <End Role="Estudiante" EntitySet="Estudiante" />
+            <End Role="Conexion" EntitySet="Conexion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Estudiante_Genero" Association="Self.FK_Estudiante_Genero">
+            <End Role="Genero" EntitySet="Genero" />
+            <End Role="Estudiante" EntitySet="Estudiante" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Estudiante_Rol" Association="Self.FK_Estudiante_Rol">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Estudiante" EntitySet="Estudiante" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Estudiante_Universidad" Association="Self.FK_Estudiante_Universidad">
+            <End Role="Universidad" EntitySet="Universidad" />
+            <End Role="Estudiante" EntitySet="Estudiante" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notificacion_Estudiante" Association="Self.FK_Notificacion_Estudiante">
+            <End Role="Estudiante" EntitySet="Estudiante" />
+            <End Role="Notificacion" EntitySet="Notificacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Postulacion_Estudiante" Association="Self.FK_Postulacion_Estudiante">
+            <End Role="Estudiante" EntitySet="Estudiante" />
+            <End Role="Postulacion" EntitySet="Postulacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Institucion_Rol" Association="Self.FK_Institucion_Rol">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Institucion" EntitySet="Institucion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Institucion_TipoInstitucion" Association="Self.FK_Institucion_TipoInstitucion">
+            <End Role="TipoInstitucion" EntitySet="TipoInstitucion" />
+            <End Role="Institucion" EntitySet="Institucion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notificacion_Institucion" Association="Self.FK_Notificacion_Institucion">
+            <End Role="Institucion" EntitySet="Institucion" />
+            <End Role="Notificacion" EntitySet="Notificacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proyecto_Institucion" Association="Self.FK_Proyecto_Institucion">
+            <End Role="Institucion" EntitySet="Institucion" />
+            <End Role="Proyecto" EntitySet="Proyecto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notificacion_Postulacion" Association="Self.FK_Notificacion_Postulacion">
+            <End Role="Postulacion" EntitySet="Postulacion" />
+            <End Role="Notificacion" EntitySet="Notificacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notificacion_Proyecto" Association="Self.FK_Notificacion_Proyecto">
+            <End Role="Proyecto" EntitySet="Proyecto" />
+            <End Role="Notificacion" EntitySet="Notificacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Postulacion_Proyecto" Association="Self.FK_Postulacion_Proyecto">
+            <End Role="Proyecto" EntitySet="Proyecto" />
+            <End Role="Postulacion" EntitySet="Postulacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Proyecto_Provincia" Association="Self.FK_Proyecto_Provincia">
+            <End Role="Provincia" EntitySet="Provincia" />
+            <End Role="Proyecto" EntitySet="Proyecto" />
+          </AssociationSet>
+          <AssociationSet Name="EstudianteHabilidad" Association="Self.EstudianteHabilidad">
+            <End Role="Estudiante" EntitySet="Estudiante" />
+            <End Role="Habilidad" EntitySet="Habilidad" />
+          </AssociationSet>
+          <AssociationSet Name="ProyectoCategoria" Association="Self.ProyectoCategoria">
+            <End Role="Categoria" EntitySet="Categoria" />
+            <End Role="Proyecto" EntitySet="Proyecto" />
+          </AssociationSet>
+          <FunctionImport Name="AceptarSolicitud">
+            <Parameter Name="IdConexion" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ActualizarContrasenna">
+            <Parameter Name="Cedula" Mode="In" Type="String" />
+            <Parameter Name="TipoCedula" Mode="In" Type="Int32" />
+            <Parameter Name="ContrasennaTemp" Mode="In" Type="String" />
+            <Parameter Name="TieneContrasennaTemp" Mode="In" Type="Boolean" />
+            <Parameter Name="FechaVencimientoTemp" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="ActualizarEstadoPostulacion">
+            <Parameter Name="IdPostulacion" Mode="In" Type="Int64" />
+            <Parameter Name="NuevoEstado" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ActualizarImagenEstudiante">
+            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+            <Parameter Name="Imagen" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ActualizarImagenInstitucion">
+            <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
+            <Parameter Name="Imagen" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ActualizarImagenProyecto">
+            <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+            <Parameter Name="Imagen" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ActualizarPerfilEstudiante">
+            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+            <Parameter Name="IdUniversidad" Mode="In" Type="Int64" />
+            <Parameter Name="Carrera" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Descripcion" Mode="In" Type="String" />
+            <Parameter Name="Imagen" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ActualizarPerfilInstitucion">
+            <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Telefono" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Descripcion" Mode="In" Type="String" />
+            <Parameter Name="PaginaWeb" Mode="In" Type="String" />
+            <Parameter Name="Imagen" Mode="In" Type="String" />
+            <Parameter Name="IdTipoInstitucion" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ActualizarProyecto">
+            <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Descripcion" Mode="In" Type="String" />
+            <Parameter Name="Cupo" Mode="In" Type="Int32" />
+            <Parameter Name="Imagen" Mode="In" Type="String" />
+            <Parameter Name="Contacto" Mode="In" Type="String" />
+            <Parameter Name="Direccion" Mode="In" Type="String" />
+            <Parameter Name="CorreoAsociado" Mode="In" Type="String" />
+            <Parameter Name="IdProvincia" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="CambiarContrasennaTemp">
+            <Parameter Name="Cedula" Mode="In" Type="String" />
+            <Parameter Name="TipoCedula" Mode="In" Type="Int32" />
+            <Parameter Name="NuevaContrasenna" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarConexiones" ReturnType="Collection(EncuentraTCUModel.ConsultarConexiones_Result)">
+            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarDetallesPostulacion" ReturnType="Collection(EncuentraTCUModel.ConsultarDetallesPostulacion_Result)">
+            <Parameter Name="IdPostulacion" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarNotificaciones" ReturnType="Collection(EncuentraTCUModel.ConsultarNotificaciones_Result)">
+            <Parameter Name="IdUsuario" Mode="In" Type="Int64" />
+            <Parameter Name="TipoUsuario" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarPostulaciones" ReturnType="Collection(EncuentraTCUModel.ConsultarPostulaciones_Result)">
+            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarPostulacionesProyecto" ReturnType="Collection(EncuentraTCUModel.ConsultarPostulacionesProyecto_Result)">
+            <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ConsultarProyectos" ReturnType="Collection(EncuentraTCUModel.ConsultarProyectos_Result)" />
+          <FunctionImport Name="ConsultarProyectosConPostulaciones" ReturnType="Collection(EncuentraTCUModel.ConsultarProyectosConPostulaciones_Result)">
+            <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="DatosEstudiante" ReturnType="Collection(EncuentraTCUModel.DatosEstudiante_Result)">
+            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="DatosInstitucion" ReturnType="Collection(EncuentraTCUModel.DatosInstitucion_Result)">
+            <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="EliminarCategoriasProyecto">
+            <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="EliminarConexion">
+            <Parameter Name="IdConexion" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="EliminarHabilidadesEstudiante">
+            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="EliminarPostulacion">
+            <Parameter Name="IdPostulacion" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="EliminarProyecto">
+            <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="IngresoSistema" ReturnType="Collection(EncuentraTCUModel.IngresoSistema_Result)">
+            <Parameter Name="Cedula" Mode="In" Type="String" />
+            <Parameter Name="Contrasenna" Mode="In" Type="String" />
+            <Parameter Name="TipoCedula" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="InsertarPostulacion">
+            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+            <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerCategoriasProyecto" ReturnType="Collection(EncuentraTCUModel.ObtenerCategoriasProyecto_Result)">
+            <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerCategoriasUsadasEnInstitucion" ReturnType="Collection(String)">
+            <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerConexionesAceptadas" ReturnType="Collection(EncuentraTCUModel.ObtenerConexionesAceptadas_Result)">
+            <Parameter Name="IdEstudianteSolicitante" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerConexionesBusqueda" ReturnType="Collection(EncuentraTCUModel.ObtenerConexionesBusqueda_Result)">
+            <Parameter Name="Query" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerEstudiantesAceptados" ReturnType="Collection(EncuentraTCUModel.ObtenerEstudiantesAceptados_Result)">
+            <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerEstudiantesPostulados" ReturnType="Collection(Int64)">
+            <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerHabilidadesEstudiante" ReturnType="Collection(String)">
+            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerHabilidadesParaEditar" ReturnType="Collection(EncuentraTCUModel.ObtenerHabilidadesParaEditar_Result)">
+            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerIdsConexiones" ReturnType="Collection(Int64)">
+            <Parameter Name="IdUsuario" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerIdsSolicitudesEnviadas" ReturnType="Collection(Int64)">
+            <Parameter Name="IdUsuario" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerIdsSolicitudesPendientes" ReturnType="Collection(Int64)">
+            <Parameter Name="IdUsuario" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerIdsSolicitudesRecibidas" ReturnType="Collection(Int64)">
+            <Parameter Name="IdUsuario" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerInfoParaNotiEstudiante" ReturnType="Collection(EncuentraTCUModel.ObtenerInfoParaNotiEstudiante_Result)">
+            <Parameter Name="idPostulacion" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerInfoParaNotiInstitucion" ReturnType="Collection(EncuentraTCUModel.ObtenerInfoParaNotiInstitucion_Result)">
+            <Parameter Name="idEstudiante" Mode="In" Type="Int64" />
+            <Parameter Name="idProyecto" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerProyectoReciente" ReturnType="Collection(Int64)">
+            <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Descripcion" Mode="In" Type="String" />
+            <Parameter Name="Cupo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerProyectosBusqueda" ReturnType="Collection(EncuentraTCUModel.ObtenerProyectosBusqueda_Result)">
+            <Parameter Name="Query" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerProyectosEspecifico" ReturnType="Collection(EncuentraTCUModel.ObtenerProyectosEspecifico_Result)">
+            <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerProyectosEstudianteAceptado" ReturnType="Collection(EncuentraTCUModel.ObtenerProyectosEstudianteAceptado_Result)">
+            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerProyectosInstitucion" ReturnType="Collection(EncuentraTCUModel.ObtenerProyectosInstitucion_Result)">
+            <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerSolicitudesEnviadas" ReturnType="Collection(EncuentraTCUModel.ObtenerSolicitudesEnviadas_Result)">
+            <Parameter Name="IdEstudianteSolicitante" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="ObtenerSolicitudesPendientes" ReturnType="Collection(EncuentraTCUModel.ObtenerSolicitudesPendientes_Result)">
+            <Parameter Name="IdEstudianteReceptor" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="RechazarSolicitud">
+            <Parameter Name="IdConexion" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="RegistrarCategoriaProyecto">
+            <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+            <Parameter Name="IdCategoria" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="RegistrarEstudiante">
+            <Parameter Name="IdGenero" Mode="In" Type="Int64" />
+            <Parameter Name="IdUniversidad" Mode="In" Type="Int64" />
+            <Parameter Name="Cedula" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Contrasenna" Mode="In" Type="String" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Apellidos" Mode="In" Type="String" />
+            <Parameter Name="Descripcion" Mode="In" Type="String" />
+            <Parameter Name="Carrera" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="RegistrarHabilidadEstudiante">
+            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+            <Parameter Name="IdHabilidad" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="RegistrarInstitucion">
+            <Parameter Name="IdTipoInstitucion" Mode="In" Type="Int64" />
+            <Parameter Name="Cedula" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Contrasenna" Mode="In" Type="String" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Descripcion" Mode="In" Type="String" />
+            <Parameter Name="Telefono" Mode="In" Type="String" />
+            <Parameter Name="PaginaWeb" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="RegistrarNotificacion">
+            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+            <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
+            <Parameter Name="IdPostulacion" Mode="In" Type="Int64" />
+            <Parameter Name="IdProyecto" Mode="In" Type="Int64" />
+            <Parameter Name="Contenido" Mode="In" Type="String" />
+            <Parameter Name="TipoNotificacion" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="RegistrarProyecto">
+            <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Descripcion" Mode="In" Type="String" />
+            <Parameter Name="Cupo" Mode="In" Type="Int32" />
+            <Parameter Name="CreadoPorInstitucion" Mode="In" Type="Boolean" />
+            <Parameter Name="Contacto" Mode="In" Type="String" />
+            <Parameter Name="Direccion" Mode="In" Type="String" />
+            <Parameter Name="CorreoAsociado" Mode="In" Type="String" />
+            <Parameter Name="IdProvincia" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="SolicitarConexion">
+            <Parameter Name="IdEstudianteSolicitante" Mode="In" Type="Int64" />
+            <Parameter Name="IdEstudianteReceptor" Mode="In" Type="Int64" />
+            <Parameter Name="MensajeSolicitud" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_RegistrarError">
+            <Parameter Name="Mensaje" Mode="In" Type="String" />
+            <Parameter Name="Fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="Origen" Mode="In" Type="String" />
+            <Parameter Name="IdEstudiante" Mode="In" Type="Int64" />
+            <Parameter Name="IdInstitucion" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="SugerenciasConexiones" ReturnType="Collection(String)">
+            <Parameter Name="Query" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SugerenciasProyectos" ReturnType="Collection(String)">
+            <Parameter Name="Query" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="ConsultarConexiones_Result">
+          <Property Type="Int64" Name="IdConexion" Nullable="false" />
+          <Property Type="Int64" Name="IdEstudianteSolicitante" Nullable="false" />
+          <Property Type="String" Name="NombreEstudianteSolicitante" Nullable="false" MaxLength="201" />
+          <Property Type="String" Name="EmailEstudianteSolicitante" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Universidad" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="MensajeSolicitud" Nullable="true" MaxLength="500" />
+          <Property Type="DateTime" Name="FechaSolicitud" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="ConsultarDetallesPostulacion_Result">
+          <Property Type="Int64" Name="IdEstudiante" Nullable="false" />
+          <Property Type="String" Name="ImagenEstudiante" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="NombreCompletoEstudiante" Nullable="false" MaxLength="201" />
+          <Property Type="String" Name="UniversidadEstudiante" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="CarreraEstudiante" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="CorreoEstudiante" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DescripcionEstudiante" Nullable="false" MaxLength="1000" />
+          <Property Type="DateTime" Name="FechaPostulacion" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="ConsultarNotificaciones_Result">
+          <Property Type="Int64" Name="IdNotificacion" Nullable="false" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Contenido" Nullable="false" MaxLength="8000" />
+          <Property Type="String" Name="NombreProyecto" Nullable="false" MaxLength="100" />
+          <Property Type="Int64" Name="IdProyecto" Nullable="false" />
+          <Property Type="Int64" Name="IdEstudiante" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="ConsultarPostulaciones_Result">
+          <Property Type="Int64" Name="IdPostulacion" Nullable="false" />
+          <Property Type="Int64" Name="IdEstudiante" Nullable="false" />
+          <Property Type="Int64" Name="IdProyecto" Nullable="false" />
+          <Property Type="DateTime" Name="FechaPostulacion" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="20" />
+          <Property Type="Boolean" Name="ConfirmacionEstudiante" Nullable="false" />
+          <Property Type="String" Name="NombreInstitucion" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="NombreProyecto" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="ConsultarPostulacionesProyecto_Result">
+          <Property Type="Int64" Name="IdPostulacion" Nullable="false" />
+          <Property Type="String" Name="NombreEstudiante" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="NombreProyecto" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ApellidosEstudiante" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="CarreraEstudiante" Nullable="false" MaxLength="100" />
+          <Property Type="DateTime" Name="FechaPostulacion" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="ConsultarProyectos_Result">
+          <Property Type="Int64" Name="IdProyecto" Nullable="false" />
+          <Property Type="Int64" Name="IdInstitucion" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="8000" />
+          <Property Type="String" Name="Imagen" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="Cupo" Nullable="false" />
+          <Property Type="String" Name="NombreInstitucion" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="ConsultarProyectosConPostulaciones_Result">
+          <Property Type="Int64" Name="IdProyecto" Nullable="false" />
+          <Property Type="String" Name="Imagen" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="Cupo" Nullable="false" />
+          <Property Type="Int32" Name="Postulaciones" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="DatosEstudiante_Result">
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Apellidos" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="1000" />
+          <Property Type="String" Name="Carrera" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Imagen" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="NombreRol" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="NombreGenero" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="NombreUniversidad" Nullable="false" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="DatosInstitucion_Result">
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="1000" />
+          <Property Type="String" Name="PaginaWeb" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Imagen" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="NombreRol" Nullable="false" MaxLength="50" />
+          <Property Type="Int64" Name="IdTipoInstitucion" Nullable="false" />
+          <Property Type="String" Name="TipoInstitucion" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="IngresoSistema_Result">
+          <Property Type="Int64" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Cedula" Nullable="false" MaxLength="11" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Imagen" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Contrasenna" Nullable="false" MaxLength="10" />
+          <Property Type="Boolean" Name="Activo" Nullable="false" />
+          <Property Type="Int64" Name="IdRol" Nullable="false" />
+          <Property Type="Boolean" Name="TieneContrasennaTemp" Nullable="false" />
+          <Property Type="DateTime" Name="FechaVencimientoTemp" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="ObtenerCategoriasProyecto_Result">
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="Int64" Name="IdCategoria" Nullable="false" />
+          <Property Type="Int64" Name="IdProyecto" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="ObtenerConexionesAceptadas_Result">
+          <Property Type="Int64" Name="IdConexion" Nullable="false" />
+          <Property Type="String" Name="NombreEstudiante" Nullable="false" MaxLength="201" />
+          <Property Type="String" Name="Universidad" Nullable="false" MaxLength="255" />
+          <Property Type="DateTime" Name="FechaSolicitud" Nullable="false" Precision="23" />
+          <Property Type="Int64" Name="IdEstudianteOtro" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="ObtenerConexionesBusqueda_Result">
+          <Property Type="Int64" Name="IdEstudiante" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Apellidos" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Carrera" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Imagen" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="NombreUniversidad" Nullable="true" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="ObtenerEstudiantesAceptados_Result">
+          <Property Type="Int64" Name="IdEstudiante" Nullable="false" />
+          <Property Type="String" Name="NombreEstudiante" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="ObtenerHabilidadesParaEditar_Result">
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="Int64" Name="IdHabilidad" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="ObtenerInfoParaNotiEstudiante_Result">
+          <Property Type="String" Name="NombreEstudiante" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="NombreProyecto" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="estado" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="NombreInstitucion" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="EmailEstudiante" Nullable="false" MaxLength="50" />
+          <Property Type="Int64" Name="IdEstudiante" Nullable="false" />
+          <Property Type="Int64" Name="IdInstitucion" Nullable="false" />
+          <Property Type="Int64" Name="IdPostulacion" Nullable="false" />
+          <Property Type="Int64" Name="IdProyecto" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="ObtenerInfoParaNotiInstitucion_Result">
+          <Property Type="String" Name="NombreEstudiante" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="NombreProyecto" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="NombreInstitucion" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="EmailInstitucion" Nullable="false" MaxLength="50" />
+          <Property Type="Int64" Name="IdInstitucion" Nullable="false" />
+          <Property Type="Int64" Name="IdPostulacion" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="ObtenerProyectosBusqueda_Result">
+          <Property Type="Int64" Name="IdProyecto" Nullable="false" />
+          <Property Type="Int64" Name="IdInstitucion" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="8000" />
+          <Property Type="Int32" Name="Cupo" Nullable="false" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="CreadoPor" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Imagen" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Contacto" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Direccion" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="CorreoAsociado" Nullable="true" MaxLength="50" />
+          <Property Type="Int64" Name="IdProvincia" Nullable="true" />
+          <Property Type="String" Name="NombreProvincia" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="NombreInstitucion" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="ObtenerProyectosEspecifico_Result">
+          <Property Type="Int64" Name="IdProyecto" Nullable="false" />
+          <Property Type="Int64" Name="IdInstitucion" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="8000" />
+          <Property Type="Int32" Name="Cupo" Nullable="false" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="CreadoPor" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Imagen" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Contacto" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Direccion" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="CorreoAsociado" Nullable="true" MaxLength="50" />
+          <Property Type="Int64" Name="IdProvincia" Nullable="false" />
+          <Property Type="String" Name="NombreProvincia" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="NombreInstitucion" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="ObtenerProyectosEstudianteAceptado_Result">
+          <Property Type="Int64" Name="IdProyecto" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="8000" />
+          <Property Type="Int32" Name="Cupo" Nullable="false" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="CreadoPor" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Imagen" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="NombreProvincia" Nullable="false" MaxLength="100" />
+          <Property Type="Int64" Name="IdPostulacion" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="ObtenerProyectosInstitucion_Result">
+          <Property Type="Int64" Name="IdProyecto" Nullable="false" />
+          <Property Type="Int64" Name="IdInstitucion" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="8000" />
+          <Property Type="Int32" Name="Cupo" Nullable="false" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="CreadoPor" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Imagen" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="NombreProvincia" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="ObtenerSolicitudesEnviadas_Result">
+          <Property Type="Int64" Name="IdConexion" Nullable="false" />
+          <Property Type="String" Name="NombreEstudianteReceptor" Nullable="false" MaxLength="201" />
+          <Property Type="String" Name="Universidad" Nullable="false" MaxLength="255" />
+          <Property Type="Int64" Name="IdEstudianteReceptor" Nullable="false" />
+          <Property Type="String" Name="MensajeSolicitud" Nullable="true" MaxLength="500" />
+          <Property Type="DateTime" Name="FechaSolicitud" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="ObtenerSolicitudesPendientes_Result">
+          <Property Type="Int64" Name="IdConexion" Nullable="false" />
+          <Property Type="String" Name="NombreEstudianteSolicitante" Nullable="false" MaxLength="201" />
+          <Property Type="Int64" Name="IdEstudianteSolicitante" Nullable="false" />
+          <Property Type="String" Name="Universidad" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="MensajeSolicitud" Nullable="true" MaxLength="500" />
+          <Property Type="DateTime" Name="FechaSolicitud" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="20" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EncuentraTCUModelStoreContainer" CdmEntityContainer="EncuentraTCUEntities">
+          <EntitySetMapping Name="Auditoria">
+            <EntityTypeMapping TypeName="EncuentraTCUModel.Auditoria">
+              <MappingFragment StoreEntitySet="Auditoria">
+                <ScalarProperty Name="IdAuditoria" ColumnName="IdAuditoria" />
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Origen" ColumnName="Origen" />
+                <ScalarProperty Name="IdEstudiante" ColumnName="IdEstudiante" />
+                <ScalarProperty Name="IdInstitucion" ColumnName="IdInstitucion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categoria">
+            <EntityTypeMapping TypeName="EncuentraTCUModel.Categoria">
+              <MappingFragment StoreEntitySet="Categoria">
+                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Conexion">
+            <EntityTypeMapping TypeName="EncuentraTCUModel.Conexion">
+              <MappingFragment StoreEntitySet="Conexion">
+                <ScalarProperty Name="IdConexion" ColumnName="IdConexion" />
+                <ScalarProperty Name="IdEstudianteSolicitante" ColumnName="IdEstudianteSolicitante" />
+                <ScalarProperty Name="IdEstudianteReceptor" ColumnName="IdEstudianteReceptor" />
+                <ScalarProperty Name="FechaSolicitud" ColumnName="FechaSolicitud" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="MensajeSolicitud" ColumnName="MensajeSolicitud" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Estudiante">
+            <EntityTypeMapping TypeName="EncuentraTCUModel.Estudiante">
+              <MappingFragment StoreEntitySet="Estudiante">
+                <ScalarProperty Name="IdEstudiante" ColumnName="IdEstudiante" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Contrasenna" ColumnName="Contrasenna" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Carrera" ColumnName="Carrera" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="IdGenero" ColumnName="IdGenero" />
+                <ScalarProperty Name="IdUniversidad" ColumnName="IdUniversidad" />
+                <ScalarProperty Name="TieneContrasennaTemp" ColumnName="TieneContrasennaTemp" />
+                <ScalarProperty Name="FechaVencimientoTemp" ColumnName="FechaVencimientoTemp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Genero">
+            <EntityTypeMapping TypeName="EncuentraTCUModel.Genero">
+              <MappingFragment StoreEntitySet="Genero">
+                <ScalarProperty Name="IdGenero" ColumnName="IdGenero" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Habilidad">
+            <EntityTypeMapping TypeName="EncuentraTCUModel.Habilidad">
+              <MappingFragment StoreEntitySet="Habilidad">
+                <ScalarProperty Name="IdHabilidad" ColumnName="IdHabilidad" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Institucion">
+            <EntityTypeMapping TypeName="EncuentraTCUModel.Institucion">
+              <MappingFragment StoreEntitySet="Institucion">
+                <ScalarProperty Name="IdInstitucion" ColumnName="IdInstitucion" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Contrasenna" ColumnName="Contrasenna" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="PaginaWeb" ColumnName="PaginaWeb" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="IdTipoInstitucion" ColumnName="IdTipoInstitucion" />
+                <ScalarProperty Name="TieneContrasennaTemp" ColumnName="TieneContrasennaTemp" />
+                <ScalarProperty Name="FechaVencimientoTemp" ColumnName="FechaVencimientoTemp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notificacion">
+            <EntityTypeMapping TypeName="EncuentraTCUModel.Notificacion">
+              <MappingFragment StoreEntitySet="Notificacion">
+                <ScalarProperty Name="IdNotificacion" ColumnName="IdNotificacion" />
+                <ScalarProperty Name="IdEstudiante" ColumnName="IdEstudiante" />
+                <ScalarProperty Name="IdInstitucion" ColumnName="IdInstitucion" />
+                <ScalarProperty Name="IdPostulacion" ColumnName="IdPostulacion" />
+                <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Contenido" ColumnName="Contenido" />
+                <ScalarProperty Name="TipoNotificacion" ColumnName="TipoNotificacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Postulacion">
+            <EntityTypeMapping TypeName="EncuentraTCUModel.Postulacion">
+              <MappingFragment StoreEntitySet="Postulacion">
+                <ScalarProperty Name="IdPostulacion" ColumnName="IdPostulacion" />
+                <ScalarProperty Name="IdEstudiante" ColumnName="IdEstudiante" />
+                <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+                <ScalarProperty Name="FechaPostulacion" ColumnName="FechaPostulacion" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="ConfirmacionEstudiante" ColumnName="ConfirmacionEstudiante" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Provincia">
+            <EntityTypeMapping TypeName="EncuentraTCUModel.Provincia">
+              <MappingFragment StoreEntitySet="Provincia">
+                <ScalarProperty Name="IdProvincia" ColumnName="IdProvincia" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Proyecto">
+            <EntityTypeMapping TypeName="EncuentraTCUModel.Proyecto">
+              <MappingFragment StoreEntitySet="Proyecto">
+                <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+                <ScalarProperty Name="IdInstitucion" ColumnName="IdInstitucion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Cupo" ColumnName="Cupo" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="CreadoPor" ColumnName="CreadoPor" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="Contacto" ColumnName="Contacto" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="CorreoAsociado" ColumnName="CorreoAsociado" />
+                <ScalarProperty Name="IdProvincia" ColumnName="IdProvincia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rol">
+            <EntityTypeMapping TypeName="EncuentraTCUModel.Rol">
+              <MappingFragment StoreEntitySet="Rol">
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoInstitucion">
+            <EntityTypeMapping TypeName="EncuentraTCUModel.TipoInstitucion">
+              <MappingFragment StoreEntitySet="TipoInstitucion">
+                <ScalarProperty Name="IdTipoInstitucion" ColumnName="IdTipoInstitucion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Universidad">
+            <EntityTypeMapping TypeName="EncuentraTCUModel.Universidad">
+              <MappingFragment StoreEntitySet="Universidad">
+                <ScalarProperty Name="IdUniversidad" ColumnName="IdUniversidad" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="EstudianteHabilidad" TypeName="EncuentraTCUModel.EstudianteHabilidad" StoreEntitySet="EstudianteHabilidad">
+            <EndProperty Name="Estudiante">
+              <ScalarProperty Name="IdEstudiante" ColumnName="IdEstudiante" />
+            </EndProperty>
+            <EndProperty Name="Habilidad">
+              <ScalarProperty Name="IdHabilidad" ColumnName="IdHabilidad" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ProyectoCategoria" TypeName="EncuentraTCUModel.ProyectoCategoria" StoreEntitySet="ProyectoCategoria">
+            <EndProperty Name="Categoria">
+              <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+            </EndProperty>
+            <EndProperty Name="Proyecto">
+              <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="AceptarSolicitud" FunctionName="EncuentraTCUModel.Store.AceptarSolicitud" />
+          <FunctionImportMapping FunctionImportName="ActualizarContrasenna" FunctionName="EncuentraTCUModel.Store.ActualizarContrasenna" />
+          <FunctionImportMapping FunctionImportName="ActualizarEstadoPostulacion" FunctionName="EncuentraTCUModel.Store.ActualizarEstadoPostulacion" />
+          <FunctionImportMapping FunctionImportName="ActualizarImagenEstudiante" FunctionName="EncuentraTCUModel.Store.ActualizarImagenEstudiante" />
+          <FunctionImportMapping FunctionImportName="ActualizarImagenInstitucion" FunctionName="EncuentraTCUModel.Store.ActualizarImagenInstitucion" />
+          <FunctionImportMapping FunctionImportName="ActualizarImagenProyecto" FunctionName="EncuentraTCUModel.Store.ActualizarImagenProyecto" />
+          <FunctionImportMapping FunctionImportName="ActualizarPerfilEstudiante" FunctionName="EncuentraTCUModel.Store.ActualizarPerfilEstudiante" />
+          <FunctionImportMapping FunctionImportName="ActualizarPerfilInstitucion" FunctionName="EncuentraTCUModel.Store.ActualizarPerfilInstitucion" />
+          <FunctionImportMapping FunctionImportName="ActualizarProyecto" FunctionName="EncuentraTCUModel.Store.ActualizarProyecto" />
+          <FunctionImportMapping FunctionImportName="CambiarContrasennaTemp" FunctionName="EncuentraTCUModel.Store.CambiarContrasennaTemp" />
+          <FunctionImportMapping FunctionImportName="ConsultarConexiones" FunctionName="EncuentraTCUModel.Store.ConsultarConexiones">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ConsultarConexiones_Result">
+                <ScalarProperty Name="IdConexion" ColumnName="IdConexion" />
+                <ScalarProperty Name="IdEstudianteSolicitante" ColumnName="IdEstudianteSolicitante" />
+                <ScalarProperty Name="NombreEstudianteSolicitante" ColumnName="NombreEstudianteSolicitante" />
+                <ScalarProperty Name="EmailEstudianteSolicitante" ColumnName="EmailEstudianteSolicitante" />
+                <ScalarProperty Name="Universidad" ColumnName="Universidad" />
+                <ScalarProperty Name="MensajeSolicitud" ColumnName="MensajeSolicitud" />
+                <ScalarProperty Name="FechaSolicitud" ColumnName="FechaSolicitud" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarDetallesPostulacion" FunctionName="EncuentraTCUModel.Store.ConsultarDetallesPostulacion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ConsultarDetallesPostulacion_Result">
+                <ScalarProperty Name="IdEstudiante" ColumnName="IdEstudiante" />
+                <ScalarProperty Name="ImagenEstudiante" ColumnName="ImagenEstudiante" />
+                <ScalarProperty Name="NombreCompletoEstudiante" ColumnName="NombreCompletoEstudiante" />
+                <ScalarProperty Name="UniversidadEstudiante" ColumnName="UniversidadEstudiante" />
+                <ScalarProperty Name="CarreraEstudiante" ColumnName="CarreraEstudiante" />
+                <ScalarProperty Name="CorreoEstudiante" ColumnName="CorreoEstudiante" />
+                <ScalarProperty Name="DescripcionEstudiante" ColumnName="DescripcionEstudiante" />
+                <ScalarProperty Name="FechaPostulacion" ColumnName="FechaPostulacion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarNotificaciones" FunctionName="EncuentraTCUModel.Store.ConsultarNotificaciones">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ConsultarNotificaciones_Result">
+                <ScalarProperty Name="IdNotificacion" ColumnName="IdNotificacion" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Contenido" ColumnName="Contenido" />
+                <ScalarProperty Name="NombreProyecto" ColumnName="NombreProyecto" />
+                <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+                <ScalarProperty Name="IdEstudiante" ColumnName="IdEstudiante" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarPostulaciones" FunctionName="EncuentraTCUModel.Store.ConsultarPostulaciones">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ConsultarPostulaciones_Result">
+                <ScalarProperty Name="IdPostulacion" ColumnName="IdPostulacion" />
+                <ScalarProperty Name="IdEstudiante" ColumnName="IdEstudiante" />
+                <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+                <ScalarProperty Name="FechaPostulacion" ColumnName="FechaPostulacion" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="ConfirmacionEstudiante" ColumnName="ConfirmacionEstudiante" />
+                <ScalarProperty Name="NombreInstitucion" ColumnName="NombreInstitucion" />
+                <ScalarProperty Name="NombreProyecto" ColumnName="NombreProyecto" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarPostulacionesProyecto" FunctionName="EncuentraTCUModel.Store.ConsultarPostulacionesProyecto">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ConsultarPostulacionesProyecto_Result">
+                <ScalarProperty Name="IdPostulacion" ColumnName="IdPostulacion" />
+                <ScalarProperty Name="NombreEstudiante" ColumnName="NombreEstudiante" />
+                <ScalarProperty Name="NombreProyecto" ColumnName="NombreProyecto" />
+                <ScalarProperty Name="ApellidosEstudiante" ColumnName="ApellidosEstudiante" />
+                <ScalarProperty Name="CarreraEstudiante" ColumnName="CarreraEstudiante" />
+                <ScalarProperty Name="FechaPostulacion" ColumnName="FechaPostulacion" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarProyectos" FunctionName="EncuentraTCUModel.Store.ConsultarProyectos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ConsultarProyectos_Result">
+                <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+                <ScalarProperty Name="IdInstitucion" ColumnName="IdInstitucion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="Cupo" ColumnName="Cupo" />
+                <ScalarProperty Name="NombreInstitucion" ColumnName="NombreInstitucion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarProyectosConPostulaciones" FunctionName="EncuentraTCUModel.Store.ConsultarProyectosConPostulaciones">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ConsultarProyectosConPostulaciones_Result">
+                <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Cupo" ColumnName="Cupo" />
+                <ScalarProperty Name="Postulaciones" ColumnName="Postulaciones" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="DatosEstudiante" FunctionName="EncuentraTCUModel.Store.DatosEstudiante">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.DatosEstudiante_Result">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Carrera" ColumnName="Carrera" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
+                <ScalarProperty Name="NombreGenero" ColumnName="NombreGenero" />
+                <ScalarProperty Name="NombreUniversidad" ColumnName="NombreUniversidad" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="DatosInstitucion" FunctionName="EncuentraTCUModel.Store.DatosInstitucion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.DatosInstitucion_Result">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="PaginaWeb" ColumnName="PaginaWeb" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
+                <ScalarProperty Name="IdTipoInstitucion" ColumnName="IdTipoInstitucion" />
+                <ScalarProperty Name="TipoInstitucion" ColumnName="TipoInstitucion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="EliminarCategoriasProyecto" FunctionName="EncuentraTCUModel.Store.EliminarCategoriasProyecto" />
+          <FunctionImportMapping FunctionImportName="EliminarConexion" FunctionName="EncuentraTCUModel.Store.EliminarConexion" />
+          <FunctionImportMapping FunctionImportName="EliminarHabilidadesEstudiante" FunctionName="EncuentraTCUModel.Store.EliminarHabilidadesEstudiante" />
+          <FunctionImportMapping FunctionImportName="EliminarPostulacion" FunctionName="EncuentraTCUModel.Store.EliminarPostulacion" />
+          <FunctionImportMapping FunctionImportName="EliminarProyecto" FunctionName="EncuentraTCUModel.Store.EliminarProyecto" />
+          <FunctionImportMapping FunctionImportName="IngresoSistema" FunctionName="EncuentraTCUModel.Store.IngresoSistema">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.IngresoSistema_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="Contrasenna" ColumnName="Contrasenna" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="TieneContrasennaTemp" ColumnName="TieneContrasennaTemp" />
+                <ScalarProperty Name="FechaVencimientoTemp" ColumnName="FechaVencimientoTemp" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="InsertarPostulacion" FunctionName="EncuentraTCUModel.Store.InsertarPostulacion" />
+          <FunctionImportMapping FunctionImportName="ObtenerCategoriasProyecto" FunctionName="EncuentraTCUModel.Store.ObtenerCategoriasProyecto">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ObtenerCategoriasProyecto_Result">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
+                <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ObtenerCategoriasUsadasEnInstitucion" FunctionName="EncuentraTCUModel.Store.ObtenerCategoriasUsadasEnInstitucion" />
+          <FunctionImportMapping FunctionImportName="ObtenerConexionesAceptadas" FunctionName="EncuentraTCUModel.Store.ObtenerConexionesAceptadas">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ObtenerConexionesAceptadas_Result">
+                <ScalarProperty Name="IdConexion" ColumnName="IdConexion" />
+                <ScalarProperty Name="NombreEstudiante" ColumnName="NombreEstudiante" />
+                <ScalarProperty Name="Universidad" ColumnName="Universidad" />
+                <ScalarProperty Name="FechaSolicitud" ColumnName="FechaSolicitud" />
+                <ScalarProperty Name="IdEstudianteOtro" ColumnName="IdEstudianteOtro" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ObtenerConexionesBusqueda" FunctionName="EncuentraTCUModel.Store.ObtenerConexionesBusqueda">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ObtenerConexionesBusqueda_Result">
+                <ScalarProperty Name="IdEstudiante" ColumnName="IdEstudiante" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
+                <ScalarProperty Name="Carrera" ColumnName="Carrera" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="NombreUniversidad" ColumnName="NombreUniversidad" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ObtenerEstudiantesAceptados" FunctionName="EncuentraTCUModel.Store.ObtenerEstudiantesAceptados">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ObtenerEstudiantesAceptados_Result">
+                <ScalarProperty Name="IdEstudiante" ColumnName="IdEstudiante" />
+                <ScalarProperty Name="NombreEstudiante" ColumnName="NombreEstudiante" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ObtenerEstudiantesPostulados" FunctionName="EncuentraTCUModel.Store.ObtenerEstudiantesPostulados" />
+          <FunctionImportMapping FunctionImportName="ObtenerHabilidadesEstudiante" FunctionName="EncuentraTCUModel.Store.ObtenerHabilidadesEstudiante" />
+          <FunctionImportMapping FunctionImportName="ObtenerHabilidadesParaEditar" FunctionName="EncuentraTCUModel.Store.ObtenerHabilidadesParaEditar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ObtenerHabilidadesParaEditar_Result">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdHabilidad" ColumnName="IdHabilidad" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ObtenerIdsConexiones" FunctionName="EncuentraTCUModel.Store.ObtenerIdsConexiones" />
+          <FunctionImportMapping FunctionImportName="ObtenerIdsSolicitudesEnviadas" FunctionName="EncuentraTCUModel.Store.ObtenerIdsSolicitudesEnviadas" />
+          <FunctionImportMapping FunctionImportName="ObtenerIdsSolicitudesPendientes" FunctionName="EncuentraTCUModel.Store.ObtenerIdsSolicitudesPendientes" />
+          <FunctionImportMapping FunctionImportName="ObtenerIdsSolicitudesRecibidas" FunctionName="EncuentraTCUModel.Store.ObtenerIdsSolicitudesRecibidas" />
+          <FunctionImportMapping FunctionImportName="ObtenerInfoParaNotiEstudiante" FunctionName="EncuentraTCUModel.Store.ObtenerInfoParaNotiEstudiante">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ObtenerInfoParaNotiEstudiante_Result">
+                <ScalarProperty Name="NombreEstudiante" ColumnName="NombreEstudiante" />
+                <ScalarProperty Name="NombreProyecto" ColumnName="NombreProyecto" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="NombreInstitucion" ColumnName="NombreInstitucion" />
+                <ScalarProperty Name="EmailEstudiante" ColumnName="EmailEstudiante" />
+                <ScalarProperty Name="IdEstudiante" ColumnName="IdEstudiante" />
+                <ScalarProperty Name="IdInstitucion" ColumnName="IdInstitucion" />
+                <ScalarProperty Name="IdPostulacion" ColumnName="IdPostulacion" />
+                <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ObtenerInfoParaNotiInstitucion" FunctionName="EncuentraTCUModel.Store.ObtenerInfoParaNotiInstitucion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ObtenerInfoParaNotiInstitucion_Result">
+                <ScalarProperty Name="NombreEstudiante" ColumnName="NombreEstudiante" />
+                <ScalarProperty Name="NombreProyecto" ColumnName="NombreProyecto" />
+                <ScalarProperty Name="NombreInstitucion" ColumnName="NombreInstitucion" />
+                <ScalarProperty Name="EmailInstitucion" ColumnName="EmailInstitucion" />
+                <ScalarProperty Name="IdInstitucion" ColumnName="IdInstitucion" />
+                <ScalarProperty Name="IdPostulacion" ColumnName="IdPostulacion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ObtenerProyectoReciente" FunctionName="EncuentraTCUModel.Store.ObtenerProyectoReciente" />
+          <FunctionImportMapping FunctionImportName="ObtenerProyectosBusqueda" FunctionName="EncuentraTCUModel.Store.ObtenerProyectosBusqueda">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ObtenerProyectosBusqueda_Result">
+                <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+                <ScalarProperty Name="IdInstitucion" ColumnName="IdInstitucion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Cupo" ColumnName="Cupo" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="CreadoPor" ColumnName="CreadoPor" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="Contacto" ColumnName="Contacto" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="CorreoAsociado" ColumnName="CorreoAsociado" />
+                <ScalarProperty Name="IdProvincia" ColumnName="IdProvincia" />
+                <ScalarProperty Name="NombreProvincia" ColumnName="NombreProvincia" />
+                <ScalarProperty Name="NombreInstitucion" ColumnName="NombreInstitucion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ObtenerProyectosEspecifico" FunctionName="EncuentraTCUModel.Store.ObtenerProyectosEspecifico">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ObtenerProyectosEspecifico_Result">
+                <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+                <ScalarProperty Name="IdInstitucion" ColumnName="IdInstitucion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Cupo" ColumnName="Cupo" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="CreadoPor" ColumnName="CreadoPor" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="Contacto" ColumnName="Contacto" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="CorreoAsociado" ColumnName="CorreoAsociado" />
+                <ScalarProperty Name="IdProvincia" ColumnName="IdProvincia" />
+                <ScalarProperty Name="NombreProvincia" ColumnName="NombreProvincia" />
+                <ScalarProperty Name="NombreInstitucion" ColumnName="NombreInstitucion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ObtenerProyectosEstudianteAceptado" FunctionName="EncuentraTCUModel.Store.ObtenerProyectosEstudianteAceptado">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ObtenerProyectosEstudianteAceptado_Result">
+                <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Cupo" ColumnName="Cupo" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="CreadoPor" ColumnName="CreadoPor" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="NombreProvincia" ColumnName="NombreProvincia" />
+                <ScalarProperty Name="IdPostulacion" ColumnName="IdPostulacion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ObtenerProyectosInstitucion" FunctionName="EncuentraTCUModel.Store.ObtenerProyectosInstitucion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ObtenerProyectosInstitucion_Result">
+                <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+                <ScalarProperty Name="IdInstitucion" ColumnName="IdInstitucion" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Cupo" ColumnName="Cupo" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="CreadoPor" ColumnName="CreadoPor" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="NombreProvincia" ColumnName="NombreProvincia" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ObtenerSolicitudesEnviadas" FunctionName="EncuentraTCUModel.Store.ObtenerSolicitudesEnviadas">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ObtenerSolicitudesEnviadas_Result">
+                <ScalarProperty Name="IdConexion" ColumnName="IdConexion" />
+                <ScalarProperty Name="NombreEstudianteReceptor" ColumnName="NombreEstudianteReceptor" />
+                <ScalarProperty Name="Universidad" ColumnName="Universidad" />
+                <ScalarProperty Name="IdEstudianteReceptor" ColumnName="IdEstudianteReceptor" />
+                <ScalarProperty Name="MensajeSolicitud" ColumnName="MensajeSolicitud" />
+                <ScalarProperty Name="FechaSolicitud" ColumnName="FechaSolicitud" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ObtenerSolicitudesPendientes" FunctionName="EncuentraTCUModel.Store.ObtenerSolicitudesPendientes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EncuentraTCUModel.ObtenerSolicitudesPendientes_Result">
+                <ScalarProperty Name="IdConexion" ColumnName="IdConexion" />
+                <ScalarProperty Name="NombreEstudianteSolicitante" ColumnName="NombreEstudianteSolicitante" />
+                <ScalarProperty Name="IdEstudianteSolicitante" ColumnName="IdEstudianteSolicitante" />
+                <ScalarProperty Name="Universidad" ColumnName="Universidad" />
+                <ScalarProperty Name="MensajeSolicitud" ColumnName="MensajeSolicitud" />
+                <ScalarProperty Name="FechaSolicitud" ColumnName="FechaSolicitud" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="RechazarSolicitud" FunctionName="EncuentraTCUModel.Store.RechazarSolicitud" />
+          <FunctionImportMapping FunctionImportName="RegistrarCategoriaProyecto" FunctionName="EncuentraTCUModel.Store.RegistrarCategoriaProyecto" />
+          <FunctionImportMapping FunctionImportName="RegistrarEstudiante" FunctionName="EncuentraTCUModel.Store.RegistrarEstudiante" />
+          <FunctionImportMapping FunctionImportName="RegistrarHabilidadEstudiante" FunctionName="EncuentraTCUModel.Store.RegistrarHabilidadEstudiante" />
+          <FunctionImportMapping FunctionImportName="RegistrarInstitucion" FunctionName="EncuentraTCUModel.Store.RegistrarInstitucion" />
+          <FunctionImportMapping FunctionImportName="RegistrarNotificacion" FunctionName="EncuentraTCUModel.Store.RegistrarNotificacion" />
+          <FunctionImportMapping FunctionImportName="RegistrarProyecto" FunctionName="EncuentraTCUModel.Store.RegistrarProyecto" />
+          <FunctionImportMapping FunctionImportName="SolicitarConexion" FunctionName="EncuentraTCUModel.Store.SolicitarConexion" />
+          <FunctionImportMapping FunctionImportName="sp_RegistrarError" FunctionName="EncuentraTCUModel.Store.sp_RegistrarError" />
+          <FunctionImportMapping FunctionImportName="SugerenciasConexiones" FunctionName="EncuentraTCUModel.Store.SugerenciasConexiones" />
+          <FunctionImportMapping FunctionImportName="SugerenciasProyectos" FunctionName="EncuentraTCUModel.Store.SugerenciasProyectos" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

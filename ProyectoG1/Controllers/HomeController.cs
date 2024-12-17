@@ -10,9 +10,24 @@ namespace ProyectoG1.Controllers
     [Filtros]
     public class HomeController : Controller
     {
+        MetodosPublicos MP = new MetodosPublicos();
         public ActionResult Index()
         {
-            return View();
+            try
+            {
+                return View();
+            }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "Index", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
+            }
         }
 
         public ActionResult About()

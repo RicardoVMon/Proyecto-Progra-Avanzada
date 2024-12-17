@@ -30,20 +30,51 @@
                     {
                         <tr>
                             <td>@postulacion.NombreInstitucion</td>
-                            <td>@postulacion.NombreProyecto</td>
-                            <td>@postulacion.Estado</td>
+                            <td>
+                                <a href="@Url.Action("DetallesProyecto", "Proyectos", new { p = postulacion.IdProyecto })">@postulacion.NombreProyecto</a>
+                            </td>
+                            <td class="text-center">
+                                @if (postulacion.Estado == "Pendiente")
+                                {
+                                    <button class="btn btn-warning">@postulacion.Estado</button>
+                                }
+                                else if (postulacion.Estado == "Aceptado")
+                                {
+                                    <button class="btn btn-success">@postulacion.Estado</button>
+                                }
+                                else if (postulacion.Estado == "Rechazado")
+                                {
+                                    <button class="btn btn-danger">@postulacion.Estado</button>
+                                }
+                            </td>
                             <td>@postulacion.FechaPostulacion</td>
                             <td class="text-center">
-                                <a href="@Url.Action("DetallesProyecto", "Proyectos", new { p = postulacion.IdProyecto })" class="btn btn-primary btn-sm">
-                                    Ver detalles
-                                </a>
-                                <a href="#"
-                                   class="btn btn-danger btn-sm retirar-postulacion"
-                                   data-url="@Url.Action("EliminarPostulacion", "Postulacion", new { t = postulacion.IdPostulacion })"
-                                   data-nombre-proyecto="@postulacion.NombreProyecto">
-                                    Retirar postulación
-                                </a>
+                                @if (postulacion.Estado == "Aceptado")
+                                {
+                                    <button class="btn btn-warning px-5" data-bs-toggle="modal" data-bs-target="#modalQueSigue"
+                                            data-proyecto="@postulacion.NombreProyecto" data-institucion="@postulacion.NombreInstitucion">
+                                        ¿Qué sigue?
+                                    </button>
+                                }
+                                else
+                                {
+                                    <div class="dropdown d-inline">
+                                        <a class="btn btn-secondary" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </a>
+
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="@Url.Action("DetallesProyecto", "Proyectos", new { p = postulacion.IdProyecto })">Ver Detalles</a></li>
+                                            <li>
+                                                <a class="dropdown-item retirar-postulacion" href="@Url.Action("EliminarPostulacion", "Postulacion", new { t = postulacion.IdPostulacion })"
+                                                   data-url="@Url.Action("EliminarPostulacion", "Postulacion", new { t = postulacion.IdPostulacion })"
+                                                   data-nombre-proyecto="@postulacion.NombreProyecto">Eliminar</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                }
                             </td>
+
                         </tr>
                     }
                 </tbody>
@@ -51,13 +82,54 @@
         </div>
     </div>
 </div>
+
+<!-- Modal ¿Qué sigue? -->
+<div class="modal fade" id="modalQueSigue" tabindex="-1" aria-labelledby="modalQueSigueLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <h5 class="modal-title text-light" id="modalQueSigueLabel">Próximos pasos</h5>
+                <button type="button" class="btn-close btn-light" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>¡Felicidades! Tu postulación para el proyecto <strong id="modalProyecto"></strong> en la institución <strong id="modalInstitucion"></strong> ha sido aceptada.</p>
+                <p>Estos son los próximos pasos:</p>
+                <ol>
+                    <li>Dirígete a la vista de <span class="fw-bold">"Mis proyectos"</span> para gestionar todos los proyectos en los que has sido aceptado.</li>
+                    <li>Si tienes más de una solicitud aceptada, asegúrate de <span class="fw-bold">cancelar</span> aquellas en las que ya no estés interesado. Recuerda que otros estudiantes podrían estar esperando esos cupos.</li>
+                    <li>Ponte en contacto con la institución para confirmar los detalles del proyecto y coordinar los próximos pasos.</li>
+                    <li>Comunícate con tus compañeros de proyecto para coordinar responsabilidades en caso de que sea un proyecto grupal. Puedes ver la lista de participantes en la vista de "Mis proyectos".</li>
+                    <li>Prepara tu anteproyecto de TCU y espera la aprobación oficial de tu universidad (si aplica). Asegúrate de seguir todos los pasos indicados por tu universidad para el desarrollo del mismo.</li>
+                </ol>
+                <p>¡Buena suerte en tu TCU!</p>
+            </div>
+            <div class="modal-footer bg-success">
+                <a href="@Url.Action("MisProyectos", "Proyectos")" class="btn btn-light">Ir a "Mis proyectos"</a>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="~/Styles/js/validarRetiroProyecto.js"></script>
 <script>
     $(document).ready(function () {
         $("#example").DataTable({
             language: {
                 url: '//cdn.datatables.net/plug-ins/2.1.8/i18n/es-ES.json',
+                emptyTable: "No hay postulaciones disponibles, busca nuevos proyectos para postularte",
             },
+        });
+
+        // Event listener to populate modal with dynamic data
+        $('#modalQueSigue').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var proyecto = button.data('proyecto'); // Extract project name
+            var institucion = button.data('institucion'); // Extract institution name
+
+            // Update modal content
+            $('#modalProyecto').text(proyecto);
+            $('#modalInstitucion').text(institucion);
         });
     });
 </script>

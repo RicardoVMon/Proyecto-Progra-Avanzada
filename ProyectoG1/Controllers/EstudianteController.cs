@@ -11,10 +11,13 @@ namespace ProyectoG1.Controllers
     [Filtros]
     public class EstudianteController : Controller
     {
+        MetodosPublicos MP = new MetodosPublicos();
         [HttpGet]
         public ActionResult PerfilEstudiante(long q)
         {
-            var IdEstudiante = q;
+            try
+            {
+                var IdEstudiante = q;
             using (var context = new EncuentraTCUEntities())
             {
                 var respuesta = context.DatosEstudiante(IdEstudiante).FirstOrDefault();
@@ -27,6 +30,39 @@ namespace ProyectoG1.Controllers
                     {
                         Nombre = habilidad
                     });
+                }
+
+                // Obtener las conexiones aceptadas del estudiante del que se visita el perfil
+                var idConexiones = context.ObtenerIdsConexiones(IdEstudiante).ToList();
+                var listaIdConexiones = new List<long>();
+                foreach (var idConexion in idConexiones)
+                {
+                    if (idConexion.HasValue)
+                    {
+                        listaIdConexiones.Add(idConexion.Value);
+                    }
+                }
+
+                // Obtener conexiones enviadas del usuario
+                var idConexionesEnviadas = context.ObtenerIdsSolicitudesEnviadas(IdEstudiante).ToList();
+                var listaIdConexionesEnviadas = new List<long>();
+                foreach (var idConexion in idConexionesEnviadas)
+                {
+                    if (idConexion.HasValue)
+                    {
+                        listaIdConexionesEnviadas.Add(idConexion.Value);
+                    }
+                }
+
+                // Obtener conexiones pendientes del estudiante que visita el perfil
+                var idConexionesRecibidas = context.ObtenerIdsSolicitudesRecibidas(IdEstudiante).ToList();
+                var listaIdConexionesRecibidas = new List<long>();
+                foreach (var idConexion in idConexionesRecibidas)
+                {
+                    if (idConexion.HasValue)
+                    {
+                        listaIdConexionesRecibidas.Add(idConexion.Value);
+                    }
                 }
 
                 if (respuesta != null)
@@ -42,7 +78,10 @@ namespace ProyectoG1.Controllers
                         NombreRol = respuesta.NombreRol,
                         NombreGenero = respuesta.NombreGenero,
                         NombreUniversidad = respuesta.NombreUniversidad,
-                        Habilidades = listaHabilidades
+                        Habilidades = listaHabilidades,
+                        IdConexiones = listaIdConexiones,
+                        IdConexionesEnviadas = listaIdConexionesEnviadas,
+                        IdConexionesRecibidas = listaIdConexionesRecibidas
                     };
 
                     return View(model);
@@ -51,11 +90,25 @@ namespace ProyectoG1.Controllers
                 return View();
             }
         }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "PerfilEstudiante", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
+            }
+        }
 
         [HttpGet]
         public ActionResult EditarPerfilEstudiante()
         {
-            long idEstudiante = long.Parse(Session["Id"].ToString());
+            try
+            {
+                long idEstudiante = long.Parse(Session["Id"].ToString());
             using (var context = new EncuentraTCUEntities())
             {
                 var respuesta = context.DatosEstudiante(idEstudiante).FirstOrDefault();
@@ -84,11 +137,25 @@ namespace ProyectoG1.Controllers
                 return View();
             }
         }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "EditarPerfilEstudiante", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
+            }
+        }
 
         [HttpPost]
         public ActionResult EditarPerfilEstudiante(EstudianteModel model, HttpPostedFileBase ImagenEstudiante)
         {
-            using (var context = new EncuentraTCUEntities())
+            try
+            {
+                using (var context = new EncuentraTCUEntities())
             {
                 var idEstudiante = long.Parse(Session["Id"].ToString());
                 model.Imagen = Session["Imagen"].ToString();
@@ -124,6 +191,18 @@ namespace ProyectoG1.Controllers
                 ObtenerHabilidadesParaEditar(idEstudiante);
                 //-------
                 return View(model);
+             }
+            }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "EditarPerfilEstudiante", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
             }
         }
 

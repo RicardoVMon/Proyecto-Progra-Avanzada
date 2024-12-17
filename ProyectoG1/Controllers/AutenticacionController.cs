@@ -12,6 +12,8 @@ namespace ProyectoG1.Controllers
 {
     public class AutenticacionController : Controller
     {
+        MetodosPublicos MP = new MetodosPublicos();
+
         [HttpGet]
         public ActionResult RecuperarContrasenna()
         {
@@ -21,25 +23,40 @@ namespace ProyectoG1.Controllers
         [HttpPost]
         public ActionResult RecuperarContrasenna(LoginModel model)
         {
-            using (var context = new EncuentraTCUEntities())
+            try
             {
-                if (model.TipoCedula == 1) // Estudiante
+                 using (var context = new EncuentraTCUEntities())
                 {
-                    var estudiante = context.Estudiante.Where(x => x.Cedula == model.Cedula).FirstOrDefault();
-                    if (estudiante != null)
-                        return ProcesarRecuperacion(context, model.TipoCedula, estudiante.Cedula, estudiante.Nombre, estudiante.Email);
-                }
-                else if (model.TipoCedula == 2) // Institución
-                {
-                    var institucion = context.Institucion.Where(x => x.Cedula == model.Cedula).FirstOrDefault();
-                    if (institucion != null)
-                        return ProcesarRecuperacion(context, model.TipoCedula, institucion.Cedula, institucion.Nombre, institucion.Email);
-                }
+                    if (model.TipoCedula == 1) // Estudiante
+                    {
+                        var estudiante = context.Estudiante.Where(x => x.Cedula == model.Cedula).FirstOrDefault();
+                        if (estudiante != null)
+                            return ProcesarRecuperacion(context, model.TipoCedula, estudiante.Cedula, estudiante.Nombre, estudiante.Email);
+                    }
+                    else if (model.TipoCedula == 2) // Institución
+                    {
+                        var institucion = context.Institucion.Where(x => x.Cedula == model.Cedula).FirstOrDefault();
+                        if (institucion != null)
+                            return ProcesarRecuperacion(context, model.TipoCedula, institucion.Cedula, institucion.Nombre, institucion.Email);
+                    }
 
-                ViewBag.MensajePantalla = "La información no se ha podido validar correctamente.";
-                return View();
+                    ViewBag.MensajePantalla = "La información no se ha podido validar correctamente.";
+                    return View();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "RecuperarContrasenna", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
             }
         }
+
 
         private string CrearContrasenna()
         {
@@ -56,7 +73,9 @@ namespace ProyectoG1.Controllers
 
         private void EnviarCorreo(string destino, string asunto, string contenido)
         {
-            string cuenta = ConfigurationManager.AppSettings["CorreoNotificaciones"].ToString();
+            try
+            {
+                string cuenta = ConfigurationManager.AppSettings["CorreoNotificaciones"].ToString();
             string contrasenna = ConfigurationManager.AppSettings["ContrasennaNotificaciones"].ToString();
 
             MailMessage message = new MailMessage();
@@ -71,6 +90,13 @@ namespace ProyectoG1.Controllers
             client.Credentials = new System.Net.NetworkCredential(cuenta, contrasenna);
             client.EnableSsl = true;
             client.Send(message);
+        }
+            catch (Exception ex)
+            {
+                var idSesion = Session["Id"];
+                MP.sp_RegistrarError(ex.Message, "EnviarCorreo", idSesion);
+                throw;
+            }
         }
 
         private string GenerarContenidoCorreo(string nombre, string contrasenna, DateTime fechaVencimiento)
@@ -109,62 +135,95 @@ namespace ProyectoG1.Controllers
         [HttpPost]
         public ActionResult Ingresar(LoginModel model)
         {
-            using (var context = new EncuentraTCUEntities())
+            try
             {
-                var respuesta = context.IngresoSistema(model.Cedula, model.Contrasenna, model.TipoCedula).FirstOrDefault();
-
-                if (respuesta != null)
+                using (var context = new EncuentraTCUEntities())
                 {
+                    var respuesta = context.IngresoSistema(model.Cedula, model.Contrasenna, model.TipoCedula).FirstOrDefault();
 
-                    if (respuesta.TieneContrasennaTemp && respuesta.FechaVencimientoTemp < DateTime.Now)
+                    if (respuesta != null)
                     {
-                        ViewBag.MensajePantalla = "Su contraseña temporal ha expirado. Por favor, recupere su contraseña.";
-                        return RedirectToAction("RecuperarContrasenna", "Autenticacion");
-                    } 
-                    else if (respuesta.TieneContrasennaTemp && respuesta.FechaVencimientoTemp > DateTime.Now)
-                    {
-                        ViewBag.MensajePantalla = "Debe actualizar su contraseña antes de ingresar.";
-                        TempData["Cedula"] = model.Cedula;
-                        TempData["TipoCedula"] = model.TipoCedula;
-                        return RedirectToAction("CambiarContrasennaTemp", "Autenticacion");
+
+                        if (respuesta.TieneContrasennaTemp && respuesta.FechaVencimientoTemp < DateTime.Now)
+                        {
+                            ViewBag.MensajePantalla = "Su contraseña temporal ha expirado. Por favor, recupere su contraseña.";
+                            return RedirectToAction("RecuperarContrasenna", "Autenticacion");
+                        }
+                        else if (respuesta.TieneContrasennaTemp && respuesta.FechaVencimientoTemp > DateTime.Now)
+                        {
+                            ViewBag.MensajePantalla = "Debe actualizar su contraseña antes de ingresar.";
+                            TempData["Cedula"] = model.Cedula;
+                            TempData["TipoCedula"] = model.TipoCedula;
+                            return RedirectToAction("CambiarContrasennaTemp", "Autenticacion");
+                        }
+
+                        Session["Id"] = respuesta.Id;
+                        Session["Nombre"] = respuesta.Nombre;
+                        Session["Email"] = respuesta.Email;
+                        Session["Rol"] = respuesta.IdRol;
+                        Session["Imagen"] = respuesta.Imagen;
+                        return RedirectToAction("Index", "Home");
                     }
 
-                    Session["Id"] = respuesta.Id;
-                    Session["Nombre"] = respuesta.Nombre;
-                    Session["Email"] = respuesta.Email;
-                    Session["Rol"] = respuesta.IdRol;
-                    Session["Imagen"] = respuesta.Imagen;
-                    return RedirectToAction("Index", "Home");
+                    // Mensaje de error si falla
+                    ViewBag.MensajePantalla = "Su información no se ha podido validar correctamente";
+                    return View();
                 }
 
-                // Mensaje de error si falla
-                ViewBag.MensajePantalla = "Su información no se ha podido validar correctamente";
-                return View();
+            }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "Ingresar", idSesion);
+
+                return View("Error");
             }
         }
 
         [HttpGet]
         public ActionResult CierreSesion()
         {
-            Session.Clear();
-            return RedirectToAction("Ingresar", "Autenticacion");
+            try
+            {
+                    Session.Clear();
+                return RedirectToAction("Ingresar", "Autenticacion");
+        }
+            catch (Exception ex)
+            {
+                var idSesion = Session["Id"];
+                MP.sp_RegistrarError(ex.Message, "CierreSesion", idSesion);
+                return View("Error");
+            }
         }
 
 
         [HttpGet]
         public ActionResult RegistroEstudiante()
         {
-            ConsultarGeneros();
+            try
+            {
+                ConsultarGeneros();
             ConsultarUniversidades();
             return View();
+        }
+            catch (Exception ex)
+            {
+                var idSesion = Session["Id"];
+                MP.sp_RegistrarError(ex.Message, "RegistroEstudiante", idSesion);
+                return View("Error");
+            }
         }
 
         [HttpPost]
         public ActionResult RegistroEstudiante(EstudianteModel model)
         {
-
-            // TitleCase para nombre y apellido
-            model.Nombre = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(model.Nombre.ToLower());
+            try
+            {
+                // TitleCase para nombre y apellido
+                model.Nombre = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(model.Nombre.ToLower());
             model.Apellidos = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(model.Apellidos.ToLower());
 
             using (var context = new EncuentraTCUEntities())
@@ -180,6 +239,13 @@ namespace ProyectoG1.Controllers
                 return View();
             }
         }
+            catch (Exception ex)
+            {
+                var idSesion = Session["Id"];
+                MP.sp_RegistrarError(ex.Message, "RegistroEstudiante", idSesion);
+                return View("Error");
+            }
+        }
         [HttpGet]
         public ActionResult RegistroInstitucion()
         {
@@ -190,7 +256,10 @@ namespace ProyectoG1.Controllers
         [HttpPost]
         public ActionResult RegistroInstitucion(InstitucionModel model)
         {
-            using (var context = new EncuentraTCUEntities())
+            try
+            {
+
+                using (var context = new EncuentraTCUEntities())
             {
                 var respuesta = context.RegistrarInstitucion(model.IdTipoInstitucion, model.Cedula, model.Email, model.Contrasenna, model.Nombre, model.Descripcion, model.Telefono, model.PaginaWeb);
 
@@ -200,6 +269,13 @@ namespace ProyectoG1.Controllers
                 ViewBag.Mensaje = "Su información no se ha podido registrar correctamente";
                 ConsultarTipoInstitucion();
                 return View();
+            }
+        }
+        catch (Exception ex)
+         {
+             var idSesion = Session["Id"];
+             MP.sp_RegistrarError(ex.Message, "RegistroInstitucion", idSesion);
+             return View("Error");
             }
         }
 
@@ -293,50 +369,13 @@ namespace ProyectoG1.Controllers
             return View();
         }
 
-        /*[HttpPost]
-        public ActionResult CambiarContrasennaTempxxxxxx(LoginModel model)
-        {
-            if (model.ContrasennaAnterior == model.Contrasenna)
-            {
-                ViewBag.MensajePantalla = "Debe ingresar una contraseña nueva";
-                return View();
-            }
-            else if (model.Contrasenna != model.ConfirmarContrasenna)
-            {
-                ViewBag.MensajePantalla = "Las nuevas contraseñas no coinciden";
-                return View();
-            }
-
-            using (var context = new KDataBaseEntities())
-            {
-                long Consecutivo = long.Parse(Session["Consecutivo"].ToString());
-                var datos = context.tUsuario.Where(x => x.Consecutivo == Consecutivo).FirstOrDefault();
-
-                if (datos != null)
-                {
-                    if (datos.Contrasenna != model.ContrasennaAnterior)
-                    {
-                        ViewBag.MensajePantalla = "La contraseña anterior no coincide";
-                        return View();
-                    }
-
-                    datos.Contrasenna = model.Contrasenna;
-                    datos.TieneContrasennaTemp = false;
-                    datos.FechaVencimientoTemp = DateTime.Now;
-                    context.SaveChanges();
-                    return RedirectToAction("Index", "Home");
-                }
-
-                ViewBag.MensajePantalla = "Sus credenciales no se han podido actualizar correctamente";
-                return View();
-            }
-        }*/
-
         [HttpPost]
         public ActionResult CambiarContrasennaTemp(LoginModel model)
         {
-            using (var context = new EncuentraTCUEntities())
+           try
             {
+                using (var context = new EncuentraTCUEntities())
+              {
                 if (model.TipoCedula == 1) // Estudiante
                 {
                     var estudiante = context.Estudiante.Where(x => x.Cedula == model.Cedula).FirstOrDefault();
@@ -355,11 +394,19 @@ namespace ProyectoG1.Controllers
             }
 
         }
+           catch (Exception ex)
+            {
+                var idSesion = Session["Id"];
+                MP.sp_RegistrarError(ex.Message, "CambiarContrasennaTemp", idSesion);
+                return View("Error");
+            }
+        }
 
         private ActionResult ProcesarCambiarContrasenna(EncuentraTCUEntities context, int tipoCedula, string cedula, string NuevaContrasenna, string ConfirmarContrasenna)
         {
-
-            if (NuevaContrasenna != ConfirmarContrasenna)
+            try
+            {
+                if (NuevaContrasenna != ConfirmarContrasenna)
             {
                 ViewBag.MensajePantalla = "Las contraseñas no coinciden.";
                 return View();
@@ -369,6 +416,13 @@ namespace ProyectoG1.Controllers
 
             return RedirectToAction("Ingresar", "Autenticacion");
 
+        }
+            catch (Exception ex)
+            {
+                var idSesion = Session["Id"];
+                MP.sp_RegistrarError(ex.Message, "ProcesarCambiarContrasenna", idSesion);
+                return View("Error");
+            }
         }
     }
 }

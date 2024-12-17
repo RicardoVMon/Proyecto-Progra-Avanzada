@@ -3,6 +3,8 @@
 @{
     var nombreTitleCase = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Model.Nombre.ToLower() + " " + Model.Apellidos.ToLower());
     string idQueryString = Request.QueryString["q"];
+    string idSession = Session["Id"].ToString();
+    string rolSession = Session["Rol"].ToString();
 }
 
 <div class="container-fluid p-0">
@@ -39,12 +41,32 @@
                     <div style="padding: 10px 20px;">
 
                         <!-- Mostrar solo en los perfiles de otros estudiantes -->
-                        <!-- hacer conexionessssssssss cuando este institucion gestion postulacion!!!!! -->
-                        <a class="btn btn-primary btn-sm" href="#">Conectar</a>
+
+
+                        @if (idQueryString != idSession && rolSession == "1")
+                        {
+                            if (Model.IdConexiones.Contains(int.Parse(idSession)))
+                            {
+                                <button class="btn btn-success btn-sm" disabled>Ya están conectados</button>
+                            }
+                            else if (Model.IdConexionesEnviadas.Contains(int.Parse(idSession)))
+                            {
+                                <a class="btn btn-warning btn-sm" href="@Url.Action("GestionarConexiones", "Conexiones")">Tienes una solicitud pendiente de este usuario</a>
+                            }
+                            else if (Model.IdConexionesRecibidas.Contains(int.Parse(idSession)))
+                            {
+                                <a class="btn btn-secondary btn-sm" href="@Url.Action("GestionarConexiones", "Conexiones")">Solicitud enviada</a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-primary btn-sm" href="@Url.Action("EnviarSolicitud", "Conexiones", new { idEstudianteReceptor = idQueryString })">Conectar</a>
+                            }
+                        }
+
 
 
                         <!-- Editar, Mostrar solo en el propio perfil del estudiante actual -->
-                        @if (idQueryString == Session["Id"].ToString())
+                        @if (idQueryString == idSession && rolSession == "1")
                         {
                             <a class="btn btn-primary btn-sm" href="@Url.Action("EditarPerfilEstudiante","Estudiante")">Editar</a>
                         }
@@ -71,8 +93,7 @@
                         <ul class="list-unstyled mb-0">
                             <li class="mb-1"><span data-feather="home" class="feather-sm me-1"></span> Estudiante en @Model.NombreUniversidad</li>
                             <li class="mb-1"><span data-feather="briefcase" class="feather-sm me-1"></span> Carrera en @Model.Carrera</li>
-                            <!-- hacer conexionessssssssss cuando este institucion gestion postulacion!!!!! -->
-                            <li class="mb-1"><span data-feather="briefcase" class="feather-sm me-1"></span> 20 Conexiones</li>
+                            <li class="mb-1"><span data-feather="briefcase" class="feather-sm me-1"></span> Conexiones: @Model.IdConexiones.Count</li>
                         </ul>
                     </div>
                     <hr class="my-0" />
@@ -100,5 +121,4 @@
         </div>
 
     </div>
-
 </div>
