@@ -11,16 +11,10 @@ namespace ProyectoG1.Models
 {
     using System;
     
-    public partial class ObtenerProyectosEstudianteAceptado_Result
+    public partial class ConsultarProyectosEnCurso_Result
     {
         public long IdProyecto { get; set; }
-        public string Nombre { get; set; }
+        public string NombreProyecto { get; set; }
         public string Descripcion { get; set; }
-        public int Cupo { get; set; }
-        public string Estado { get; set; }
-        public string CreadoPor { get; set; }
-        public string Imagen { get; set; }
-        public string NombreProvincia { get; set; }
-        public long IdPostulacion { get; set; }
     }
 }

@@ -65,6 +65,19 @@ namespace ProyectoG1.Controllers
                     }
                 }
 
+                // Consultar Proyectos en curso
+                var proyectosEnCurso = context.ConsultarProyectosEnCurso(IdEstudiante).ToList();
+                var listaProyectosEnCurso = new List<ProyectoModel>();
+                foreach (var proyecto in proyectosEnCurso)
+                {
+                    listaProyectosEnCurso.Add(new ProyectoModel
+                    {
+                        IdProyecto = proyecto.IdProyecto,
+                        Nombre = proyecto.NombreProyecto,
+                        Descripcion = proyecto.Descripcion,
+                    });
+                }
+
                 if (respuesta != null)
                 {
                     EstudianteModel model = new EstudianteModel
@@ -81,7 +94,8 @@ namespace ProyectoG1.Controllers
                         Habilidades = listaHabilidades,
                         IdConexiones = listaIdConexiones,
                         IdConexionesEnviadas = listaIdConexionesEnviadas,
-                        IdConexionesRecibidas = listaIdConexionesRecibidas
+                        IdConexionesRecibidas = listaIdConexionesRecibidas,
+                        ProyectosEnCurso = listaProyectosEnCurso
                     };
 
                     return View(model);

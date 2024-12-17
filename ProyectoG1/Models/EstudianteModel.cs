@@ -29,5 +29,6 @@ namespace ProyectoG1.Models
         public List<long> IdConexiones { get; set; }
         public List<long> IdConexionesEnviadas { get; set; }
         public List<long> IdConexionesRecibidas { get; set; }
+        public List<ProyectoModel> ProyectosEnCurso { get; set; }
     }
 }

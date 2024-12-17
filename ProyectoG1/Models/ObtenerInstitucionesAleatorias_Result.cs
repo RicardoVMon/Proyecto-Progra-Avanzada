@@ -11,16 +11,20 @@ namespace ProyectoG1.Models
 {
     using System;
     
-    public partial class ObtenerProyectosEstudianteAceptado_Result
+    public partial class ObtenerInstitucionesAleatorias_Result
     {
-        public long IdProyecto { get; set; }
+        public long IdInstitucion { get; set; }
+        public string Cedula { get; set; }
+        public string Email { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
-        public int Cupo { get; set; }
-        public string Estado { get; set; }
-        public string CreadoPor { get; set; }
+        public string Telefono { get; set; }
+        public string PaginaWeb { get; set; }
+        public bool Activo { get; set; }
         public string Imagen { get; set; }
-        public string NombreProvincia { get; set; }
-        public long IdPostulacion { get; set; }
+        public long IdRol { get; set; }
+        public long IdTipoInstitucion { get; set; }
+        public bool TieneContrasennaTemp { get; set; }
+        public System.DateTime FechaVencimientoTemp { get; set; }
     }
 }
