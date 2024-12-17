@@ -15,7 +15,21 @@ namespace ProyectoG1.Controllers
         {
             try
             {
-                return View();
+                using (var context = new EncuentraTCUEntities()) {
+
+                    var homeModel = new HomeModel();
+
+                    if (Session["Rol"].ToString() == "1")
+                    {
+                        LlenarInformacionEstudiante(homeModel, context);
+                    }
+                    else
+                    {
+                        LlenarInformacionInstitucion(homeModel, context);
+                    }
+
+                return View(homeModel);
+                }
             }
             catch (Exception ex)
             {
@@ -30,18 +44,81 @@ namespace ProyectoG1.Controllers
             }
         }
 
-        public ActionResult About()
+        private void LlenarInformacionEstudiante(HomeModel homeModel, EncuentraTCUEntities context)
         {
-            ViewBag.Message = "Your application description page.";
+            // Obtener los proyectos recomendados
+            var resultadoProyectos = context.ObtenerProyectosAleatorios();
+            var proyectos = new List<ProyectoModel>();
+            foreach (var proyecto in resultadoProyectos)
+            {
+                proyectos.Add(new ProyectoModel
+                {
+                    IdProyecto = proyecto.IdProyecto,
+                    Nombre = proyecto.Nombre,
+                    Descripcion = proyecto.Descripcion,
+                    Imagen = proyecto.Imagen,
+                });
+            }
 
-            return View();
+            homeModel.ProyectosRecomendados = proyectos;
+
+            // Obtener las categorias recomendadas
+            var resultadoCategorias = context.ObtenerCategoriasAleatorias();
+            var categorias = new List<CategoriaModel>();
+            foreach (var categoria in resultadoCategorias)
+            {
+                categorias.Add(new CategoriaModel
+                {
+                    IdCategoria = categoria.IdCategoria,
+                    Nombre = categoria.Nombre,
+                });
+            }
+
+            homeModel.CategoriasRecomendadas = categorias;
+
+            // Obtener las instituciones recomendadas
+            var resultadoInstituciones = context.ObtenerInstitucionesAleatorias();
+            var instituciones = new List<InstitucionModel>();
+            foreach (var institucion in resultadoInstituciones)
+            {
+                instituciones.Add(new InstitucionModel
+                {
+                    IdInstitucion = institucion.IdInstitucion,
+                    Nombre = institucion.Nombre,
+                    Descripcion = institucion.Descripcion,
+                    Imagen = institucion.Imagen,
+                });
+            }
+
+            homeModel.InstitucionesRecomendadas = instituciones;
         }
 
-        public ActionResult Contact()
+        private void LlenarInformacionInstitucion(HomeModel homeModel, EncuentraTCUEntities context)
         {
-            ViewBag.Message = "Your contact page.";
+            var IdInstitucion = long.Parse(Session["Id"].ToString());
 
-            return View();
+            // Obtener el conteo de proyectos activos
+            var resultadoProyectos = context.ObtenerProyectosInstitucion(IdInstitucion);
+            var conteoProyectos = resultadoProyectos.Count();
+            homeModel.ProyectoActivos = conteoProyectos;
+
+            // Obtener el conteo de notificaciones
+            var resultadoNotificaciones = context.ObtenerCantidadNotificacionesInstitucion(IdInstitucion).FirstOrDefault();
+            homeModel.Notificaciones = resultadoNotificaciones.HasValue ? resultadoNotificaciones.Value : 0;
+
+            // Obtener el conteo de postulaciones pendientes
+            var resultadoPostulaciones = context.ObtenerCantidadPostulacionesPendientesInstitucion(IdInstitucion).FirstOrDefault();
+            homeModel.PostulacionesPendientes = resultadoPostulaciones.HasValue ? resultadoPostulaciones.Value : 0;
+
+            // Obtener el conteo de usuarios aceptados
+            var resultadoUsuarios = context.ObtenerCantidadPostulacionesAceptadasInstitucion(IdInstitucion).FirstOrDefault();
+            homeModel.UsuarioAceptados = resultadoUsuarios.HasValue ? resultadoUsuarios.Value : 0;
+
+            // Obtener el conteo de proyectos llenos
+            var resultadoProyectosLlenos = context.ObtenerCantidadProyectosLlenosInstitucion(IdInstitucion);
+            var conteoProyectosLlenos = resultadoProyectosLlenos.Count();
+            homeModel.ProyectosLlenos = conteoProyectosLlenos;
+
         }
     }
 }

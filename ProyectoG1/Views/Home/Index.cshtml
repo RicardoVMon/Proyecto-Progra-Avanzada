@@ -1,16 +1,190 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
+﻿@model ProyectoG1.Models.HomeModel
+@{
+    string idSession = Session["Id"].ToString();
+    string rolSession = Session["Rol"].ToString();
 
+}
+@if (rolSession == "1")
+{
+    <main>
+        <section class="row mb-5">
+            <h1 id="title">Bienvenido a EncuentraTCU</h1>
+            <p class="text-muted">A continuación te encontrarás con una de nuestras opciones más interesantes para ti, ¡navega nuestro sitio como veas necesario!</p>
+            <div class="row">
+                <div id="carouselExampleCaptions" class="carousel slide">
+                    <div class="carousel-indicators">
+                        @{
+                            int index = 0; // Índice para los indicadores
+                            foreach (var proyecto in Model.ProyectosRecomendados)
+                            {
+                                <button type="button" data-bs-target="#carouselExampleCaptions"
+                                        data-bs-slide-to="@index"
+                                        class="@(index == 0 ? "active" : "")"
+                                        aria-current="@(index == 0 ? "true" : "false")"
+                                        aria-label="Slide @(index + 1)"></button>
+                                index++;
+                            }
+                        }
+                    </div>
+                    <div class="carousel-inner">
+                        @{
+                            bool esPrimero = true;
+                        }
+                        @foreach (var proyecto in Model.ProyectosRecomendados)
+                        {
+                            var descripcion = (proyecto.Descripcion.Length > 150
+                                ? proyecto.Descripcion.Substring(0, 150) + "..."
+                                : proyecto.Descripcion);
+
+                            <a href="@Url.Action("DetallesProyecto", "Proyectos", new { p = proyecto.IdProyecto })"
+                               class="carousel-item @(esPrimero ? "active" : "") overlay-container">
+                                <img src="@proyecto.Imagen" class="d-block w-100" height="300" style="object-fit: cover">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h5 class="text-white">@proyecto.Nombre</h5>
+                                    <p>@descripcion</p>
+                                </div>
+                            </a>
+                            esPrimero = false;
+                        }
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="text-center mb-5">
+            <div class="">
+                <h2 class="mb-4">Explora por categorías</h2>
+                <div class="row">
+
+                    @foreach (var categoria in Model.CategoriasRecomendadas)
+                    {
+                        <div class="col-md-3 mb-3">
+                            <div class="card h-100 shadow-sm btn btn-outline-warning">
+                                <a class="card-body d-flex justify-content-center text-decoration-none" href="@Url.Action("ResultadosBusqueda", "Proyectos", new { query = categoria.Nombre })">
+                                    <div class="align-content-center text-center">
+                                        <h2 class="text-muted">@categoria.Nombre</h2>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    }
+
+
+                </div>
+            </div>
+        </section>
+        <section class="text-center mb-5">
+            <div class="container">
+                <h2>Instituciones Asociadas</h2>
+                <p class="text-muted mb-4">Conoce algunas de nuestras más destacadas con proyectos de alto impacto.</p>
+                <div class="row justify-content-center">
+
+                    @foreach (var institucion in Model.InstitucionesRecomendadas)
+                    {
+                        var nombre = (institucion.Nombre.Length > 50 ? institucion.Nombre.Substring(0, 25) + "..." : institucion.Nombre);
+                        <a href="@Url.Action("PerfilInstitucion", "Institucion", new { q = institucion.IdInstitucion })" class="col-md-2 mb-3 text-decoration-none">
+                            <img src="@institucion.Imagen" class="rounded-circle img-fluid">
+                            <h6 class="mt-2">@nombre</h6>
+                        </a>
+                    }
+                </div>
+            </div>
+        </section>
+
+        <!-- Call-to-Action Section -->
+        <section class="bg-primary text-white py-5">
+            <div class="container text-center">
+                <h2 class="text-white">¿Listo para comenzar?</h2>
+                <p>Busca algún proyecto que te interese para iniciar tu viaje en EncuentraTCU.</p>
+                <a href="@Url.Action("BuscarProyecto", "Proyectos")" class="btn btn-light btn-lg">Buscar Proyectos</a>
+            </div>
+        </section>
+    </main>
+
+}
+else if (rolSession == "2")
+{
 <main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="title">Bienvenido a EncuentraTCU!</h1>
-        <h3 id="title" class=" text-muted">
-            Nuestro objetivo es ofrecer la mejor experiencia de búsqueda para estudiantes que buscan oportunidades de Trabajos Comunes Universitarios (TCU).
-            Somos un equipo comprometido con facilitar el acceso a información relevante y actualizada, ayudando a los estudiantes a encontrar el TCU ideal para su formación académica.
-        </h3>
-        <div class="d-flex justify-content-center">
-            <img src="https://images.pexels.com/photos/6147219/pexels-photo-6147219.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" width="1000px" class="img-fluid mt-2">
+    <section class="container mt-5">
+        <h1 class="mb-4 text-center">Panel de Gestión Institucional</h1>
+        <p class="text-muted text-center mb-4">Visualiza y gestiona los aspectos clave de tus proyectos y postulaciones.</p>
+
+        <div class="row g-4">
+            <!-- Card de Proyectos Activos -->
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body text-center align-content-center">
+                        <h5 class="card-title">Proyectos Activos</h5>
+                        <p class="display-4 text-primary fw-bold">@Model.ProyectoActivos</p>
+                        <a href="@Url.Action("GestionProyectos", "Proyectos")" class="btn btn-outline-primary btn-sm">Ver Proyectos</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card de Nuevas Postulaciones -->
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body text-center align-content-center">
+                        <h5 class="card-title">Postulaciones Pendientes</h5>
+                        <p class="display-4 text-warning fw-bold">@Model.PostulacionesPendientes</p>
+                        <a href="@Url.Action("ListadoProyectosConPostulaciones", "Postulacion")" class="btn btn-outline-warning btn-sm">Revisar Postulaciones</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card de Notificaciones -->
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body text-center align-content-center">
+                        <h5 class="card-title">Notificaciones</h5>
+                        <p class="display-4 text-danger fw-bold">@Model.Notificaciones</p>
+                        <a href="@Url.Action("Notificaciones", "Notificacion")" class="btn btn-outline-danger btn-sm">Ver Notificaciones</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card de Usuarios Aceptados -->
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body text-center align-content-center">
+                        <h5 class="card-title">Usuarios Aceptados</h5>
+                        <p class="display-4 text-success fw-bold">@Model.UsuarioAceptados</p>
+                        <a href="@Url.Action("ListadoProyectosConPostulaciones", "Postulacion")" class="btn btn-outline-success btn-sm">Ver Usuarios</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card de Proyectos Finalizados -->
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body text-center align-content-center">
+                        <h5 class="card-title">Proyectos Llenos</h5>
+                        <p class="display-4 text-secondary fw-bold">@Model.ProyectosLlenos</p>
+                        <a href="@Url.Action("GestionProyectos", "Proyectos")" class="btn btn-outline-secondary btn-sm">Ver Historial</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card de Crear Nuevo Proyecto -->
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100 bg-light">
+                    <div class="card-body text-center align-content-center">
+                        <h5 class="card-title">¿Nuevo Proyecto?</h5>
+                        <p class="text-muted">Crea un nuevo proyecto y comienza a recibir postulaciones.</p>
+                        <a href="@Url.Action("CrearProyecto", "Proyectos")" class="btn btn-primary btn-sm">Crear Proyecto</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 </main>
+}
+<link href="~/Styles/css/EstilosHome.css" rel="stylesheet" />

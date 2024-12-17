@@ -52,7 +52,7 @@ namespace ProyectoG1.Controllers
             }
         }
 
-            [HttpGet]
+        [HttpGet]
         public ActionResult PostulacionesDeProyecto(long p)
         {
             try
@@ -110,7 +110,7 @@ namespace ProyectoG1.Controllers
 
                 }, JsonRequestBehavior.AllowGet);
             }
-        }   
+        }
 
         [HttpPost]
         public ActionResult ActualizarEstadoPostulacion(long id, string estado)
@@ -284,7 +284,6 @@ namespace ProyectoG1.Controllers
                 return View("Error");
             }
         }
-    
 
         [HttpGet]
         public ActionResult CancelarProceso(long t)
