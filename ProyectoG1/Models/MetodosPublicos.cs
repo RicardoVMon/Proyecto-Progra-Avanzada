@@ -1,6 +1,7 @@
 ﻿using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -13,26 +14,24 @@ namespace ProyectoG1.Models
         {
             using (var context = new EncuentraTCUEntities())
             {
-
                 try
                 {
-                    // Parámetros del procedimiento almacenado
                     var fechaActual = DateTime.Now;
-                    var idEstudiante = id is long ? id : DBNull.Value; // Valida si es Estudiante
-                    var idInstitucion = id is string ? id : DBNull.Value; // Valida si es Institución
+                    long? idEstudiante = null;
+                    long? idInstitucion = null;
 
-                    context.Database.ExecuteSqlCommand(
-                        "EXEC sp_RegistrarError @Mensaje, @Fecha, @Origen, @IdEstudiante, @IdInstitucion",
-                        new SqlParameter("@Mensaje", mensaje),
-                        new SqlParameter("@Fecha", fechaActual),
-                        new SqlParameter("@Origen", origen),
-                        new SqlParameter("@IdEstudiante", idEstudiante ?? (object)DBNull.Value),
-                        new SqlParameter("@IdInstitucion", idInstitucion ?? (object)DBNull.Value)
-                    );
+                    if (HttpContext.Current.Session["Rol"].ToString() == "1")
+                    {
+                        idEstudiante = long.Parse(HttpContext.Current.Session["Id"].ToString());
+                    }
+                    else
+                    {
+                        idInstitucion = long.Parse(HttpContext.Current.Session["Id"].ToString());
+                    }
+                    context.sp_RegistrarError(mensaje, fechaActual, origen, idEstudiante, idInstitucion);
                 }
                 catch (Exception ex)
                 {
-                    // Manejo adicional de errores
                     Console.WriteLine("Error al registrar: " + ex.Message);
                 }
             }

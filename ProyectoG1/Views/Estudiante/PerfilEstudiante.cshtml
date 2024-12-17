@@ -123,9 +123,17 @@
             </div>
             <div class="card-body">
                 <!-- Proyectos -->
-                <h5 class="h6 card-title">Proyectos en Curso</h5>
+                <h5 class="h6 card-title">
+                    @if (Model.ProyectosEnCurso.Any())
+                    {
+                        @:Proyectos en Curso
+                    }
+                    else
+                    {
+                        @:No hay Actividad Reciente
+                    }
+                </h5>
                 <div class="row mb-2">
-
                     @foreach (var proyecto in Model.ProyectosEnCurso.Take(3))
                     {
                         var descripcion = (proyecto.Descripcion.Length > 75 ? proyecto.Descripcion.Substring(0, 75) + "..." : proyecto.Descripcion);
