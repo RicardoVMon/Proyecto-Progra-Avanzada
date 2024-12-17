@@ -17,7 +17,9 @@ namespace ProyectoG1.Controllers
         [HttpGet]
         public ActionResult GestionarConexiones()
         {
-            using (var context = new EncuentraTCUEntities())
+            try
+            {
+                using (var context = new EncuentraTCUEntities())
             {
                 long idEstudiante = long.Parse(Session["Id"].ToString());
                 var conexiones = new ConexionModel();
@@ -84,50 +86,92 @@ namespace ProyectoG1.Controllers
                 return View(conexiones);
             }
         }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "GestionarConexiones", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
+            }
+        }
 
 
 
         [HttpGet]
         public ActionResult ResultadosBusqueda(string query)
         {
-            using (var context = new EncuentraTCUEntities())
+            try
             {
-                var resultado = context.ObtenerConexionesBusqueda(query).ToList();
-                var estudiantes = new List<EstudianteModel>();
-                foreach (var estudiante in resultado)
+                using (var context = new EncuentraTCUEntities())
                 {
-
-                    estudiantes.Add(new EstudianteModel
+                    var resultado = context.ObtenerConexionesBusqueda(query).ToList();
+                    var estudiantes = new List<EstudianteModel>();
+                    foreach (var estudiante in resultado)
                     {
-                        IdEstudiante = estudiante.IdEstudiante,
-                        Nombre = estudiante.Nombre,
-                        Apellidos = estudiante.Apellidos,
-                        Carrera = estudiante.Carrera,
-                        Imagen = estudiante.Imagen,
-                        NombreUniversidad = estudiante.NombreUniversidad
 
-                    });
+                        estudiantes.Add(new EstudianteModel
+                        {
+                            IdEstudiante = estudiante.IdEstudiante,
+                            Nombre = estudiante.Nombre,
+                            Apellidos = estudiante.Apellidos,
+                            Carrera = estudiante.Carrera,
+                            Imagen = estudiante.Imagen,
+                            NombreUniversidad = estudiante.NombreUniversidad
+
+                        });
+                    }
+
+                    return View(estudiantes);
+
                 }
+            }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
 
-                return View(estudiantes);
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "ResultadosBusqueda", idSesion);
 
+                // Retornar la vista de error
+                return View("Error");
             }
         }
 
         [HttpGet]
         public ActionResult SugerenciasConexiones(string query)
         {
-            using (var context = new EncuentraTCUEntities())
+            try
+            {
+                using (var context = new EncuentraTCUEntities())
             {
                 var resultados = context.SugerenciasConexiones(query).ToList();
                 return Json(resultados, JsonRequestBehavior.AllowGet);
+            }
+        }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "SugerenciasConexiones", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
             }
         }
 
         [HttpGet]
         public ActionResult EnviarSolicitud(long idEstudianteReceptor)
         {
-            using (var context = new EncuentraTCUEntities())
+            try
+            {
+                using (var context = new EncuentraTCUEntities())
             {
                 var estudianteReceptor = context.Estudiante
                     .Where(e => e.IdEstudiante == idEstudianteReceptor)
@@ -143,11 +187,25 @@ namespace ProyectoG1.Controllers
                 return View(model);
             }
         }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "EnviarSolicitudGET", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
+            }
+        }
 
         [HttpPost]
         public ActionResult EnviarSolicitud(ConexionModel model)
         {
-            long idEstudianteSolicitante = long.Parse(Session["Id"].ToString());
+            try
+            {
+                long idEstudianteSolicitante = long.Parse(Session["Id"].ToString());
 
             using (var context = new EncuentraTCUEntities())
             {
@@ -164,30 +222,58 @@ namespace ProyectoG1.Controllers
                 }
             }
         }
-
-        [HttpGet]
-        public ActionResult AceptarSolicitud(long idConexion)
-        {
-            using (var context = new EncuentraTCUEntities())
+            catch (Exception ex)
             {
-                var respuesta = context.AceptarSolicitud(idConexion);
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
 
-                if (respuesta > 0)
-                {
-                    return RedirectToAction("GestionarConexiones", "Conexiones");
-                }
-                else
-                {
-                    ViewBag.MensajeError = "No se logró aceptar la solicitud.";
-                    return RedirectToAction("GestionarConexiones", "Conexiones");
-                }
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "EnviarSolicitudPOST", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
             }
         }
 
         [HttpGet]
+        public ActionResult AceptarSolicitud(long idConexion)
+        {
+            try
+            {
+                using (var context = new EncuentraTCUEntities())
+                {
+                    var respuesta = context.AceptarSolicitud(idConexion);
+
+                    if (respuesta > 0)
+                    {
+                        return RedirectToAction("GestionarConexiones", "Conexiones");
+                    }
+                    else
+                    {
+                        ViewBag.MensajeError = "No se logró aceptar la solicitud.";
+                        return RedirectToAction("GestionarConexiones", "Conexiones");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "AceptarSolicitud", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
+            }
+        }
+
+            [HttpGet]
         public ActionResult RechazarSolicitud(long idConexion)
         {
-            using (var context = new EncuentraTCUEntities())
+            try
+            {
+                using (var context = new EncuentraTCUEntities())
             {
                 var respuesta = context.RechazarSolicitud(idConexion);
 
@@ -202,11 +288,26 @@ namespace ProyectoG1.Controllers
                 }
             }
         }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "RechazarSolicitud", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
+            }
+        }
 
         [HttpGet]
         public ActionResult EliminarConexion(long idConexion)
         {
-            using (var context = new EncuentraTCUEntities())
+            try
+            {
+
+                using (var context = new EncuentraTCUEntities())
             {
                 var respuesta = context.EliminarConexion(idConexion);
 
@@ -219,6 +320,18 @@ namespace ProyectoG1.Controllers
                     ViewBag.MensajeError = "No se logró eliminar la conexión.";
                     return RedirectToAction("GestionarConexiones", "Conexiones");
                 }
+              }
+            }
+            catch (Exception ex)
+            {
+                // Obtener el valor de Session["Id"] y verificar si es válido
+                var idSesion = Session["Id"];
+
+                // Llamar al método sp_RegistrarError
+                MP.sp_RegistrarError(ex.Message, "EliminarConexion", idSesion);
+
+                // Retornar la vista de error
+                return View("Error");
             }
         }
 
