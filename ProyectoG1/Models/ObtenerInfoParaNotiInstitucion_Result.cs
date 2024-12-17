@@ -11,13 +11,13 @@ namespace ProyectoG1.Models
 {
     using System;
     
-    public partial class ObtenerConexionesBusqueda_Result
+    public partial class ObtenerInfoParaNotiInstitucion_Result
     {
-        public long IdEstudiante { get; set; }
-        public string Nombre { get; set; }
-        public string Apellidos { get; set; }
-        public string Carrera { get; set; }
-        public string Imagen { get; set; }
-        public string NombreUniversidad { get; set; }
+        public string NombreEstudiante { get; set; }
+        public string NombreProyecto { get; set; }
+        public string NombreInstitucion { get; set; }
+        public string EmailInstitucion { get; set; }
+        public long IdInstitucion { get; set; }
+        public long IdPostulacion { get; set; }
     }
 }
